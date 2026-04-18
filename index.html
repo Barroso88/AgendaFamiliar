@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Família Organizer - Gestão Familiar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.16/index.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:wght@600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+                    colors: {
+                        andre: { 50: '#eff6ff', 100: '#dbeafe', 200: '#bfdbfe', 300: '#93c5fd', 400: '#60a5fa', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8' },
+                        nayara: { 50: '#fdf2f8', 100: '#fce7f3', 200: '#fbcfe8', 300: '#f9a8d4', 400: '#f472b6', 500: '#ec4899', 600: '#db2777', 700: '#be185d' },
+                        sofia: { 50: '#faf5ff', 100: '#f3e8ff', 200: '#e9d5ff', 300: '#d8b4fe', 400: '#c084fc', 500: '#a855f7', 600: '#9333ea', 700: '#7e22ce' },
+                        gucci: { 50: '#fffbeb', 100: '#fef3c7', 200: '#fde68a', 300: '#fcd34d', 400: '#fbbf24', 500: '#f59e0b', 600: '#d97706', 700: '#b45309' },
+                        family: { 50: '#f0fdf4', 100: '#dcfce7', 200: '#bbf7d0', 300: '#86efac', 400: '#4ade80', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
+                    }
+                }
+            }
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
+
+<!-- App Container -->
+<div id="app" class="flex h-screen overflow-hidden">
+    
+    <!-- Sidebar -->
+    <aside id="sidebar" class="sidebar fixed lg:relative z-30 w-64 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col shadow-lg lg:shadow-none">
+        <div class="p-4 bg-gradient-to-b from-white/90 to-gray-50/70 dark:from-gray-800 dark:to-gray-800/80 backdrop-blur-sm">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 bg-gradient-to-br from-amber-400 via-orange-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-indigo-500/20 ring-1 ring-white/50">
+                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                </div>
+                <h1 class="brand-title text-xl font-extrabold bg-gradient-to-r from-slate-900 via-indigo-700 to-amber-600 bg-clip-text text-transparent dark:from-white dark:via-indigo-200 dark:to-amber-200">Agenda Familiar</h1>
+            </div>
+        </div>
+        
+        <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
+            <button onclick="navigateTo('dashboard')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="dashboard">
+                <svg class="w-5 h-5 text-sky-500 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9m-2 0v9a2 2 0 01-2 2h-4a1 1 0 01-1-1v-4a2 2 0 00-2-2h0a2 2 0 00-2 2v4a1 1 0 01-1 1H7a2 2 0 01-2-2v-9"/></svg>
+                Página Inicial
+            </button>
+            <button onclick="navigateTo('calendar')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="calendar">
+                <svg class="w-5 h-5 text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                Calendário
+            </button>
+            <button onclick="navigateTo('shopping')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="shopping">
+                <svg class="w-5 h-5 text-amber-500 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
+                Lista de Compras
+                <span id="shoppingBadge" class="ml-auto bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full hidden">0</span>
+            </button>
+            <button onclick="navigateTo('tasks')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="tasks">
+                <svg class="w-5 h-5 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                Tarefas
+                <span id="tasksBadge" class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full hidden">0</span>
+            </button>
+            <button onclick="navigateTo('gucci')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="gucci">
+                <span class="icon-white text-xl">🐾</span>
+                Área da Gucci
+            </button>
+            <button onclick="navigateTo('sofia')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="sofia">
+                <span class="text-xl">🎀</span>
+                Área da Sofia
+            </button>
+            <button onclick="navigateTo('andre')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="andre">
+                <span class="text-xl">👨</span>
+                Área do André
+            </button>
+            <button onclick="navigateTo('nayara')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="nayara">
+                <span class="text-xl">👩</span>
+                Área da Nayara
+            </button>
+            <button onclick="navigateTo('profiles')" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="profiles">
+                <svg class="w-5 h-5 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Perfis
+            </button>
+        </nav>
+
+        <div class="p-4 space-y-2">
+            <button id="shoppingAlertCard" onclick="navigateTo('shopping_market')" class="hidden w-full text-left p-3 rounded-2xl border border-amber-200/80 dark:border-amber-900/50 bg-gradient-to-br from-amber-50 via-orange-50 to-white dark:from-amber-900/30 dark:via-orange-900/20 dark:to-gray-800 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                <div class="flex items-start gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500 text-white flex items-center justify-center shadow-lg shadow-amber-500/20">🛒</div>
+                    <div class="min-w-0 flex-1">
+                        <div class="flex items-center justify-between gap-2">
+                            <p class="text-sm font-bold text-amber-800 dark:text-amber-200">Compras por fazer</p>
+                            <span id="shoppingAlertCount" class="text-xs px-2 py-0.5 rounded-full bg-amber-500 text-white font-semibold">0</span>
+                        </div>
+                        <p id="shoppingAlertText" class="text-xs text-amber-700/90 dark:text-amber-100/90 mt-1">Existem itens pendentes na lista de compras.</p>
+                    </div>
+                </div>
+            </button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col overflow-hidden">
+        <!-- Top Bar -->
+        <header class="bg-white dark:bg-gray-800 px-4 lg:px-6 py-3 flex items-center justify-between sticky top-0 z-20">
+            <div class="flex items-center gap-3">
+                <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                </button>
+                <h2 id="pageTitle" class="text-xl font-bold">Página Inicial</h2>
+            </div>
+            <div class="flex items-center gap-3">
+                <div class="relative hidden sm:block">
+                    <input type="text" id="searchInput" placeholder="Pesquisar..." class="pl-10 pr-4 py-2 w-48 lg:w-64 text-sm bg-gray-100 dark:bg-gray-700 rounded-lg border-0 focus:ring-2 focus:ring-indigo-500 outline-none transition-all" oninput="handleSearch(this.value)">
+                    <svg class="w-4 h-4 absolute left-3 top-2.5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+                <button onclick="toggleNotifications()" class="relative p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                    <span id="notifBadge" class="absolute -top-0.5 -right-0.5 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full notification-badge hidden">0</span>
+                </button>
+                <button id="themeButton" onclick="toggleThemeMenu()" class="theme-button relative flex items-center gap-2 px-3 py-2 rounded-xl text-white text-sm font-semibold transition-transform hover:scale-[1.02]" title="Temas">
+                    <svg id="themeCurrentIcon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4V2m0 20v-2m8.49-8H22m-20 0h1.51M17.657 6.343l1.414-1.414M4.929 19.071l1.414-1.414m0-11.314L4.93 4.929m14.142 14.142l-1.414-1.414M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+                    </svg>
+                    <span id="themeCurrentLabel" class="hidden md:inline">Aurora</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Notifications Panel -->
+        <div id="notificationsPanel" class="fixed top-14 right-4 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-40 hidden fade-in max-h-96 overflow-y-auto">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                <h3 class="font-bold">Notificações</h3>
+                <button onclick="clearNotifications()" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">Limpar todas</button>
+            </div>
+            <div id="notificationsList" class="p-2 space-y-2"></div>
+        </div>
+
+        <div id="themePanel" class="fixed top-14 right-16 w-[42rem] max-w-[calc(100vw-2rem)] bg-white dark:bg-gray-800 rounded-3xl shadow-2xl border border-gray-200 dark:border-gray-700 z-40 hidden fade-in overflow-hidden">
+            <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
+                <div>
+                    <h3 class="font-bold">Temas</h3>
+                    <p class="text-xs text-gray-500">Escolhe um estilo visual diferente</p>
+                </div>
+                <button onclick="closeThemeMenu()" class="text-xs text-indigo-600 dark:text-indigo-400 hover:underline">Fechar</button>
+            </div>
+            <div id="themePanelContent" class="p-4 max-h-[72vh] overflow-y-auto"></div>
+        </div>
+
+        <!-- Content Area -->
+        <div id="contentArea" class="flex-1 overflow-y-auto p-4 lg:p-6">
+            <!-- Pages will be rendered here -->
+        </div>
+    </main>
+</div>
+
+<!-- Modal Overlay -->
+<div id="modalOverlay" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this)closeModal()">
+    <div id="modalContent" class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto fade-in">
+        <!-- Modal content injected here -->
+    </div>
+</div>
+
+<!-- Toast Container -->
+<div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+    <script src="state.js"></script>
+    <script src="calendar.js"></script>
+    <script src="shopping.js"></script>
+    <script src="tasks.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
