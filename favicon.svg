@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="Agenda Familiar">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#111827"/>
+      <stop offset="55%" stop-color="#1d4ed8"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+    <linearGradient id="house" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#e5eefc"/>
+    </linearGradient>
+  </defs>
+  <rect width="128" height="128" rx="30" fill="url(#bg)"/>
+  <path d="M26 59.5L64 28l38 31.5v34.5c0 6.6-5.4 12-12 12H38c-6.6 0-12-5.4-12-12V59.5Z" fill="rgba(255,255,255,0.10)"/>
+  <path d="M36 60.5 64 37l28 23.5V98a6 6 0 0 1-6 6H42a6 6 0 0 1-6-6V60.5Z" fill="url(#house)"/>
+  <path d="M50 104V72h28v32" fill="#dbeafe"/>
+  <path d="M58 104V82h12v22" fill="#1d4ed8"/>
+  <path d="M56 54h16v10H56z" fill="#1d4ed8" opacity="0.92"/>
+</svg>
