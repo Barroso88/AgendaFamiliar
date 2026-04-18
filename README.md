@@ -1,5 +1,7 @@
 # Agenda Familiar
 
+[![Deploy to GitHub Pages](https://github.com/Barroso88/AgendaFamiliar/actions/workflows/deploy.yml/badge.svg)](https://github.com/Barroso88/AgendaFamiliar/actions/workflows/deploy.yml)
+
 ![Agenda Familiar Banner](./assets/banner.svg)
 
 Agenda Familiar é uma aplicação web premium para organizar a vida da casa num só sítio. Junta calendário, compras, tarefas e áreas personalizadas da família numa experiência visual mais elegante e rápida de usar.
@@ -16,9 +18,11 @@ Agenda Familiar é uma aplicação web premium para organizar a vida da casa num
 
 ## Screenshots
 
-![Dashboard](./assets/previews/dashboard-preview.svg)
-![Calendário](./assets/previews/calendar-preview.svg)
-![Modo Mercado](./assets/previews/market-preview.svg)
+Capturas reais da app em execução:
+
+![Dashboard real](./assets/screenshots/dashboard.png)
+![Calendário real](./assets/screenshots/calendar.png)
+![Modo Mercado real](./assets/screenshots/market.png)
 
 ## Destaques
 
@@ -101,4 +105,3 @@ Nota: o ficheiro `CNAME` só deve ser criado quando o domínio final estiver def
 ## Dados
 
 Os dados da app ficam guardados no navegador, usando `localStorage`.
-
