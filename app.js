@@ -1229,8 +1229,8 @@ function renderProfiles(container) {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
-    State.init();
+document.addEventListener('DOMContentLoaded', async () => {
+    await State.init();
     applyTheme(State.theme);
     
     // Close sidebar on mobile

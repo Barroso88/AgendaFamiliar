@@ -1,6 +1,14 @@
-FROM caddy:2-alpine
+FROM node:22-alpine
 
-COPY . /srv
-COPY Caddyfile /etc/caddy/Caddyfile
+WORKDIR /app
 
-EXPOSE 80
+COPY . .
+
+ENV PORT=3035
+ENV DATA_DIR=/data
+
+VOLUME ["/data"]
+
+EXPOSE 3035
+
+CMD ["node", "server.js"]

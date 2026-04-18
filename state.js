@@ -50,13 +50,38 @@ function normalizeThemeId(themeId) {
     return THEME_PRESETS[themeId] ? themeId : 'aurora';
 }
 
+function createEmptyStatePayload() {
+    return {
+        theme: normalizeThemeId(localStorage.getItem('theme')),
+        events: [],
+        shoppingItems: [],
+        tasks: [],
+        notifications: []
+    };
+}
+
+function sanitizeStatePayload(payload) {
+    const defaults = createEmptyStatePayload();
+    const source = payload && typeof payload === 'object' ? payload : {};
+    return {
+        theme: normalizeThemeId(source.theme || defaults.theme),
+        events: Array.isArray(source.events) ? source.events : defaults.events,
+        shoppingItems: Array.isArray(source.shoppingItems) ? source.shoppingItems : defaults.shoppingItems,
+        tasks: Array.isArray(source.tasks) ? source.tasks : defaults.tasks,
+        notifications: Array.isArray(source.notifications) ? source.notifications : defaults.notifications
+    };
+}
+
 // ==================== STATE MANAGEMENT ====================
 const STORAGE_KEYS = {
     events: 'fam_events',
     shopping: 'fam_shopping',
     tasks: 'fam_tasks',
-    notifications: 'fam_notifs'
+    notifications: 'fam_notifs',
+    state: 'fam_state'
 };
+
+const REMOTE_STATE_ENDPOINT = '/api/state';
 
 const THEME_PRESETS = {
     aurora: { label: 'Aurora Night', group: 'Escuros', mode: 'dark', preview: 'linear-gradient(135deg, #22d3ee, #10b981)', background: 'radial-gradient(circle at top left, rgba(34, 211, 238, 0.18), transparent 24%), radial-gradient(circle at top right, rgba(16, 185, 129, 0.12), transparent 22%), radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.10), transparent 26%), linear-gradient(180deg, #07131a 0%, #0b1c24 100%)', sidebar: 'linear-gradient(180deg, rgba(7,19,26,0.98), rgba(10,26,35,0.96))', header: 'linear-gradient(180deg, rgba(7,19,26,0.98), rgba(10,26,35,0.96))', surface: 'rgba(10, 26, 35, 0.94)', surfaceStrong: 'rgba(7, 19, 26, 0.98)', border: 'rgba(34, 211, 238, 0.60)', accent: '#22d3ee', accent2: '#10b981', accentSoft: 'rgba(34, 211, 238, 0.20)' },
@@ -146,30 +171,62 @@ const State = {
     tasks: [],
     notifications: [],
     
-    init() {
-        this.loadData();
-        this.events = [];
-        this.shoppingItems = [];
-        this.tasks = [];
-        this.notifications = [];
-        this.saveData();
+    async init() {
+        await this.loadData();
         this.updateBadges();
     },
     
-    loadData() {
+    async loadData() {
         try {
-            this.events = JSON.parse(localStorage.getItem(STORAGE_KEYS.events) || '[]');
-            this.shoppingItems = JSON.parse(localStorage.getItem(STORAGE_KEYS.shopping) || '[]');
-            this.tasks = JSON.parse(localStorage.getItem(STORAGE_KEYS.tasks) || '[]');
-            this.notifications = JSON.parse(localStorage.getItem(STORAGE_KEYS.notifications) || '[]');
+            const response = await fetch(REMOTE_STATE_ENDPOINT, { cache: 'no-store' });
+            if (response.ok) {
+                const remoteData = sanitizeStatePayload(await response.json());
+                this.applyStatePayload(remoteData);
+                return;
+            }
         } catch(e) { console.error('Error loading data', e); }
+
+        try {
+            const cached = JSON.parse(localStorage.getItem(STORAGE_KEYS.state) || 'null');
+            if (cached) {
+                this.applyStatePayload(sanitizeStatePayload(cached));
+                return;
+            }
+        } catch(e) { console.error('Error loading cached data', e); }
+
+        this.applyStatePayload(createEmptyStatePayload());
     },
     
-    saveData() {
-        localStorage.setItem(STORAGE_KEYS.events, JSON.stringify(this.events));
-        localStorage.setItem(STORAGE_KEYS.shopping, JSON.stringify(this.shoppingItems));
-        localStorage.setItem(STORAGE_KEYS.tasks, JSON.stringify(this.tasks));
-        localStorage.setItem(STORAGE_KEYS.notifications, JSON.stringify(this.notifications));
+    applyStatePayload(payload) {
+        const safe = sanitizeStatePayload(payload);
+        this.theme = safe.theme;
+        this.events = safe.events;
+        this.shoppingItems = safe.shoppingItems;
+        this.tasks = safe.tasks;
+        this.notifications = safe.notifications;
+    },
+
+    snapshot() {
+        return sanitizeStatePayload({
+            theme: this.theme,
+            events: this.events,
+            shoppingItems: this.shoppingItems,
+            tasks: this.tasks,
+            notifications: this.notifications
+        });
+    },
+
+    async saveData() {
+        const payload = this.snapshot();
+        try {
+            await fetch(REMOTE_STATE_ENDPOINT, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+        } catch (e) {
+            localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(payload));
+        }
         this.updateBadges();
     },
     
@@ -274,7 +331,7 @@ function applyTheme(themeId = State.theme, persist = true) {
     root.style.setProperty('--theme-font-family', theme.fontFamily || '"Inter", system-ui, sans-serif', 'important');
 
     if (persist) {
-        localStorage.setItem('theme', resolvedTheme);
+        this.saveData();
     }
 
     updateThemeUI();
