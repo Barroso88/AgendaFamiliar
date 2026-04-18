@@ -1,6 +1,8 @@
 # Agenda Familiar
 
-Agenda Familiar é uma aplicação web premium para organizar a vida da casa num só sítio.
+![Agenda Familiar Banner](./assets/banner.svg)
+
+Agenda Familiar é uma aplicação web premium para organizar a vida da casa num só sítio. Junta calendário, compras, tarefas e áreas personalizadas da família numa experiência visual mais elegante e rápida de usar.
 
 ## O que faz
 
@@ -12,13 +14,28 @@ Agenda Familiar é uma aplicação web premium para organizar a vida da casa num
 - área dedicada à Sofia
 - armazenamento local no navegador com `localStorage`
 
+## Screenshots
+
+![Dashboard](./assets/previews/dashboard-preview.svg)
+![Calendário](./assets/previews/calendar-preview.svg)
+![Modo Mercado](./assets/previews/market-preview.svg)
+
 ## Destaques
 
 - temas visuais com forte diferenciação
 - calendário com acabamento mais 3D
-- listas rápidas para compras
+- lista de compras em checklist rápida
 - registos de saúde e cuidados
 - interface pensada para uso diário
+
+## Roadmap
+
+- melhorar a importação e exportação de dados
+- adicionar mais filtros e pesquisa avançada
+- guardar perfis e temas por utilizador
+- criar notificações mais inteligentes
+- adicionar sync opcional entre dispositivos
+- preparar uma versão com autenticação
 
 ## Tecnologias
 
@@ -46,7 +63,30 @@ http://localhost:8000
 
 ## GitHub Pages
 
-O repositório inclui um workflow para publicar em GitHub Pages através de GitHub Actions.
+O repositório está preparado para publicar em GitHub Pages através de GitHub Actions.
+
+Se quiseres usar o próprio GitHub Pages, basta:
+
+1. ir a `Settings > Pages`;
+2. escolher `GitHub Actions` como source;
+3. fazer `push` para a branch `main`.
+
+## Domínio Próprio
+
+Se quiseres publicar fora do GitHub ou usar um domínio personalizado, o fluxo é simples:
+
+1. comprar ou apontar um domínio;
+2. criar um registo `CNAME` no DNS para o domínio do GitHub Pages;
+3. adicionar um ficheiro `CNAME` no repositório com o domínio final;
+4. configurar o domínio em `Settings > Pages`.
+
+Exemplo de domínio:
+
+```text
+agenda.exemplo.com
+```
+
+Nota: o ficheiro `CNAME` só deve ser criado quando o domínio final estiver definido.
 
 ## Estrutura
 
