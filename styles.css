@@ -77,7 +77,7 @@
             box-shadow:
                 0 24px 50px var(--calendar-shadow, rgba(15,23,42,0.10)),
                 inset 0 1px 0 rgba(255,255,255,0.35);
-            border: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.95));
+            border: 1px solid transparent;
         }
         .calendar-panel {
             background:
