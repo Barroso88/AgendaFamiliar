@@ -14,7 +14,7 @@ Agenda Familiar é uma aplicação web premium para organizar a vida da casa num
 - áreas personalizadas para os membros da família
 - área dedicada à Gucci
 - área dedicada à Sofia
-- armazenamento persistente num ficheiro JSON no Unraid quando corre em Docker
+- armazenamento persistente num ficheiro JSON `store.json` no Unraid quando corre em Docker
 
 ## Screenshots
 
@@ -104,5 +104,5 @@ Nota: o ficheiro `CNAME` só deve ser criado quando o domínio final estiver def
 
 ## Dados
 
-Em Docker no Unraid, os dados ficam guardados num ficheiro JSON no volume `/data`.
+Em Docker no Unraid, os dados ficam guardados em `/data/store.json`.
 Se abrires a app como ficheiro local ou via GitHub Pages, a persistência cai de volta para `localStorage` no navegador.
