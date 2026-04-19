@@ -1,4 +1,27 @@
 // ==================== TASKS ====================
+function setTaskFilter(filterId, button) {
+    State.filters.task = filterId;
+    const buttons = document.querySelectorAll('.task-filter-3d');
+    buttons.forEach(btn => {
+        const isActive = btn === button;
+        btn.classList.toggle('task-filter-3d-active', isActive);
+        btn.classList.toggle('task-filter-3d-pressed', isActive);
+        if (isActive) {
+            btn.style.boxShadow = '0 0 0 1px rgba(255,255,255,0.95), 0 0 22px rgba(255,255,255,0.86), 0 18px 34px rgba(15,23,42,0.16), inset 0 1px 0 rgba(255,255,255,0.92)';
+            btn.style.transform = 'translateY(-2px) scale(0.99)';
+            btn.style.filter = 'saturate(1.08) brightness(1.03)';
+        } else {
+            btn.style.boxShadow = '';
+            btn.style.transform = '';
+            btn.style.filter = '';
+        }
+    });
+    if (button) button.offsetHeight;
+    setTimeout(() => {
+        renderTasks(document.getElementById('contentArea'));
+    }, 90);
+}
+
 function renderTasks(container) {
     const pending = State.tasks.filter(t => !t.completed);
     const completed = State.tasks.filter(t => t.completed);
@@ -22,7 +45,7 @@ function renderTasks(container) {
         <!-- Filter by member -->
         <div class="flex justify-center mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 max-w-4xl">
-            <button onclick="State.filters.task='all'; renderTasks(document.getElementById('contentArea'))" class="task-filter-3d px-5 py-3 text-base font-semibold rounded-2xl whitespace-nowrap min-w-[6.5rem] ${State.filters.task === 'all' ? 'task-filter-3d-active' : ''}">Todos</button>
+            <button onclick="setTaskFilter('all', this)" class="task-filter-3d px-5 py-3 text-base font-semibold rounded-2xl whitespace-nowrap min-w-[7rem] ${State.filters.task === 'all' ? 'task-filter-3d-active' : ''}">Todos</button>
             ${State.members.map(m => {
                 const sidebarIcons = {
                     andre: '👨',
@@ -32,7 +55,7 @@ function renderTasks(container) {
                 };
                 const iconClass = m.id === 'gucci' ? 'icon-white' : '';
                 const icon = sidebarIcons[m.id] || m.icon || m.avatar;
-                return `<button onclick="State.filters.task='${m.id}'; renderTasks(document.getElementById('contentArea'))" class="task-filter-3d px-5 py-3 text-base font-semibold rounded-2xl whitespace-nowrap min-w-[7rem] ${State.filters.task === m.id ? getMemberBg(m.id) + ' ' + getMemberText(m.id) + ' task-filter-3d-active' : ''}"><span class="${iconClass} text-lg">${icon}</span> ${m.name}</button>`;
+                return `<button onclick="setTaskFilter('${m.id}', this)" class="task-filter-3d px-5 py-3 text-base font-semibold rounded-2xl whitespace-nowrap min-w-[7rem] ${State.filters.task === m.id ? getMemberBg(m.id) + ' ' + getMemberText(m.id) + ' task-filter-3d-active' : ''}"><span class="${iconClass} text-lg">${icon}</span> ${m.name}</button>`;
             }).join('')}
             </div>
         </div>`;

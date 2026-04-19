@@ -375,7 +375,7 @@
         }
         .task-filter-3d {
             position: relative;
-            color: #334155;
+            color: #fff !important;
             background:
                 linear-gradient(180deg, rgba(255,255,255,0.96), rgba(241,245,249,0.88));
             border: 1px solid rgba(148,163,184,0.30);
@@ -400,10 +400,41 @@
                 inset 0 1px 0 rgba(255,255,255,0.9);
             filter: saturate(1.06);
         }
+        .task-filter-3d-active:hover,
+        .task-filter-3d-pressed:hover {
+            transform: translateY(-2px) scale(0.99);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.95),
+                0 0 22px rgba(255,255,255,0.86),
+                0 18px 34px rgba(15,23,42,0.16),
+                inset 0 1px 0 rgba(255,255,255,0.92);
+            filter: saturate(1.08) brightness(1.03);
+        }
+        .task-filter-3d:focus,
+        .task-filter-3d:focus-visible,
+        .task-filter-3d:active {
+            outline: none;
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.95),
+                0 0 22px rgba(255,255,255,0.86),
+                0 18px 34px rgba(15,23,42,0.16),
+                inset 0 1px 0 rgba(255,255,255,0.92);
+            transform: translateY(-2px) scale(0.99);
+            filter: saturate(1.08) brightness(1.03);
+        }
+        .task-filter-3d-pressed {
+            transform: translateY(-2px) scale(0.99);
+            box-shadow:
+                0 0 0 1px rgba(255,255,255,0.95),
+                0 0 20px rgba(255,255,255,0.82),
+                0 18px 34px rgba(15,23,42,0.14),
+                inset 0 1px 0 rgba(255,255,255,0.92) !important;
+            filter: saturate(1.08) brightness(1.03);
+        }
         .task-filter-3d-active {
             background:
                 linear-gradient(135deg, var(--theme-accent, #0ea5e9), var(--theme-accent-2, #14b8a6));
-            color: #fff;
+            color: #fff !important;
             border-color: color-mix(in srgb, var(--theme-accent, #0ea5e9) 60%, white);
             box-shadow:
                 0 0 0 1px rgba(255,255,255,0.95),
