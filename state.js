@@ -58,9 +58,26 @@ function isRemoteApiAvailable() {
     return window.location.protocol !== 'file:';
 }
 
+function safeLocalStorageGet(key) {
+    try {
+        return localStorage.getItem(key);
+    } catch (error) {
+        return null;
+    }
+}
+
+function safeLocalStorageSet(key, value) {
+    try {
+        localStorage.setItem(key, value);
+        return true;
+    } catch (error) {
+        return false;
+    }
+}
+
 function getDefaultLocalState() {
     return {
-        theme: normalizeThemeId(localStorage.getItem('theme')),
+        theme: normalizeThemeId(safeLocalStorageGet('theme')),
         events: [],
         shoppingItems: [],
         tasks: [],
@@ -156,7 +173,7 @@ const PAGE_TITLES = {
 
 const State = {
     currentPage: 'dashboard',
-    theme: normalizeThemeId(localStorage.getItem('theme')),
+    theme: normalizeThemeId(safeLocalStorageGet('theme')),
     currentDate: new Date(),
     calendarView: 'month', // 'day', 'week', 'month', 'year'
     filters: { member: 'all', category: 'all', shopping: 'all', task: 'all' },
@@ -196,7 +213,7 @@ const State = {
     async loadData() {
         if (!isRemoteApiAvailable()) {
             try {
-                const cached = JSON.parse(localStorage.getItem(STORAGE_KEYS.state) || 'null');
+                const cached = JSON.parse(safeLocalStorageGet(STORAGE_KEYS.state) || 'null');
                 if (cached) {
                     this.applyStatePayload(sanitizeStatePayload(cached));
                     return;
@@ -218,7 +235,7 @@ const State = {
         } catch(e) { console.error('Error loading data', e); }
 
         try {
-            const cached = JSON.parse(localStorage.getItem(STORAGE_KEYS.state) || 'null');
+            const cached = JSON.parse(safeLocalStorageGet(STORAGE_KEYS.state) || 'null');
             if (cached) {
                 this.applyStatePayload(sanitizeStatePayload(cached));
                 return;
@@ -257,10 +274,10 @@ const State = {
                     body: JSON.stringify(payload)
                 });
             } else {
-                localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(payload));
+                safeLocalStorageSet(STORAGE_KEYS.state, JSON.stringify(payload));
             }
         } catch (e) {
-            localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(payload));
+            safeLocalStorageSet(STORAGE_KEYS.state, JSON.stringify(payload));
         }
         this.updateBadges();
     },
