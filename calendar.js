@@ -4,8 +4,8 @@ function renderCalendar(container) {
     const calendarVars = getCalendarThemeVars();
     
     let html = `
-    <div class="fade-in calendar-shell rounded-3xl p-1" style="${calendarVars}">
-        <div class="calendar-panel rounded-3xl overflow-hidden">
+    <div class="fade-in calendar-shell rounded-[32px] p-1" style="${calendarVars}">
+        <div class="calendar-panel rounded-[28px] overflow-hidden">
         <!-- Controls -->
         <div class="flex flex-wrap items-center justify-between gap-4 px-4 lg:px-6 pt-5 pb-4">
             <div class="flex items-center gap-2">

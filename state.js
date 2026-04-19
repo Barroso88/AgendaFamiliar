@@ -50,7 +50,11 @@ function normalizeThemeId(themeId) {
     return THEME_PRESETS[themeId] ? themeId : 'aurora';
 }
 
-function createEmptyStatePayload() {
+function isRemoteApiAvailable() {
+    return window.location.protocol !== 'file:';
+}
+
+function getDefaultLocalState() {
     return {
         theme: normalizeThemeId(localStorage.getItem('theme')),
         events: [],
@@ -58,6 +62,10 @@ function createEmptyStatePayload() {
         tasks: [],
         notifications: []
     };
+}
+
+function createEmptyStatePayload() {
+    return getDefaultLocalState();
 }
 
 function sanitizeStatePayload(payload) {
@@ -172,11 +180,30 @@ const State = {
     notifications: [],
     
     async init() {
+        if (!isRemoteApiAvailable()) {
+            this.applyStatePayload(getDefaultLocalState());
+            this.updateBadges();
+            return;
+        }
         await this.loadData();
         this.updateBadges();
     },
     
     async loadData() {
+        if (!isRemoteApiAvailable()) {
+            try {
+                const cached = JSON.parse(localStorage.getItem(STORAGE_KEYS.state) || 'null');
+                if (cached) {
+                    this.applyStatePayload(sanitizeStatePayload(cached));
+                    return;
+                }
+            } catch (e) {
+                console.error('Error loading cached data', e);
+            }
+            this.applyStatePayload(getDefaultLocalState());
+            return;
+        }
+
         try {
             const response = await fetch(REMOTE_STATE_ENDPOINT, { cache: 'no-store' });
             if (response.ok) {
@@ -194,7 +221,7 @@ const State = {
             }
         } catch(e) { console.error('Error loading cached data', e); }
 
-        this.applyStatePayload(createEmptyStatePayload());
+        this.applyStatePayload(getDefaultLocalState());
     },
     
     applyStatePayload(payload) {
@@ -219,11 +246,15 @@ const State = {
     async saveData() {
         const payload = this.snapshot();
         try {
-            await fetch(REMOTE_STATE_ENDPOINT, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
-            });
+            if (isRemoteApiAvailable()) {
+                await fetch(REMOTE_STATE_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+            } else {
+                localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(payload));
+            }
         } catch (e) {
             localStorage.setItem(STORAGE_KEYS.state, JSON.stringify(payload));
         }
