@@ -81,7 +81,8 @@ function getDefaultLocalState() {
         events: [],
         shoppingItems: [],
         tasks: [],
-        notifications: []
+        notifications: [],
+        updatedAt: 0
     };
 }
 
@@ -97,8 +98,17 @@ function sanitizeStatePayload(payload) {
         events: Array.isArray(source.events) ? source.events : defaults.events,
         shoppingItems: Array.isArray(source.shoppingItems) ? source.shoppingItems : defaults.shoppingItems,
         tasks: Array.isArray(source.tasks) ? source.tasks : defaults.tasks,
-        notifications: Array.isArray(source.notifications) ? source.notifications : defaults.notifications
+        notifications: Array.isArray(source.notifications) ? source.notifications : defaults.notifications,
+        updatedAt: Number.isFinite(source.updatedAt) ? source.updatedAt : defaults.updatedAt
     };
+}
+
+function pickLatestState(remoteState, cachedState) {
+    const remote = remoteState ? sanitizeStatePayload(remoteState) : null;
+    const cached = cachedState ? sanitizeStatePayload(cachedState) : null;
+    if (!remote) return cached || getDefaultLocalState();
+    if (!cached) return remote;
+    return (remote.updatedAt || 0) >= (cached.updatedAt || 0) ? remote : cached;
 }
 
 // ==================== STATE MANAGEMENT ====================
@@ -206,15 +216,17 @@ const State = {
     },
     
     async loadData() {
+        let cachedState = null;
+        try {
+            cachedState = JSON.parse(safeLocalStorageGet(STORAGE_KEYS.state) || 'null');
+        } catch (e) {
+            console.error('Error loading cached data', e);
+        }
+
         if (!isRemoteApiAvailable()) {
-            try {
-                const cached = JSON.parse(safeLocalStorageGet(STORAGE_KEYS.state) || 'null');
-                if (cached) {
-                    this.applyStatePayload(sanitizeStatePayload(cached));
-                    return;
-                }
-            } catch (e) {
-                console.error('Error loading cached data', e);
+            if (cachedState) {
+                this.applyStatePayload(sanitizeStatePayload(cachedState));
+                return;
             }
             this.applyStatePayload(getDefaultLocalState());
             return;
@@ -223,19 +235,16 @@ const State = {
         try {
             const response = await fetch(REMOTE_STATE_ENDPOINT, { cache: 'no-store' });
             if (response.ok) {
-                const remoteData = sanitizeStatePayload(await response.json());
-                this.applyStatePayload(remoteData);
+                const remoteData = await response.json();
+                this.applyStatePayload(pickLatestState(remoteData, cachedState));
                 return;
             }
         } catch(e) { console.error('Error loading data', e); }
 
-        try {
-            const cached = JSON.parse(safeLocalStorageGet(STORAGE_KEYS.state) || 'null');
-            if (cached) {
-                this.applyStatePayload(sanitizeStatePayload(cached));
-                return;
-            }
-        } catch(e) { console.error('Error loading cached data', e); }
+        if (cachedState) {
+            this.applyStatePayload(sanitizeStatePayload(cachedState));
+            return;
+        }
 
         this.applyStatePayload(getDefaultLocalState());
     },
@@ -255,7 +264,8 @@ const State = {
             events: this.events,
             shoppingItems: this.shoppingItems,
             tasks: this.tasks,
-            notifications: this.notifications
+            notifications: this.notifications,
+            updatedAt: Date.now()
         });
     },
 
@@ -263,6 +273,7 @@ const State = {
         const payload = this.snapshot();
         const serialized = JSON.stringify(payload);
         try {
+            safeLocalStorageSet(STORAGE_KEYS.state, serialized);
             if (isRemoteApiAvailable()) {
                 let sent = false;
                 if (navigator.sendBeacon) {
@@ -287,8 +298,6 @@ const State = {
                         throw new Error(`Remote save failed with status ${response.status}`);
                     }
                 }
-            } else {
-                safeLocalStorageSet(STORAGE_KEYS.state, serialized);
             }
         } catch (e) {
             console.error('Error saving data', e);

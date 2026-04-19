@@ -27,7 +27,8 @@ function emptyState() {
         events: [],
         shoppingItems: [],
         tasks: [],
-        notifications: []
+        notifications: [],
+        updatedAt: 0
     };
 }
 
@@ -45,7 +46,8 @@ async function readState() {
             events: Array.isArray(parsed.events) ? parsed.events : [],
             shoppingItems: Array.isArray(parsed.shoppingItems) ? parsed.shoppingItems : [],
             tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
-            notifications: Array.isArray(parsed.notifications) ? parsed.notifications : []
+            notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
+            updatedAt: Number.isFinite(parsed.updatedAt) ? parsed.updatedAt : 0
         };
     } catch (error) {
         return emptyState();
@@ -102,7 +104,8 @@ async function handleApiState(req, res) {
                     events: Array.isArray(parsed.events) ? parsed.events : [],
                     shoppingItems: Array.isArray(parsed.shoppingItems) ? parsed.shoppingItems : [],
                     tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
-                    notifications: Array.isArray(parsed.notifications) ? parsed.notifications : []
+                    notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
+                    updatedAt: Number.isFinite(parsed.updatedAt) ? parsed.updatedAt : Date.now()
                 };
                 await writeState(payload);
                 sendJson(res, 200, { ok: true });
