@@ -5,9 +5,9 @@ WORKDIR /app
 COPY . .
 
 ENV PORT=3035
-ENV DATA_DIR=/data
+ENV DATA_DIR=/app/data
 
-VOLUME ["/data"]
+VOLUME ["/app/data"]
 
 EXPOSE 3035
 

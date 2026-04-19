@@ -4,7 +4,7 @@ const path = require('path');
 const { URL } = require('url');
 
 const PORT = Number(process.env.PORT || 3035);
-const DATA_DIR = process.env.DATA_DIR || '/data';
+const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const STATE_FILE = path.join(DATA_DIR, 'store.json');
 const PUBLIC_DIR = __dirname;
 
