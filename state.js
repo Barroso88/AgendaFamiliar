@@ -495,7 +495,9 @@ function closeThemeMenu() {
 }
 
 function setTheme(themeId) {
+    closeThemeMenu();
     applyTheme(themeId);
+    requestAnimationFrame(() => closeThemeMenu());
 }
 
 function toggleTheme() {
