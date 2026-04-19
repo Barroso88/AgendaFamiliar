@@ -426,7 +426,7 @@ function renderThemePanel() {
         .filter(([, theme]) => theme.group === 'Escuros');
 
     const renderCard = ([themeId, theme]) => `
-        <button data-theme-option="${themeId}" onclick="setTheme('${themeId}')"
+        <button type="button" data-theme-option="${themeId}" onclick="setTheme('${themeId}'); closeThemeMenu();"
             class="theme-option text-left rounded-2xl border border-gray-200 dark:border-gray-700 p-3 transition-all bg-white dark:bg-gray-900 shadow-sm">
             <div class="rounded-2xl overflow-hidden mb-3 border border-white/40 dark:border-white/10">
                 <div class="h-24 p-3 flex flex-col justify-between text-white" style="background: ${theme.preview}; font-family: ${safeFontFamily(theme.fontFamily)};">
@@ -496,7 +496,6 @@ function closeThemeMenu() {
 
 function setTheme(themeId) {
     applyTheme(themeId);
-    closeThemeMenu();
 }
 
 function toggleTheme() {
