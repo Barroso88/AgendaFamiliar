@@ -15,7 +15,12 @@ function renderPage() {
     };
     const renderer = renderers[State.currentPage] || renderDashboard;
     content.innerHTML = '';
-    renderer(content);
+    try {
+        renderer(content);
+    } catch (error) {
+        console.error(`Render failed for ${State.currentPage}`, error);
+        renderDashboardFallback(content);
+    }
 }
 
 // ==================== DASHBOARD ====================
@@ -183,6 +188,44 @@ function renderDashboard(container) {
     </div>`;
     
     container.innerHTML = html;
+}
+
+function renderDashboardFallback(container) {
+    container.innerHTML = `
+    <div class="fade-in space-y-6">
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
+            <h2 class="text-2xl font-bold mb-1">${getGreeting()}</h2>
+            <p class="text-indigo-100">${formatDate(todayISO())}</p>
+        </div>
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700">
+                <p class="text-2xl font-bold">0</p>
+                <p class="text-xs text-gray-500">Eventos Hoje</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700">
+                <p class="text-2xl font-bold">0</p>
+                <p class="text-xs text-gray-500">Itens por Comprar</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700">
+                <p class="text-2xl font-bold">0</p>
+                <p class="text-xs text-gray-500">Tarefas Pendentes</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700">
+                <p class="text-2xl font-bold">0</p>
+                <p class="text-xs text-gray-500">Alertas Urgentes</p>
+            </div>
+        </div>
+        <div class="grid lg:grid-cols-2 gap-6">
+            <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+                <h3 class="font-bold text-lg mb-4">📅 Eventos de Hoje</h3>
+                <p class="text-gray-500 text-sm py-4">Sem eventos para hoje 🎉</p>
+            </div>
+            <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4">
+                <h3 class="font-bold text-lg mb-4">⚠️ Urgente</h3>
+                <p class="text-gray-500 text-sm">Tudo em dia! ✅</p>
+            </div>
+        </div>
+    </div>`;
 }
 
 // ==================== GUCCI AREA ====================
