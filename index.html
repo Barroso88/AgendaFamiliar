@@ -33,10 +33,8 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
 
-<!-- App Container -->
 <div id="app" class="flex h-screen overflow-hidden">
     
-    <!-- Sidebar -->
     <aside id="sidebar" class="sidebar fixed lg:relative z-30 w-64 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col shadow-lg lg:shadow-none">
         <div class="p-4 bg-gradient-to-b from-white/90 to-gray-50/70 dark:from-gray-800 dark:to-gray-800/80 backdrop-blur-sm">
             <div class="flex items-center gap-3">
@@ -104,9 +102,7 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="flex-1 flex flex-col overflow-hidden">
-        <!-- Top Bar -->
         <header class="bg-white dark:bg-gray-800 px-4 lg:px-6 py-3 flex items-center justify-between sticky top-0 z-20">
             <div class="flex items-center gap-3">
                 <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">
@@ -132,7 +128,6 @@
             </div>
         </header>
 
-        <!-- Notifications Panel -->
         <div id="notificationsPanel" class="fixed top-14 right-4 w-80 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border border-gray-200 dark:border-gray-700 z-40 hidden fade-in max-h-96 overflow-y-auto">
             <div class="p-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                 <h3 class="font-bold">Notificações</h3>
@@ -152,7 +147,6 @@
             <div id="themePanelContent" class="p-4 max-h-[72vh] overflow-y-auto"></div>
         </div>
 
-        <!-- Content Area -->
         <div id="contentArea" class="flex-1 overflow-y-auto p-4 lg:p-6">
             <div class="fade-in space-y-6">
                 <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
@@ -215,20 +209,17 @@
     </main>
 </div>
 
-<!-- Modal Overlay -->
 <div id="modalOverlay" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4" onclick="if(event.target===this)closeModal()">
     <div id="modalContent" class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto fade-in">
-        <!-- Modal content injected here -->
-    </div>
+        </div>
 </div>
 
-<!-- Toast Container -->
 <div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
 
-    <script src="state.js"></script>
-    <script src="calendar.js"></script>
-    <script src="shopping.js"></script>
-    <script src="tasks.js"></script>
-    <script src="app.js"></script>
+    <script src="state.js?v=1.1"></script>
+    <script src="calendar.js?v=1.1"></script>
+    <script src="shopping.js?v=1.1"></script>
+    <script src="tasks.js?v=1.1"></script>
+    <script src="app.js?v=1.1"></script>
 </body>
 </html>
