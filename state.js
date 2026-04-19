@@ -44,6 +44,10 @@ function getCalendarThemeVars(themeId = State.theme) {
     return `--calendar-accent:${theme.accent};--calendar-accent-2:${theme.accent2};--calendar-panel-bg:${theme.background};--calendar-surface:${theme.surface || 'rgba(255,255,255,0.94)'};--calendar-surface-strong:${theme.surfaceStrong || 'rgba(255,255,255,0.98)'};--calendar-border:${theme.border || 'rgba(191, 219, 254, 0.95)'};--calendar-glow:${theme.accentSoft};--calendar-shadow:${theme.mode === 'dark' ? 'rgba(0,0,0,0.28)' : 'rgba(15,23,42,0.10)'};`;
 }
 
+function safeFontFamily(fontFamily) {
+    return (fontFamily || '"Inter", system-ui, sans-serif').replace(/"/g, "'");
+}
+
 function normalizeThemeId(themeId) {
     if (!themeId || themeId === 'light') return 'aurora';
     if (themeId === 'dark') return 'midnight';
@@ -408,13 +412,13 @@ function renderThemePanel() {
         <button data-theme-option="${themeId}" onclick="setTheme('${themeId}')"
             class="theme-option text-left rounded-2xl border border-gray-200 dark:border-gray-700 p-3 transition-all bg-white dark:bg-gray-900 shadow-sm">
             <div class="rounded-2xl overflow-hidden mb-3 border border-white/40 dark:border-white/10">
-                <div class="h-24 p-3 flex flex-col justify-between text-white" style="background: ${theme.preview}; font-family: ${theme.fontFamily || '"Inter", system-ui, sans-serif'};">
+                <div class="h-24 p-3 flex flex-col justify-between text-white" style="background: ${theme.preview}; font-family: ${safeFontFamily(theme.fontFamily)};">
                     <div class="flex items-start justify-between">
                         <div>
                             <div class="text-sm font-semibold tracking-wide">${theme.label}</div>
                             <div class="text-[11px] opacity-80">${theme.group}</div>
                         </div>
-                        <div class="w-9 h-9 rounded-xl bg-white/18 backdrop-blur-sm flex items-center justify-center text-sm shadow-inner" style="font-family: ${theme.fontFamily || '"Inter", system-ui, sans-serif'};">Aa</div>
+                        <div class="w-9 h-9 rounded-xl bg-white/18 backdrop-blur-sm flex items-center justify-center text-sm shadow-inner" style="font-family: ${safeFontFamily(theme.fontFamily)};">Aa</div>
                     </div>
                     <div class="flex items-center gap-2 text-[10px]">
                         <span class="px-2 py-1 rounded-full bg-white/18 backdrop-blur-sm">Cards</span>
@@ -454,12 +458,23 @@ function renderThemePanel() {
 
 function toggleThemeMenu() {
     const panel = document.getElementById('themePanel');
-    if (panel) panel.classList.toggle('hidden');
+    if (!panel) return;
+    if (panel.classList.contains('hidden')) {
+        renderThemePanel();
+        panel.classList.remove('hidden');
+        panel.setAttribute('aria-hidden', 'false');
+    } else {
+        panel.classList.add('hidden');
+        panel.setAttribute('aria-hidden', 'true');
+    }
 }
 
 function closeThemeMenu() {
     const panel = document.getElementById('themePanel');
-    if (panel) panel.classList.add('hidden');
+    if (panel) {
+        panel.classList.add('hidden');
+        panel.setAttribute('aria-hidden', 'true');
+    }
 }
 
 function setTheme(themeId) {
