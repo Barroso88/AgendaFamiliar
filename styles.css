@@ -406,6 +406,8 @@
             color: #fff;
             border-color: color-mix(in srgb, var(--theme-accent, #0ea5e9) 60%, white);
             box-shadow:
+                0 0 0 1px rgba(255,255,255,0.95),
+                0 0 18px rgba(255,255,255,0.60),
                 0 16px 30px var(--theme-accent-soft, rgba(14, 165, 233, 0.20)),
                 0 0 0 1px rgba(255,255,255,0.15) inset,
                 inset 0 1px 0 rgba(255,255,255,0.28);
