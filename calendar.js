@@ -6,7 +6,6 @@ function renderCalendar(container) {
     let html = `
     <div class="fade-in calendar-shell rounded-[32px] p-1" style="${calendarVars}">
         <div class="calendar-panel rounded-[28px] overflow-hidden">
-        <!-- Controls -->
         <div class="flex flex-wrap items-center justify-between gap-4 px-4 lg:px-6 pt-5 pb-4">
             <div class="flex items-center gap-2">
                 <button onclick="changeDate(-1)" class="calendar-nav-btn p-2 rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
@@ -35,7 +34,6 @@ function renderCalendar(container) {
             </div>
         </div>
         
-        <!-- Filters -->
         <div class="calendar-filter-bar flex flex-wrap items-center gap-3 mx-4 lg:mx-6 mb-4 p-3 rounded-2xl shadow-sm">
             <span class="text-sm font-medium text-gray-500">Filtros:</span>
             <select onchange="State.filters.member=this.value; renderCalendar(document.getElementById('contentArea'))" class="calendar-select text-sm px-3 py-1.5 rounded-xl outline-none shadow-sm">
@@ -48,7 +46,6 @@ function renderCalendar(container) {
             </select>
         </div>
         
-        <!-- Calendar Content -->
         <div class="mx-4 lg:mx-6 pb-6">
             <div class="bg-transparent overflow-hidden">
                 ${view === 'month' ? renderMonthView() : view === 'week' ? renderWeekView() : view === 'year' ? renderYearView() : renderDayView()}
@@ -389,7 +386,7 @@ function openEventModal(eventId = null) {
     openModal(content);
 }
 
-function saveEvent(e, eventId) {
+async function saveEvent(e, eventId) {
     e.preventDefault();
     const members = Array.from(document.getElementById('evtMembers').selectedOptions).map(o => o.value);
     
@@ -415,15 +412,15 @@ function saveEvent(e, eventId) {
         showToast('Evento criado!');
     }
     
-    State.saveData();
+    await State.saveData(); // <-- CORRIGIDO AQUI
     closeModal();
     renderPage();
 }
 
-function deleteEvent(id) {
+async function deleteEvent(id) {
     if (confirm('Tem a certeza que deseja eliminar este evento?')) {
         State.events = State.events.filter(e => e.id !== id);
-        State.saveData();
+        await State.saveData(); // <-- CORRIGIDO AQUI
         showToast('Evento eliminado', 'warning');
         renderPage();
     }
