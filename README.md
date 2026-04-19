@@ -14,7 +14,7 @@ Agenda Familiar é uma aplicação web premium para organizar a vida da casa num
 - áreas personalizadas para os membros da família
 - área dedicada à Gucci
 - área dedicada à Sofia
-- armazenamento persistente num ficheiro JSON `data/store.json` no Unraid quando corre em Docker
+- armazenamento persistente numa base de dados SQLite `data/agenda.db` no Unraid quando corre em Docker
 
 ## Screenshots
 
@@ -72,7 +72,7 @@ Se quiseres correr isto em Docker no Unraid com a estrutura igual à do outro pr
 1. monta a pasta completa do projecto em `/app`;
 2. usa a imagem `ghcr.io/barroso88/agendafamiliar:latest`;
 3. expõe a porta `3035`;
-4. os dados ficam em `data/store.json` dentro dessa mesma pasta.
+4. os dados ficam em `data/agenda.db` dentro dessa mesma pasta.
 
 Exemplo de caminho no Unraid:
 
@@ -88,7 +88,7 @@ E no template do contentor:
 - `Modo de Acesso`: `Leitura/Escrita`
 
 Nesta estrutura, o conteúdo completo do projecto fica visível no Unraid e os dados persistem na pasta `data/`.
-O servidor também guarda cópias automáticas em `data/backups/` para ajudar na recuperação se o ficheiro principal falhar.
+Se já tinhas dados antigos em `store.json`, a app tenta migrá-los automaticamente para a base de dados na primeira abertura.
 
 ## GitHub Pages
 
@@ -129,5 +129,5 @@ Nota: o ficheiro `CNAME` só deve ser criado quando o domínio final estiver def
 
 ## Dados
 
-Em Docker no Unraid, os dados ficam guardados em `/app/data/store.json` e têm backups automáticos em `/app/data/backups/`.
+Em Docker no Unraid, os dados ficam guardados em `/app/data/agenda.db`.
 Se abrires a app como ficheiro local ou via GitHub Pages, a persistência cai de volta para `localStorage` no navegador.

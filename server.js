@@ -2,12 +2,13 @@ const http = require('http');
 const fs = require('fs/promises');
 const path = require('path');
 const { URL } = require('url');
+const { DatabaseSync } = require('node:sqlite');
 
 const PORT = Number(process.env.PORT || 3035);
-// No Docker, DATA_DIR será /app/data
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
-const STATE_FILE = path.join(DATA_DIR, 'store.json');
-const BACKUP_DIR = path.join(DATA_DIR, 'backups');
+const DB_FILE = path.join(DATA_DIR, 'agenda.db');
+const LEGACY_JSON_FILE = path.join(DATA_DIR, 'store.json');
+const LEGACY_BACKUP_DIR = path.join(DATA_DIR, 'backups');
 const PUBLIC_DIR = __dirname;
 
 const MIME_TYPES = {
@@ -23,6 +24,8 @@ const MIME_TYPES = {
     '.ico': 'image/x-icon'
 };
 
+let db = null;
+
 function emptyState() {
     return {
         theme: 'midnight',
@@ -34,26 +37,34 @@ function emptyState() {
     };
 }
 
+function normalizeState(source = {}) {
+    return {
+        ...emptyState(),
+        ...source,
+        events: Array.isArray(source.events) ? source.events : [],
+        shoppingItems: Array.isArray(source.shoppingItems) ? source.shoppingItems : [],
+        tasks: Array.isArray(source.tasks) ? source.tasks : [],
+        notifications: Array.isArray(source.notifications) ? source.notifications : [],
+        updatedAt: Number.isFinite(source.updatedAt) ? source.updatedAt : Date.now()
+    };
+}
+
 async function ensureDataDir() {
+    await fs.mkdir(DATA_DIR, { recursive: true });
+}
+
+async function readJsonFile(filePath) {
     try {
-        await fs.mkdir(DATA_DIR, { recursive: true });
-    } catch (err) {
-        if (err.code !== 'EEXIST') throw err;
+        const content = await fs.readFile(filePath, 'utf8');
+        return normalizeState(JSON.parse(content));
+    } catch {
+        return null;
     }
 }
 
-async function ensureBackupDir() {
+async function readLatestLegacyBackup() {
     try {
-        await fs.mkdir(BACKUP_DIR, { recursive: true });
-    } catch (err) {
-        if (err.code !== 'EEXIST') throw err;
-    }
-}
-
-async function readLatestBackup() {
-    try {
-        await ensureBackupDir();
-        const entries = await fs.readdir(BACKUP_DIR, { withFileTypes: true });
+        const entries = await fs.readdir(LEGACY_BACKUP_DIR, { withFileTypes: true });
         const backupFiles = entries
             .filter(entry => entry.isFile() && entry.name.endsWith('.json'))
             .map(entry => entry.name)
@@ -61,88 +72,67 @@ async function readLatestBackup() {
             .reverse();
 
         for (const fileName of backupFiles) {
-            try {
-                const content = await fs.readFile(path.join(BACKUP_DIR, fileName), 'utf8');
-                const parsed = JSON.parse(content);
-                if (parsed && typeof parsed === 'object') {
-                    return parsed;
-                }
-            } catch {
-                // continua para o próximo backup
-            }
+            const snapshot = await readJsonFile(path.join(LEGACY_BACKUP_DIR, fileName));
+            if (snapshot) return snapshot;
         }
-    } catch (error) {
-        console.error('Erro ao ler backups:', error.message);
+    } catch {
+        return null;
     }
     return null;
 }
 
-async function readState() {
+async function readLegacySnapshot() {
+    return (await readJsonFile(LEGACY_JSON_FILE)) || (await readLatestLegacyBackup());
+}
+
+function initDatabase() {
+    db = new DatabaseSync(DB_FILE);
+    db.exec(`
+        PRAGMA journal_mode = WAL;
+        PRAGMA synchronous = NORMAL;
+        CREATE TABLE IF NOT EXISTS app_state (
+            id INTEGER PRIMARY KEY CHECK (id = 1),
+            payload TEXT NOT NULL,
+            updated_at INTEGER NOT NULL
+        );
+    `);
+}
+
+function getDbState() {
+    const row = db.prepare('SELECT payload, updated_at FROM app_state WHERE id = 1').get();
+    if (!row) return null;
     try {
-        const content = await fs.readFile(STATE_FILE, 'utf8');
-        const parsed = JSON.parse(content);
-        return {
-            ...emptyState(),
-            ...parsed,
-            events: Array.isArray(parsed.events) ? parsed.events : [],
-            shoppingItems: Array.isArray(parsed.shoppingItems) ? parsed.shoppingItems : [],
-            tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
-            notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
-            updatedAt: Number.isFinite(parsed.updatedAt) ? parsed.updatedAt : 0
-        };
-    } catch (error) {
-        console.error("Erro ao ler estado principal, tentando backup:", error.message);
-        const backup = await readLatestBackup();
-        if (backup) {
-            return {
-                ...emptyState(),
-                ...backup,
-                events: Array.isArray(backup.events) ? backup.events : [],
-                shoppingItems: Array.isArray(backup.shoppingItems) ? backup.shoppingItems : [],
-                tasks: Array.isArray(backup.tasks) ? backup.tasks : [],
-                notifications: Array.isArray(backup.notifications) ? backup.notifications : [],
-                updatedAt: Number.isFinite(backup.updatedAt) ? backup.updatedAt : 0
-            };
-        }
-        return emptyState();
+        return normalizeState(JSON.parse(row.payload));
+    } catch {
+        return null;
     }
 }
 
-/**
- * VERSÃO CORRIGIDA PARA DOCKER/UNRAID
- * Removemos o fs.rename que causa erros EXDEV em volumes montados.
- */
-async function writeState(payload) {
-    try {
-        await ensureDataDir();
-        await ensureBackupDir();
-        const data = JSON.stringify(payload, null, 2);
-        
-        // Escrevemos diretamente no ficheiro final. 
-        // Em volumes Docker/Network shares, o rename entre .tmp e o original costuma falhar.
-        await fs.writeFile(STATE_FILE, data, 'utf8');
-        const backupFile = path.join(BACKUP_DIR, `store-${Date.now()}.json`);
-        await fs.writeFile(backupFile, data, 'utf8');
+function saveDbState(state) {
+    const payload = normalizeState(state);
+    db.prepare(`
+        INSERT INTO app_state (id, payload, updated_at)
+        VALUES (1, ?, ?)
+        ON CONFLICT(id) DO UPDATE SET
+            payload = excluded.payload,
+            updated_at = excluded.updated_at
+    `).run(JSON.stringify(payload), payload.updatedAt);
+    return payload;
+}
 
-        try {
-            const entries = await fs.readdir(BACKUP_DIR, { withFileTypes: true });
-            const backupFiles = entries
-                .filter(entry => entry.isFile() && entry.name.endsWith('.json'))
-                .map(entry => entry.name)
-                .sort()
-                .reverse();
-            for (const oldFile of backupFiles.slice(10)) {
-                await fs.unlink(path.join(BACKUP_DIR, oldFile)).catch(() => {});
-            }
-        } catch (cleanupError) {
-            console.warn('Não foi possível limpar backups antigos:', cleanupError.message);
-        }
+async function bootstrapStorage() {
+    await ensureDataDir();
+    initDatabase();
 
-        console.log("Estado salvo com sucesso em:", STATE_FILE);
-    } catch (error) {
-        console.error("ERRO FATAL AO SALVAR:", error);
-        throw error; // Lança para o handleApiState tratar
+    const current = getDbState();
+    if (current) return current;
+
+    const legacy = await readLegacySnapshot();
+    if (legacy) {
+        return saveDbState(legacy);
     }
+
+    return saveDbState(emptyState());
 }
 
 function contentType(filePath) {
@@ -160,9 +150,8 @@ async function sendFile(res, filePath) {
     }
 }
 
-// --- FUNÇÃO CORRIGIDA PARA MATAR A CACHE (SUPER IMPORTANTE) ---
 function sendJson(res, statusCode, payload) {
-    res.writeHead(statusCode, { 
+    res.writeHead(statusCode, {
         'Content-Type': 'application/json; charset=utf-8',
         'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
         'Pragma': 'no-cache',
@@ -173,7 +162,7 @@ function sendJson(res, statusCode, payload) {
 
 async function handleApiState(req, res) {
     if (req.method === 'GET') {
-        const state = await readState();
+        const state = getDbState() || emptyState();
         sendJson(res, 200, state);
         return;
     }
@@ -187,19 +176,10 @@ async function handleApiState(req, res) {
         req.on('end', async () => {
             try {
                 const parsed = JSON.parse(body || '{}');
-                const payload = {
-                    ...emptyState(),
-                    ...parsed,
-                    events: Array.isArray(parsed.events) ? parsed.events : [],
-                    shoppingItems: Array.isArray(parsed.shoppingItems) ? parsed.shoppingItems : [],
-                    tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
-                    notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
-                    updatedAt: Number.isFinite(parsed.updatedAt) ? parsed.updatedAt : Date.now()
-                };
-                await writeState(payload);
-                sendJson(res, 200, { ok: true });
+                const payload = saveDbState(parsed);
+                sendJson(res, 200, { ok: true, updatedAt: payload.updatedAt });
             } catch (error) {
-                console.error("Erro no processamento do POST:", error);
+                console.error('Erro no processamento do POST:', error);
                 sendJson(res, 400, { ok: false, error: 'Invalid state or write error' });
             }
         });
@@ -221,8 +201,6 @@ const server = http.createServer(async (req, res) => {
         }
 
         let filePath = path.join(PUBLIC_DIR, pathname === '/' ? 'index.html' : pathname);
-        
-        // Proteção básica contra Directory Traversal
         if (!filePath.startsWith(PUBLIC_DIR)) {
             res.writeHead(403, { 'Content-Type': 'text/plain; charset=utf-8' });
             res.end('Forbidden');
@@ -239,13 +217,20 @@ const server = http.createServer(async (req, res) => {
             await sendFile(res, path.join(PUBLIC_DIR, 'index.html'));
         }
     } catch (error) {
-        console.error("Erro no servidor:", error);
+        console.error('Erro no servidor:', error);
         res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
         res.end('Internal server error');
     }
 });
 
-server.listen(PORT, '0.0.0.0', () => {
-    console.log(`Agenda Familiar ativa na porta ${PORT}`);
-    console.log(`Diretório de dados: ${DATA_DIR}`);
-});
+bootstrapStorage()
+    .then(() => {
+        server.listen(PORT, '0.0.0.0', () => {
+            console.log(`Agenda Familiar ativa na porta ${PORT}`);
+            console.log(`Base de dados: ${DB_FILE}`);
+        });
+    })
+    .catch(error => {
+        console.error('Falha ao inicializar armazenamento:', error);
+        process.exit(1);
+    });
