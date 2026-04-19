@@ -1,3 +1,58 @@
+// ==================== STATE MANAGEMENT ====================
+const State = {
+    currentPage: 'dashboard',
+    theme: 'midnight',
+    members: [
+        { id: 'gucci', name: 'Gucci', role: '🐕 Mascote', avatar: '🐕' },
+        { id: 'sofia', name: 'Sofia', role: '👩 Mãe', avatar: '👩' },
+        { id: 'andre', name: 'Andre', role: '👨 Pai', avatar: '👨' },
+        { id: 'nayara', name: 'Nayara', role: '👧 Filha', avatar: '👧' }
+    ],
+    events: [],
+    shoppingItems: [],
+    tasks: [],
+    notifications: [],
+    filters: {
+        member: 'all',
+        category: 'all'
+    },
+
+    async init() {
+        try {
+            const response = await fetch('/api/state', { cache: 'no-store' });
+            if (response.ok) {
+                const data = await response.json();
+                this.theme = data.theme || 'midnight';
+                this.events = data.events || [];
+                this.shoppingItems = data.shoppingItems || [];
+                this.tasks = data.tasks || [];
+                this.notifications = data.notifications || [];
+                console.log('Dados carregados com sucesso do Unraid');
+            }
+        } catch (error) {
+            console.error('Erro ao carregar estado:', error);
+        }
+    },
+
+    async saveData() { 
+        try {
+            await fetch('/api/state', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    theme: this.theme,
+                    events: this.events,
+                    shoppingItems: this.shoppingItems,
+                    tasks: this.tasks,
+                    notifications: this.notifications
+                })
+            });
+        } catch (error) {
+            console.error('Erro ao guardar estado:', error);
+        }
+    }
+};
+
 // ==================== RENDER PAGES ====================
 function renderPage() {
     const content = document.getElementById('contentArea');
@@ -35,13 +90,11 @@ function renderDashboard(container) {
     
     let html = `
     <div class="fade-in space-y-6">
-        <!-- Welcome -->
         <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
             <h2 class="text-2xl font-bold mb-1">${getGreeting()}</h2>
             <p class="text-indigo-100">${formatDate(today)} • ${todayEvents.length} eventos hoje</p>
         </div>
         
-        <!-- Quick Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <button type="button" onclick="navigateTo('calendar')" class="text-left bg-white dark:bg-gray-800 rounded-xl p-4 card-hover border border-gray-100 dark:border-gray-700 w-full">
                 <div class="flex items-center gap-3">
@@ -81,9 +134,7 @@ function renderDashboard(container) {
             </button>
         </div>
         
-        <!-- Main Grid -->
         <div class="grid lg:grid-cols-3 gap-6">
-            <!-- Today's Events -->
             <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4">
                 <div class="flex items-center justify-between mb-4">
                     <h3 class="font-bold text-lg">📅 Eventos de Hoje</h3>
@@ -105,7 +156,6 @@ function renderDashboard(container) {
                 ` : '<p class="text-gray-500 text-sm py-4">Sem eventos para hoje 🎉</p>'}
             </div>
             
-            <!-- Urgent Items -->
             <div class="h-full min-h-[420px] bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4">⚠️ Urgente</h3>
                 ${urgentShopping.length ? `
@@ -138,9 +188,7 @@ function renderDashboard(container) {
             </div>
         </div>
         
-        <!-- Upcoming Events & Pending Tasks -->
         <div class="grid lg:grid-cols-2 gap-6">
-            <!-- This Week -->
             <div class="h-full min-h-[420px] bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4">📆 Esta Semana</h3>
                 ${weekEvents.length ? `
@@ -164,7 +212,6 @@ function renderDashboard(container) {
                 ` : '<p class="text-gray-500 text-sm">Sem eventos esta semana</p>'}
             </div>
             
-            <!-- Member Overview -->
             <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4">
                 <h3 class="font-bold text-lg mb-4">👨‍👩‍👧‍🐕 Resumo por Membro</h3>
                 <div class="space-y-3">
@@ -186,7 +233,6 @@ function renderDashboard(container) {
             </div>
         </div>
     </div>`;
-    
     container.innerHTML = html;
 }
 
@@ -233,7 +279,6 @@ function renderGucci(container) {
     const gucciEvents = State.events.filter(e => e.category === 'gucci' || e.members.includes('gucci'));
     const gucciTasks = State.tasks.filter(t => t.category === 'gucci' || t.assignedTo === 'gucci');
     const gucciShopping = State.shoppingItems.filter(i => i.category === 'animais');
-    
     const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
     const upcomingVet = gucciEvents.filter(e => e.date >= todayISO() && (e.title.toLowerCase().includes('consulta') || e.title.toLowerCase().includes('vet'))).sort((a, b) => a.date.localeCompare(b.date));
     const upcomingVaccine = gucciEvents.filter(e => e.title.toLowerCase().includes('vacina') || e.title.toLowerCase().includes('desparasit')).sort((a, b) => a.date.localeCompare(b.date));
@@ -247,11 +292,8 @@ function renderGucci(container) {
     const lastBath = [...gucciBathEvents].filter(e => e.date <= todayISO()).sort((a, b) => b.date.localeCompare(a.date))[0];
     const gucciTosaEvents = gucciEvents.filter(e => e.title.toLowerCase().includes('tosa'));
     const lastTosa = [...gucciTosaEvents].filter(e => e.date <= todayISO()).sort((a, b) => b.date.localeCompare(a.date))[0];
-    
     let html = `
     <div class="fade-in">
-        <!-- Header -->
-        <!-- Quick Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/25 dark:via-orange-900/25 dark:to-yellow-900/25 rounded-xl p-4 card-hover border border-amber-100 dark:border-amber-800 shadow-lg shadow-amber-500/10">
                 <div class="flex items-start justify-between gap-3 mb-2">
@@ -274,7 +316,6 @@ function renderGucci(container) {
         </div>
         
         <div class="grid lg:grid-cols-2 gap-6">
-            <!-- Veterinary & Health -->
             <div class="h-full min-h-[420px] bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 rounded-xl border border-amber-100 dark:border-amber-800 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🏥 Veterinário</h3>
                 <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl border border-amber-100 dark:border-amber-800">
@@ -338,7 +379,6 @@ function renderGucci(container) {
                 </div>
             </div>
 
-            <!-- Vaccines -->
             <div class="h-full min-h-[420px] bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/20 dark:via-pink-900/20 dark:to-fuchsia-900/20 rounded-xl border border-rose-100 dark:border-rose-800 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4 flex items-center gap-2">💉 Vacinas</h3>
                 <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl border border-rose-100 dark:border-rose-800">
@@ -403,7 +443,6 @@ function renderGucci(container) {
             </div>
             
             <div class="lg:col-span-2 grid lg:grid-cols-2 gap-6">
-                <!-- Hygiene -->
                 <div class="h-full min-h-[420px] bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-sky-900/20 dark:via-cyan-900/20 dark:to-blue-900/20 rounded-xl border border-sky-100 dark:border-sky-800 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🛁 Banho</h3>
                 <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl border border-blue-100 dark:border-blue-800">
@@ -444,7 +483,6 @@ function renderGucci(container) {
                 </div>
             </div>
 
-            <!-- Grooming -->
             <div class="h-full min-h-[420px] bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-900/20 dark:via-violet-900/20 dark:to-fuchsia-900/20 rounded-xl border border-purple-100 dark:border-purple-800 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4 flex items-center gap-2">✂️ Tosa</h3>
                 <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl border border-purple-100 dark:border-purple-800">
@@ -489,11 +527,12 @@ function renderGucci(container) {
         </div>
         
     </div>`;
-    
     container.innerHTML = html;
 }
 
-function registerGucciBath() {
+// ==================== FUNÇÕES DE REGISTO CORRIGIDAS (ASYNC/AWAIT) ====================
+
+async function registerGucciBath() {
     const bathDate = document.getElementById('gucciBathDate')?.value || todayISO();
     const bathNote = document.getElementById('gucciBathNote')?.value.trim() || '';
 
@@ -510,16 +549,16 @@ function registerGucciBath() {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Banho registado!');
     renderPage();
 }
 
-function registerGucciConsult() {
+async function registerGucciConsult() {
     const consultDate = document.getElementById('gucciConsultDate')?.value || todayISO();
     const consultTime = document.getElementById('gucciConsultTime')?.value || '';
     const consultNote = document.getElementById('gucciConsultNote')?.value.trim() || '';
-
+    
     State.events.push({
         id: Date.now(),
         title: 'Consulta da Gucci',
@@ -533,16 +572,16 @@ function registerGucciConsult() {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Consulta registada!');
     renderPage();
 }
 
-function registerGucciVaccine() {
+async function registerGucciVaccine() {
     const vaccineDate = document.getElementById('gucciVaccineDate')?.value || todayISO();
     const vaccineTime = document.getElementById('gucciVaccineTime')?.value || '';
     const vaccineNote = document.getElementById('gucciVaccineNote')?.value.trim() || '';
-
+    
     State.events.push({
         id: Date.now(),
         title: 'Vacina da Gucci',
@@ -556,12 +595,12 @@ function registerGucciVaccine() {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Vacina registada!');
     renderPage();
 }
 
-function registerGucciTosa() {
+async function registerGucciTosa() {
     const tosaDate = document.getElementById('gucciTosaDate')?.value || todayISO();
     const tosaNote = document.getElementById('gucciTosaNote')?.value.trim() || '';
 
@@ -578,12 +617,12 @@ function registerGucciTosa() {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Tosa registada!');
     renderPage();
 }
 
-function registerSofiaConsult() {
+async function registerSofiaConsult() {
     const consultDate = document.getElementById('sofiaConsultDate')?.value || todayISO();
     const consultTime = document.getElementById('sofiaConsultTime')?.value || '';
     const consultNote = document.getElementById('sofiaConsultNote')?.value.trim() || '';
@@ -601,12 +640,12 @@ function registerSofiaConsult() {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Consulta registada!');
     renderPage();
 }
 
-function registerSofiaVaccine() {
+async function registerSofiaVaccine() {
     const vaccineDate = document.getElementById('sofiaVaccineDate')?.value || todayISO();
     const vaccineTime = document.getElementById('sofiaVaccineTime')?.value || '';
     const vaccineNote = document.getElementById('sofiaVaccineNote')?.value.trim() || '';
@@ -624,12 +663,12 @@ function registerSofiaVaccine() {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Vacina registada!');
     renderPage();
 }
 
-function registerPersonalConsult(memberId, displayName) {
+async function registerPersonalConsult(memberId, displayName) {
     const consultDate = document.getElementById(`${memberId}ConsultDate`)?.value || todayISO();
     const consultTime = document.getElementById(`${memberId}ConsultTime`)?.value || '';
     const consultNote = document.getElementById(`${memberId}ConsultNote`)?.value.trim() || '';
@@ -647,12 +686,12 @@ function registerPersonalConsult(memberId, displayName) {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Consulta registada!');
     renderPage();
 }
 
-function registerPersonalVaccine(memberId, displayName) {
+async function registerPersonalVaccine(memberId, displayName) {
     const vaccineDate = document.getElementById(`${memberId}VaccineDate`)?.value || todayISO();
     const vaccineTime = document.getElementById(`${memberId}VaccineTime`)?.value || '';
     const vaccineNote = document.getElementById(`${memberId}VaccineNote`)?.value.trim() || '';
@@ -670,95 +709,73 @@ function registerPersonalVaccine(memberId, displayName) {
         reminder: false
     });
 
-    State.saveData();
+    await State.saveData();
     showToast('Vacina registada!');
     renderPage();
 }
 
-function registerAndreConsult() {
-    registerPersonalConsult('andre', 'André');
-}
+function registerAndreConsult() { registerPersonalConsult('andre', 'André'); }
+function registerAndreVaccine() { registerPersonalVaccine('andre', 'André'); }
+function registerNayaraConsult() { registerPersonalConsult('nayara', 'Nayara'); }
+function registerNayaraVaccine() { registerPersonalVaccine('nayara', 'Nayara'); }
 
-function registerAndreVaccine() {
-    registerPersonalVaccine('andre', 'André');
-}
-
-function registerNayaraConsult() {
-    registerPersonalConsult('nayara', 'Nayara');
-}
-
-function registerNayaraVaccine() {
-    registerPersonalVaccine('nayara', 'Nayara');
-}
+// ==================== RENDERS PESSOAIS (SOFIA, ANDRE, NAYARA) ====================
 
 function renderPersonalArea(container, config) {
     const { memberId, title, accentName, accentClass, accentSoftClass, consultPrefix, vaccinePrefix, emptyConsultText, emptyVaccineText } = config;
     const showBabyExtras = config.showBabyExtras ?? (memberId === 'sofia');
     const member = getMember(memberId);
     const displayTitle = title || (member ? member.name : 'Área Pessoal');
+    
     const familyEvents = State.events.filter(e => {
         const text = (e.title || '').toLowerCase();
         return e.members.includes(memberId) ||
-            e.category === 'saude' ||
-            e.category === 'family' ||
-            text.includes('pediatra') ||
-            text.includes('vacina') ||
-            text.includes('consulta') ||
-            text.includes('banho') ||
-            text.includes('sesta') ||
-            text.includes('alimentação') ||
-            text.includes('alimentacao');
+            e.category === 'saude' || e.category === 'family' ||
+            text.includes('pediatra') || text.includes('vacina') ||
+            text.includes('consulta') || text.includes('banho') ||
+            text.includes('sesta') || text.includes('alimentação') || text.includes('alimentacao');
     });
+    
     const familyTasks = State.tasks.filter(t => {
         const text = (t.title || '').toLowerCase();
         return t.assignedTo === memberId ||
-            t.category === 'baby' ||
-            t.category === 'saude' ||
-            t.category === 'family' ||
-            text.includes('fralda') ||
-            text.includes('leite') ||
-            text.includes('papinha') ||
-            text.includes('pediatra') ||
-            text.includes('sesta');
+            t.category === 'baby' || t.category === 'saude' || t.category === 'family' ||
+            text.includes('fralda') || text.includes('leite') ||
+            text.includes('papinha') || text.includes('pediatra') || text.includes('sesta');
     });
+    
     const familyShopping = State.shoppingItems.filter(i => {
         const text = `${i.name || ''} ${i.notes || ''}`.toLowerCase();
-        return i.category === 'bebé' ||
-            i.category === 'baby' ||
-            i.category === 'family' ||
-            text.includes(memberId) ||
-            text.includes('fralda') ||
-            text.includes('leite') ||
-            text.includes('toalhitas') ||
-            text.includes('pomada') ||
-            text.includes('biberão') ||
-            text.includes('biberao') ||
-            text.includes('chupeta');
+        return i.category === 'bebé' || i.category === 'baby' || i.category === 'family' ||
+            text.includes(memberId) || text.includes('fralda') || text.includes('leite') ||
+            text.includes('toalhitas') || text.includes('pomada') ||
+            text.includes('biberão') || text.includes('biberao') || text.includes('chupeta');
     });
-
+    
     const upcomingCare = familyEvents.filter(e => e.date >= todayISO() && (
-        e.title.toLowerCase().includes('pediatra') ||
-        e.title.toLowerCase().includes('consulta') ||
-        e.title.toLowerCase().includes('vacina') ||
-        e.title.toLowerCase().includes('leite') ||
+        e.title.toLowerCase().includes('pediatra') || e.title.toLowerCase().includes('consulta') ||
+        e.title.toLowerCase().includes('vacina') || e.title.toLowerCase().includes('leite') ||
         e.title.toLowerCase().includes('banho')
     )).sort((a, b) => a.date.localeCompare(b.date));
+    
     const upcomingActivities = familyEvents.filter(e => e.date >= todayISO() && (
-        e.title.toLowerCase().includes('sesta') ||
-        e.title.toLowerCase().includes('soninho') ||
-        e.title.toLowerCase().includes('brincar') ||
-        e.title.toLowerCase().includes('passeio') ||
+        e.title.toLowerCase().includes('sesta') || e.title.toLowerCase().includes('soninho') ||
+        e.title.toLowerCase().includes('brincar') || e.title.toLowerCase().includes('passeio') ||
         e.title.toLowerCase().includes('colo')
     )).sort((a, b) => a.date.localeCompare(b.date));
+    
     const pendingTasks = familyTasks.filter(t => !t.completed).sort((a, b) => (a.dueDate || '').localeCompare(b.dueDate || ''));
     const pendingSupplies = familyShopping.filter(i => !i.bought);
+    
     const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
     const consultEvents = familyEvents.filter(e => e.title.toLowerCase().includes('consulta') || e.title.toLowerCase().includes('pediatra'));
     const lastConsult = [...consultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextConsult = [...consultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+    
     const vaccineEvents = familyEvents.filter(e => e.title.toLowerCase().includes('vacina'));
     const lastVaccine = [...vaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...vaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+    
     let html = `
     <div class="fade-in">
         <div class="grid grid-cols-2 lg:grid-cols-${showBabyExtras ? '4' : '2'} gap-4 mb-6">
@@ -922,7 +939,6 @@ function renderPersonalArea(container, config) {
             </div>
         </div>
     </div>`;
-
     container.innerHTML = html;
 }
 
@@ -952,72 +968,56 @@ function renderNayara(container) {
     });
 }
 
-// ==================== SOFIA AREA ====================
 function renderSofia(container) {
     const sofiaEvents = State.events.filter(e => {
         const title = (e.title || '').toLowerCase();
         return e.members.includes('sofia') ||
-            e.category === 'saude' ||
-            e.category === 'family' ||
-            title.includes('pediatra') ||
-            title.includes('vacina') ||
-            title.includes('consulta') ||
-            title.includes('banho') ||
-            title.includes('sesta') ||
-            title.includes('alimentação') ||
-            title.includes('alimentacao');
+            e.category === 'saude' || e.category === 'family' ||
+            title.includes('pediatra') || title.includes('vacina') ||
+            title.includes('consulta') || title.includes('banho') ||
+            title.includes('sesta') || title.includes('alimentação') || title.includes('alimentacao');
     });
     const sofiaTasks = State.tasks.filter(t => {
         const title = (t.title || '').toLowerCase();
         return t.assignedTo === 'sofia' ||
-            t.category === 'baby' ||
-            t.category === 'saude' ||
-            title.includes('fralda') ||
-            title.includes('leite') ||
-            title.includes('papinha') ||
-            title.includes('pediatra') ||
-            title.includes('sesta');
+            t.category === 'baby' || t.category === 'saude' ||
+            title.includes('fralda') || title.includes('leite') ||
+            title.includes('papinha') || title.includes('pediatra') || title.includes('sesta');
     });
     const sofiaShopping = State.shoppingItems.filter(i => {
         const text = `${i.name || ''} ${i.notes || ''}`.toLowerCase();
-        return i.category === 'bebé' ||
-            i.category === 'baby' ||
-            text.includes('fralda') ||
-            text.includes('leite') ||
-            text.includes('toalhitas') ||
-            text.includes('pomada') ||
-            text.includes('biberão') ||
-            text.includes('biberao') ||
-            text.includes('chupeta');
+        return i.category === 'bebé' || i.category === 'baby' ||
+            text.includes('fralda') || text.includes('leite') ||
+            text.includes('toalhitas') || text.includes('pomada') ||
+            text.includes('biberão') || text.includes('biberao') || text.includes('chupeta');
     });
-
+    
     const upcomingSchool = sofiaEvents.filter(e => e.date >= todayISO() && (
-        e.title.toLowerCase().includes('pediatra') ||
-        e.title.toLowerCase().includes('consulta') ||
-        e.title.toLowerCase().includes('vacina') ||
-        e.title.toLowerCase().includes('leite') ||
+        e.title.toLowerCase().includes('pediatra') || e.title.toLowerCase().includes('consulta') ||
+        e.title.toLowerCase().includes('vacina') || e.title.toLowerCase().includes('leite') ||
         e.title.toLowerCase().includes('banho')
     )).sort((a, b) => a.date.localeCompare(b.date));
+    
     const upcomingActivities = sofiaEvents.filter(e => e.date >= todayISO() && (
-        e.title.toLowerCase().includes('sesta') ||
-        e.title.toLowerCase().includes('soninho') ||
-        e.title.toLowerCase().includes('brincar') ||
-        e.title.toLowerCase().includes('passeio') ||
+        e.title.toLowerCase().includes('sesta') || e.title.toLowerCase().includes('soninho') ||
+        e.title.toLowerCase().includes('brincar') || e.title.toLowerCase().includes('passeio') ||
         e.title.toLowerCase().includes('colo')
     )).sort((a, b) => a.date.localeCompare(b.date));
+    
     const studyTasks = sofiaTasks.filter(t => !t.completed).sort((a, b) => (a.dueDate || '').localeCompare(b.dueDate || ''));
     const pendingSupplies = sofiaShopping.filter(i => !i.bought);
+    
     const getSofiaEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
     const sofiaConsultEvents = sofiaEvents.filter(e => e.title.toLowerCase().includes('consulta') || e.title.toLowerCase().includes('pediatra'));
     const lastSofiaConsult = [...sofiaConsultEvents].filter(e => getSofiaEventMoment(e) <= new Date()).sort((a, b) => getSofiaEventMoment(b) - getSofiaEventMoment(a))[0];
     const nextSofiaConsult = [...sofiaConsultEvents].filter(e => getSofiaEventMoment(e) > new Date()).sort((a, b) => getSofiaEventMoment(a) - getSofiaEventMoment(b))[0];
+    
     const sofiaVaccineEvents = sofiaEvents.filter(e => e.title.toLowerCase().includes('vacina'));
     const lastSofiaVaccine = [...sofiaVaccineEvents].filter(e => getSofiaEventMoment(e) <= new Date()).sort((a, b) => getSofiaEventMoment(b) - getSofiaEventMoment(a))[0];
     const nextSofiaVaccine = [...sofiaVaccineEvents].filter(e => getSofiaEventMoment(e) > new Date()).sort((a, b) => getSofiaEventMoment(a) - getSofiaEventMoment(b))[0];
-
+    
     let html = `
     <div class="fade-in">
-        <!-- Quick Stats -->
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
             <div class="bg-white dark:bg-gray-800 rounded-xl p-4 card-hover border border-gray-100 dark:border-gray-700">
                 <div class="text-2xl mb-2">🍼</div>
@@ -1042,7 +1042,6 @@ function renderSofia(container) {
         </div>
         
         <div class="grid lg:grid-cols-2 gap-6">
-            <!-- Consultations -->
             <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 rounded-xl border border-amber-100 dark:border-amber-800 p-4">
                 <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🩺 Consultas</h3>
                 <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl border border-amber-100 dark:border-amber-800">
@@ -1106,7 +1105,6 @@ function renderSofia(container) {
                 </div>
             </div>
 
-            <!-- Vaccines -->
             <div class="bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/20 dark:via-pink-900/20 dark:to-fuchsia-900/20 rounded-xl border border-rose-100 dark:border-rose-800 p-4">
                 <h3 class="font-bold text-lg mb-4 flex items-center gap-2">💉 Vacinas</h3>
                 <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl border border-rose-100 dark:border-rose-800">
@@ -1172,22 +1170,7 @@ function renderSofia(container) {
 
         </div>
     </div>`;
-    
     container.innerHTML = html;
-}
-
-function renderSofia(container) {
-    renderPersonalArea(container, {
-        memberId: 'sofia',
-        title: 'Área da Sofia',
-        consultPrefix: 'Consulta',
-        vaccinePrefix: 'Vacina',
-        accentClass: 'bg-gradient-to-br from-fuchsia-50 via-pink-50 to-rose-50 dark:from-fuchsia-900/20 dark:via-pink-900/20 dark:to-rose-900/20 border-fuchsia-100 dark:border-fuchsia-800',
-        accentSoftClass: 'bg-gradient-to-br from-rose-50 via-fuchsia-50 to-pink-50 dark:from-rose-900/20 dark:via-fuchsia-900/20 dark:to-pink-900/20 border-rose-100 dark:border-rose-800',
-        emptyConsultText: 'Ainda não existe nenhuma consulta futura.',
-        emptyVaccineText: 'Ainda não existe nenhuma vacina futura.',
-        showBabyExtras: false
-    });
 }
 
 // ==================== PROFILES ====================
@@ -1196,7 +1179,6 @@ function renderProfiles(container) {
     <div class="fade-in">
         <h3 class="text-xl font-bold mb-6">👨‍👩‍👧‍🐕 Perfis da Família</h3>
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">`;
-    
     State.members.forEach(m => {
         const memberEvents = State.events.filter(e => e.members.includes(m.id));
         const memberTasks = State.tasks.filter(t => t.assignedTo === m.id);
@@ -1272,32 +1254,30 @@ function renderProfiles(container) {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', async () => {
     State.currentPage = 'dashboard';
-    applyTheme(State.theme);
-    navigateTo('dashboard');
-
-    State.init().then(() => {
-        applyTheme(State.theme);
-        renderPage();
-    }).catch((error) => {
-        console.error('Failed to initialize state', error);
-    });
     
-    // Close sidebar on mobile
+    await State.init();
+
+    if (typeof applyTheme === 'function') applyTheme(State.theme);
+    renderPage();
+    
     if (window.innerWidth < 1024) {
-        document.getElementById('sidebar').classList.add('collapsed');
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) sidebar.classList.add('collapsed');
     }
     
-    // Close sidebar on outside click (mobile)
     document.addEventListener('click', (e) => {
         const sidebar = document.getElementById('sidebar');
         const themePanel = document.getElementById('themePanel');
         if (themePanel && !themePanel.contains(e.target) && !e.target.closest('#themeButton')) {
-            closeThemeMenu();
+            if (typeof closeThemeMenu === 'function') closeThemeMenu();
         }
-        if (window.innerWidth < 1024 && !sidebar.classList.contains('collapsed') && !sidebar.contains(e.target) && !e.target.closest('button[onclick="toggleSidebar()"]')) {
+        if (sidebar && window.innerWidth < 1024 && !sidebar.classList.contains('collapsed') && !sidebar.contains(e.target) && !e.target.closest('button[onclick="toggleSidebar()"]')) {
             sidebar.classList.add('collapsed');
         }
     });
 });
+
+// Nota: Certifica-te de manter todas as tuas funções auxiliares abaixo desta linha
+// como getMemberBg(), todayISO(), isThisWeek(), etc.
