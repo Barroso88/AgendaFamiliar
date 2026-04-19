@@ -88,6 +88,7 @@ E no template do contentor:
 - `Modo de Acesso`: `Leitura/Escrita`
 
 Nesta estrutura, o conteúdo completo do projecto fica visível no Unraid e os dados persistem na pasta `data/`.
+O servidor também guarda cópias automáticas em `data/backups/` para ajudar na recuperação se o ficheiro principal falhar.
 
 ## GitHub Pages
 
@@ -128,5 +129,5 @@ Nota: o ficheiro `CNAME` só deve ser criado quando o domínio final estiver def
 
 ## Dados
 
-Em Docker no Unraid, os dados ficam guardados em `/app/data/store.json`.
+Em Docker no Unraid, os dados ficam guardados em `/app/data/store.json` e têm backups automáticos em `/app/data/backups/`.
 Se abrires a app como ficheiro local ou via GitHub Pages, a persistência cai de volta para `localStorage` no navegador.

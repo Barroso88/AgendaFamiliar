@@ -7,6 +7,7 @@ const PORT = Number(process.env.PORT || 3035);
 // No Docker, DATA_DIR será /app/data
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
 const STATE_FILE = path.join(DATA_DIR, 'store.json');
+const BACKUP_DIR = path.join(DATA_DIR, 'backups');
 const PUBLIC_DIR = __dirname;
 
 const MIME_TYPES = {
@@ -28,7 +29,8 @@ function emptyState() {
         events: [],
         shoppingItems: [],
         tasks: [],
-        notifications: []
+        notifications: [],
+        updatedAt: 0
     };
 }
 
@@ -38,6 +40,41 @@ async function ensureDataDir() {
     } catch (err) {
         if (err.code !== 'EEXIST') throw err;
     }
+}
+
+async function ensureBackupDir() {
+    try {
+        await fs.mkdir(BACKUP_DIR, { recursive: true });
+    } catch (err) {
+        if (err.code !== 'EEXIST') throw err;
+    }
+}
+
+async function readLatestBackup() {
+    try {
+        await ensureBackupDir();
+        const entries = await fs.readdir(BACKUP_DIR, { withFileTypes: true });
+        const backupFiles = entries
+            .filter(entry => entry.isFile() && entry.name.endsWith('.json'))
+            .map(entry => entry.name)
+            .sort()
+            .reverse();
+
+        for (const fileName of backupFiles) {
+            try {
+                const content = await fs.readFile(path.join(BACKUP_DIR, fileName), 'utf8');
+                const parsed = JSON.parse(content);
+                if (parsed && typeof parsed === 'object') {
+                    return parsed;
+                }
+            } catch {
+                // continua para o próximo backup
+            }
+        }
+    } catch (error) {
+        console.error('Erro ao ler backups:', error.message);
+    }
+    return null;
 }
 
 async function readState() {
@@ -50,11 +87,23 @@ async function readState() {
             events: Array.isArray(parsed.events) ? parsed.events : [],
             shoppingItems: Array.isArray(parsed.shoppingItems) ? parsed.shoppingItems : [],
             tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
-            notifications: Array.isArray(parsed.notifications) ? parsed.notifications : []
+            notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
+            updatedAt: Number.isFinite(parsed.updatedAt) ? parsed.updatedAt : 0
         };
     } catch (error) {
-        // Se o arquivo não existir ou estiver corrompido, retorna o estado vazio
-        console.error("Erro ao ler estado, retornando vazio:", error.message);
+        console.error("Erro ao ler estado principal, tentando backup:", error.message);
+        const backup = await readLatestBackup();
+        if (backup) {
+            return {
+                ...emptyState(),
+                ...backup,
+                events: Array.isArray(backup.events) ? backup.events : [],
+                shoppingItems: Array.isArray(backup.shoppingItems) ? backup.shoppingItems : [],
+                tasks: Array.isArray(backup.tasks) ? backup.tasks : [],
+                notifications: Array.isArray(backup.notifications) ? backup.notifications : [],
+                updatedAt: Number.isFinite(backup.updatedAt) ? backup.updatedAt : 0
+            };
+        }
         return emptyState();
     }
 }
@@ -66,11 +115,29 @@ async function readState() {
 async function writeState(payload) {
     try {
         await ensureDataDir();
+        await ensureBackupDir();
         const data = JSON.stringify(payload, null, 2);
         
         // Escrevemos diretamente no ficheiro final. 
         // Em volumes Docker/Network shares, o rename entre .tmp e o original costuma falhar.
         await fs.writeFile(STATE_FILE, data, 'utf8');
+        const backupFile = path.join(BACKUP_DIR, `store-${Date.now()}.json`);
+        await fs.writeFile(backupFile, data, 'utf8');
+
+        try {
+            const entries = await fs.readdir(BACKUP_DIR, { withFileTypes: true });
+            const backupFiles = entries
+                .filter(entry => entry.isFile() && entry.name.endsWith('.json'))
+                .map(entry => entry.name)
+                .sort()
+                .reverse();
+            for (const oldFile of backupFiles.slice(10)) {
+                await fs.unlink(path.join(BACKUP_DIR, oldFile)).catch(() => {});
+            }
+        } catch (cleanupError) {
+            console.warn('Não foi possível limpar backups antigos:', cleanupError.message);
+        }
+
         console.log("Estado salvo com sucesso em:", STATE_FILE);
     } catch (error) {
         console.error("ERRO FATAL AO SALVAR:", error);
@@ -126,7 +193,8 @@ async function handleApiState(req, res) {
                     events: Array.isArray(parsed.events) ? parsed.events : [],
                     shoppingItems: Array.isArray(parsed.shoppingItems) ? parsed.shoppingItems : [],
                     tasks: Array.isArray(parsed.tasks) ? parsed.tasks : [],
-                    notifications: Array.isArray(parsed.notifications) ? parsed.notifications : []
+                    notifications: Array.isArray(parsed.notifications) ? parsed.notifications : [],
+                    updatedAt: Number.isFinite(parsed.updatedAt) ? parsed.updatedAt : Date.now()
                 };
                 await writeState(payload);
                 sendJson(res, 200, { ok: true });
