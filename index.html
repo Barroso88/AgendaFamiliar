@@ -154,7 +154,63 @@
 
         <!-- Content Area -->
         <div id="contentArea" class="flex-1 overflow-y-auto p-4 lg:p-6">
-            <!-- Pages will be rendered here -->
+            <div class="fade-in space-y-6">
+                <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
+                    <h2 class="text-2xl font-bold mb-1">Página Inicial</h2>
+                    <p class="text-indigo-100">A carregar agenda...</p>
+                </div>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 w-full">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-600">📅</div>
+                            <div>
+                                <p class="text-2xl font-bold">0</p>
+                                <p class="text-xs text-gray-500">Eventos Hoje</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 w-full">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-amber-100 dark:bg-amber-900/30 rounded-lg flex items-center justify-center text-amber-600">🛒</div>
+                            <div>
+                                <p class="text-2xl font-bold">0</p>
+                                <p class="text-xs text-gray-500">Itens por Comprar</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 w-full">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600">✅</div>
+                            <div>
+                                <p class="text-2xl font-bold">0</p>
+                                <p class="text-xs text-gray-500">Tarefas Pendentes</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border border-gray-100 dark:border-gray-700 w-full">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-red-100 dark:bg-red-900/30 rounded-lg flex items-center justify-center text-red-600">⚠️</div>
+                            <div>
+                                <p class="text-2xl font-bold">0</p>
+                                <p class="text-xs text-gray-500">Alertas Urgentes</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 min-h-[220px]">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="font-bold text-lg">📅 Eventos de Hoje</h3>
+                            <span class="text-sm text-indigo-600 dark:text-indigo-400">Ver calendário</span>
+                        </div>
+                        <p class="text-gray-500 text-sm py-4">Sem eventos para hoje 🎉</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 min-h-[220px]">
+                        <h3 class="font-bold text-lg mb-4">⚠️ Urgente</h3>
+                        <p class="text-gray-500 text-sm">Tudo em dia! ✅</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 </div>
