@@ -69,10 +69,10 @@ http://localhost:8000
 
 Se quiseres correr isto em Docker no Unraid com a estrutura igual à do outro projecto:
 
-1. monta a pasta de dados em `/app/data`;
+1. monta a pasta completa do projecto em `/app`;
 2. usa a imagem `ghcr.io/barroso88/agendafamiliar:latest`;
 3. expõe a porta `3035`;
-4. os dados ficam em `store.json` dentro dessa pasta.
+4. os dados ficam em `data/store.json` dentro dessa mesma pasta.
 
 Exemplo de caminho no Unraid:
 
@@ -82,12 +82,12 @@ Exemplo de caminho no Unraid:
 
 E no template do contentor:
 
-- `Nome`: `AppData`
-- `Caminho do Contentor`: `/app/data`
-- `Caminho do Host`: `/mnt/user/appdata/AgendaFamiliar/data`
+- `Nome`: `App`
+- `Caminho do Contentor`: `/app`
+- `Caminho do Host`: `/mnt/user/appdata/AgendaFamiliar`
 - `Modo de Acesso`: `Leitura/Escrita`
 
-Nesta estrutura, o código fica dentro da imagem Docker e só os dados são persistidos no teu storage do Unraid.
+Nesta estrutura, o conteúdo completo do projecto fica visível no Unraid e os dados persistem na pasta `data/`.
 
 ## GitHub Pages
 
