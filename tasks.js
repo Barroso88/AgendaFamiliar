@@ -42,7 +42,6 @@ function renderTasks(container) {
             </button>
         </div>
         
-        <!-- Filter by member -->
         <div class="flex justify-center mb-6">
             <div class="flex flex-wrap items-center justify-center gap-3 max-w-4xl">
             <button onclick="setTaskFilter('all', this)" class="task-filter-3d px-5 py-3 text-base font-semibold rounded-2xl whitespace-nowrap min-w-[7rem] ${State.filters.task === 'all' ? 'task-filter-3d-active' : ''}">Todos</button>
@@ -188,7 +187,9 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
     openModal(content);
 }
 
-function saveTask(e, taskId) {
+// ==================== FUNÇÕES CORRIGIDAS (ASYNC/AWAIT) ====================
+
+async function saveTask(e, taskId) {
     e.preventDefault();
     const taskData = {
         id: taskId || Date.now(),
@@ -209,22 +210,22 @@ function saveTask(e, taskId) {
         showToast('Tarefa criada!');
     }
     
-    State.saveData();
+    await State.saveData(); // <-- AWAIT ADICIONADO
     closeModal();
     renderPage();
 }
 
-function toggleTask(id) {
+async function toggleTask(id) {
     const task = State.tasks.find(t => t.id === id);
     task.completed = !task.completed;
-    State.saveData();
+    await State.saveData(); // <-- AWAIT ADICIONADO
     renderPage();
     if (task.completed) showToast(`"${task.title}" concluída! 🎉`);
 }
 
-function deleteTask(id) {
+async function deleteTask(id) {
     State.tasks = State.tasks.filter(t => t.id !== id);
-    State.saveData();
+    await State.saveData(); // <-- AWAIT ADICIONADO
     showToast('Tarefa removida', 'warning');
     renderPage();
 }
