@@ -201,11 +201,6 @@ const State = {
     notifications: [],
     
     async init() {
-        if (!isRemoteApiAvailable()) {
-            this.applyStatePayload(getDefaultLocalState());
-            this.updateBadges();
-            return;
-        }
         await this.loadData();
         this.updateBadges();
     },
@@ -266,22 +261,38 @@ const State = {
 
     async saveData() {
         const payload = this.snapshot();
+        const serialized = JSON.stringify(payload);
         try {
             if (isRemoteApiAvailable()) {
-                const response = await fetch(REMOTE_STATE_ENDPOINT, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) {
-                    throw new Error(`Remote save failed with status ${response.status}`);
+                let sent = false;
+                if (navigator.sendBeacon) {
+                    try {
+                        sent = navigator.sendBeacon(
+                            REMOTE_STATE_ENDPOINT,
+                            new Blob([serialized], { type: 'application/json' })
+                        );
+                    } catch (beaconError) {
+                        sent = false;
+                    }
+                }
+
+                if (!sent) {
+                    const response = await fetch(REMOTE_STATE_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: serialized,
+                        keepalive: true
+                    });
+                    if (!response.ok) {
+                        throw new Error(`Remote save failed with status ${response.status}`);
+                    }
                 }
             } else {
-                safeLocalStorageSet(STORAGE_KEYS.state, JSON.stringify(payload));
+                safeLocalStorageSet(STORAGE_KEYS.state, serialized);
             }
         } catch (e) {
             console.error('Error saving data', e);
-            safeLocalStorageSet(STORAGE_KEYS.state, JSON.stringify(payload));
+            safeLocalStorageSet(STORAGE_KEYS.state, serialized);
             if (isRemoteApiAvailable()) {
                 showToast('Não foi possível guardar no Unraid', 'warning');
             }
