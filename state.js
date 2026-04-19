@@ -268,16 +268,23 @@ const State = {
         const payload = this.snapshot();
         try {
             if (isRemoteApiAvailable()) {
-                await fetch(REMOTE_STATE_ENDPOINT, {
+                const response = await fetch(REMOTE_STATE_ENDPOINT, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(payload)
                 });
+                if (!response.ok) {
+                    throw new Error(`Remote save failed with status ${response.status}`);
+                }
             } else {
                 safeLocalStorageSet(STORAGE_KEYS.state, JSON.stringify(payload));
             }
         } catch (e) {
+            console.error('Error saving data', e);
             safeLocalStorageSet(STORAGE_KEYS.state, JSON.stringify(payload));
+            if (isRemoteApiAvailable()) {
+                showToast('Não foi possível guardar no Unraid', 'warning');
+            }
         }
         this.updateBadges();
     },
