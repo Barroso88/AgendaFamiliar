@@ -410,7 +410,7 @@ function applyTheme(themeId = State.theme, persist = true) {
     root.style.setProperty('--theme-font-family', theme.fontFamily || '"Inter", system-ui, sans-serif', 'important');
 
     if (persist) {
-        this.saveData();
+        State.saveData(); // <--- O ERRO ESTAVA AQUI, AGORA ESTÁ CORRIGIDO!
     }
 
     updateThemeUI();
