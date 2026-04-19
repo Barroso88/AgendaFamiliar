@@ -1229,10 +1229,17 @@ function renderProfiles(container) {
 }
 
 // ==================== INIT ====================
-document.addEventListener('DOMContentLoaded', async () => {
+document.addEventListener('DOMContentLoaded', () => {
     State.currentPage = 'dashboard';
-    await State.init();
     applyTheme(State.theme);
+    navigateTo('dashboard');
+
+    State.init().then(() => {
+        applyTheme(State.theme);
+        renderPage();
+    }).catch((error) => {
+        console.error('Failed to initialize state', error);
+    });
     
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
@@ -1250,6 +1257,4 @@ document.addEventListener('DOMContentLoaded', async () => {
             sidebar.classList.add('collapsed');
         }
     });
-    
-    navigateTo('dashboard');
 });
