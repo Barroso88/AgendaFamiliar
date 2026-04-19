@@ -20,8 +20,9 @@ function renderTasks(container) {
         </div>
         
         <!-- Filter by member -->
-        <div class="flex items-center gap-2 mb-4 overflow-x-auto pb-2">
-            <button onclick="State.filters.task='all'; renderTasks(document.getElementById('contentArea'))" class="px-3 py-1.5 text-sm rounded-lg whitespace-nowrap ${State.filters.task === 'all' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-700'}">Todos</button>
+        <div class="flex justify-center mb-6">
+            <div class="flex flex-wrap items-center justify-center gap-3 max-w-4xl">
+            <button onclick="State.filters.task='all'; renderTasks(document.getElementById('contentArea'))" class="px-5 py-3 text-base font-semibold rounded-2xl whitespace-nowrap min-w-[6.5rem] shadow-sm transition-all ${State.filters.task === 'all' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 ring-2 ring-indigo-300/70 dark:ring-indigo-600/50' : 'bg-gray-100 dark:bg-gray-700 hover:shadow-md'}">Todos</button>
             ${State.members.map(m => {
                 const sidebarIcons = {
                     andre: '👨',
@@ -31,8 +32,9 @@ function renderTasks(container) {
                 };
                 const iconClass = m.id === 'gucci' ? 'icon-white' : '';
                 const icon = sidebarIcons[m.id] || m.icon || m.avatar;
-                return `<button onclick="State.filters.task='${m.id}'; renderTasks(document.getElementById('contentArea'))" class="px-3 py-1.5 text-sm rounded-lg whitespace-nowrap ${State.filters.task === m.id ? getMemberBg(m.id) + ' ' + getMemberText(m.id) : 'bg-gray-100 dark:bg-gray-700'}"><span class="${iconClass}">${icon}</span> ${m.name}</button>`;
+                return `<button onclick="State.filters.task='${m.id}'; renderTasks(document.getElementById('contentArea'))" class="px-5 py-3 text-base font-semibold rounded-2xl whitespace-nowrap min-w-[7rem] shadow-sm transition-all ${State.filters.task === m.id ? getMemberBg(m.id) + ' ' + getMemberText(m.id) + ' ring-2 ring-white/50 dark:ring-white/15' : 'bg-gray-100 dark:bg-gray-700 hover:shadow-md'}"><span class="${iconClass} text-lg">${icon}</span> ${m.name}</button>`;
             }).join('')}
+            </div>
         </div>`;
     
     // Pending tasks
