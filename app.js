@@ -1,58 +1,3 @@
-// ==================== STATE MANAGEMENT ====================
-const State = {
-    currentPage: 'dashboard',
-    theme: 'midnight',
-    members: [
-        { id: 'gucci', name: 'Gucci', role: '🐕 Mascote', avatar: '🐕' },
-        { id: 'sofia', name: 'Sofia', role: '👩 Mãe', avatar: '👩' },
-        { id: 'andre', name: 'Andre', role: '👨 Pai', avatar: '👨' },
-        { id: 'nayara', name: 'Nayara', role: '👧 Filha', avatar: '👧' }
-    ],
-    events: [],
-    shoppingItems: [],
-    tasks: [],
-    notifications: [],
-    filters: {
-        member: 'all',
-        category: 'all'
-    },
-
-    async init() {
-        try {
-            const response = await fetch('/api/state', { cache: 'no-store' });
-            if (response.ok) {
-                const data = await response.json();
-                this.theme = data.theme || 'midnight';
-                this.events = data.events || [];
-                this.shoppingItems = data.shoppingItems || [];
-                this.tasks = data.tasks || [];
-                this.notifications = data.notifications || [];
-                console.log('Dados carregados com sucesso do Unraid');
-            }
-        } catch (error) {
-            console.error('Erro ao carregar estado:', error);
-        }
-    },
-
-    async saveData() { 
-        try {
-            await fetch('/api/state', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    theme: this.theme,
-                    events: this.events,
-                    shoppingItems: this.shoppingItems,
-                    tasks: this.tasks,
-                    notifications: this.notifications
-                })
-            });
-        } catch (error) {
-            console.error('Erro ao guardar estado:', error);
-        }
-    }
-};
-
 // ==================== RENDER PAGES ====================
 function renderPage() {
     const content = document.getElementById('contentArea');
@@ -1278,6 +1223,3 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
-
-// Nota: Certifica-te de manter todas as tuas funções auxiliares abaixo desta linha
-// como getMemberBg(), todayISO(), isThisWeek(), etc.
