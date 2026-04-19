@@ -67,12 +67,12 @@ http://localhost:8000
 
 ## Unraid
 
-Se quiseres correr isto em Docker no Unraid com a pasta inteira do projecto montada:
+Se quiseres correr isto em Docker no Unraid com a estrutura igual à do outro projecto:
 
-1. monta a share do projecto em `/app`;
+1. monta a pasta de dados em `/app/data`;
 2. usa a imagem `ghcr.io/barroso88/agendafamiliar:latest`;
 3. expõe a porta `3035`;
-4. os dados ficam em `data/store.json` dentro dessa mesma pasta montada.
+4. os dados ficam em `store.json` dentro dessa pasta.
 
 Exemplo de caminho no Unraid:
 
@@ -80,7 +80,14 @@ Exemplo de caminho no Unraid:
 /mnt/user/appdata/AgendaFamiliar
 ```
 
-Dentro dessa pasta vais ver os ficheiros da app e a subpasta `data/` com o `store.json`.
+E no template do contentor:
+
+- `Nome`: `AppData`
+- `Caminho do Contentor`: `/app/data`
+- `Caminho do Host`: `/mnt/user/appdata/AgendaFamiliar/data`
+- `Modo de Acesso`: `Leitura/Escrita`
+
+Nesta estrutura, o código fica dentro da imagem Docker e só os dados são persistidos no teu storage do Unraid.
 
 ## GitHub Pages
 
@@ -121,5 +128,5 @@ Nota: o ficheiro `CNAME` só deve ser criado quando o domínio final estiver def
 
 ## Dados
 
-Em Docker no Unraid, os dados ficam guardados em `data/store.json` dentro da pasta do projecto montada no container.
+Em Docker no Unraid, os dados ficam guardados em `/app/data/store.json`.
 Se abrires a app como ficheiro local ou via GitHub Pages, a persistência cai de volta para `localStorage` no navegador.
