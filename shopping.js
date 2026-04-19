@@ -23,7 +23,6 @@ function renderShopping(container) {
             </button>
         </div>
         
-        <!-- Quick Add -->
         <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
             <div class="flex items-center justify-between gap-3 mb-2">
                 <div>
@@ -32,14 +31,13 @@ function renderShopping(container) {
                 </div>
                 <span class="text-xs px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Sem categorias</span>
             </div>
-            <textarea id="shoppingQuickAdd" rows="4" placeholder="Leite, pão, fraldas&#10;Detergente&#10;Iogurtes" spellcheck="true" lang="pt-PT" autocapitalize="sentences" autocorrect="on" class="shopping-quick-add w-full px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500 resize-none"></textarea>
+            <textarea id="shoppingQuickAdd" rows="4" placeholder="Leite, pão, fraldas\nDetergente\nIogurtes" spellcheck="true" lang="pt-PT" autocapitalize="sentences" autocorrect="on" class="shopping-quick-add w-full px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500 resize-none"></textarea>
             <div class="flex items-center justify-between gap-3 mt-3">
                 <p class="text-xs text-gray-500">Podes colar uma lista inteira de uma vez.</p>
                 <button onclick="saveQuickShoppingItems()" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors">Adicionar à Lista</button>
             </div>
         </div>
 
-        <!-- Progress Bar -->
         <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-6 border border-gray-100 dark:border-gray-700">
             <div class="flex items-center justify-between mb-2">
                 <span class="text-sm font-medium">Progresso</span>
@@ -54,7 +52,6 @@ function renderShopping(container) {
             </div>
         </div>
         
-        <!-- Filter by bought -->
         <div class="flex items-center gap-3 mb-4">
             <button onclick="State.filters.shopping='all'; renderShopping(document.getElementById('contentArea'))" class="px-3 py-1.5 text-sm rounded-lg ${State.filters.shopping === 'all' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-700'}">Todos</button>
             <button onclick="State.filters.shopping='pending'; renderShopping(document.getElementById('contentArea'))" class="px-3 py-1.5 text-sm rounded-lg ${State.filters.shopping === 'pending' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-700'}">Pendentes</button>
@@ -244,36 +241,6 @@ function normalizeShoppingItemName(name) {
     return lower.charAt(0).toLocaleUpperCase('pt-PT') + lower.slice(1);
 }
 
-function saveQuickShoppingItems() {
-    const input = document.getElementById('shoppingQuickAdd');
-    if (!input) return;
-
-    const lines = parseShoppingQuickText(input.value);
-
-    if (!lines.length) {
-        showToast('Escreve pelo menos um item', 'warning');
-        return;
-    }
-
-    lines.forEach(name => {
-        State.shoppingItems.push({
-            id: Date.now() + Math.random(),
-            name: normalizeShoppingItemName(name),
-            category: 'outros',
-            quantity: 1,
-            priority: 'baixa',
-            notes: '',
-            addedBy: 'andre',
-            bought: false
-        });
-    });
-
-    State.saveData();
-    input.value = '';
-    renderPage();
-    showToast(`${lines.length} ${lines.length === 1 ? 'item adicionado' : 'itens adicionados'}`);
-}
-
 function openShoppingModal(itemId = null) {
     const item = itemId ? State.shoppingItems.find(i => i.id === itemId) : null;
     const isEdit = !!item;
@@ -319,7 +286,39 @@ function openShoppingModal(itemId = null) {
     openModal(content);
 }
 
-function saveShoppingItem(e, itemId) {
+// ==================== FUNÇÕES CORRIGIDAS (ASYNC/AWAIT) ====================
+
+async function saveQuickShoppingItems() {
+    const input = document.getElementById('shoppingQuickAdd');
+    if (!input) return;
+
+    const lines = parseShoppingQuickText(input.value);
+
+    if (!lines.length) {
+        showToast('Escreve pelo menos um item', 'warning');
+        return;
+    }
+
+    lines.forEach(name => {
+        State.shoppingItems.push({
+            id: Date.now() + Math.random(),
+            name: normalizeShoppingItemName(name),
+            category: 'outros',
+            quantity: 1,
+            priority: 'baixa',
+            notes: '',
+            addedBy: 'andre',
+            bought: false
+        });
+    });
+
+    await State.saveData(); // <-- AWAIT ADICIONADO
+    input.value = '';
+    renderPage();
+    showToast(`${lines.length} ${lines.length === 1 ? 'item adicionado' : 'itens adicionados'}`);
+}
+
+async function saveShoppingItem(e, itemId) {
     e.preventDefault();
     const existingItem = itemId ? State.shoppingItems.find(i => i.id === itemId) : null;
     const itemData = {
@@ -342,32 +341,32 @@ function saveShoppingItem(e, itemId) {
         showToast('Item adicionado!');
     }
     
-    State.saveData();
+    await State.saveData(); // <-- AWAIT ADICIONADO
     closeModal();
     renderPage();
 }
 
-function toggleShoppingItem(id) {
+async function toggleShoppingItem(id) {
     const item = State.shoppingItems.find(i => i.id === id);
     item.bought = !item.bought;
-    State.saveData();
+    await State.saveData(); // <-- AWAIT ADICIONADO
     renderPage();
     if (item.bought) showToast(`"${item.name}" marcado como comprado!`);
 }
 
-function deleteShoppingItem(id) {
+async function deleteShoppingItem(id) {
     State.shoppingItems = State.shoppingItems.filter(i => i.id !== id);
-    State.saveData();
+    await State.saveData(); // <-- AWAIT ADICIONADO
     showToast('Item removido', 'warning');
     renderPage();
 }
 
-function clearBoughtItems() {
+async function clearBoughtItems() {
     const count = State.shoppingItems.filter(i => i.bought).length;
     if (count === 0) return;
     if (confirm(`Remover ${count} itens comprados?`)) {
         State.shoppingItems = State.shoppingItems.filter(i => !i.bought);
-        State.saveData();
+        await State.saveData(); // <-- AWAIT ADICIONADO
         showToast(`${count} itens removidos!`);
         renderPage();
     }
