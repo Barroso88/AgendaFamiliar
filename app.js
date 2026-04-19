@@ -1230,6 +1230,7 @@ function renderProfiles(container) {
 
 // ==================== INIT ====================
 document.addEventListener('DOMContentLoaded', async () => {
+    State.currentPage = 'dashboard';
     await State.init();
     applyTheme(State.theme);
     
