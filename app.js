@@ -753,14 +753,7 @@ function renderPersonalArea(container, config) {
     const member = getMember(memberId);
     const displayTitle = title || (member ? member.name : 'Área Pessoal');
     
-    const familyEvents = State.events.filter(e => {
-        const text = (e.title || '').toLowerCase();
-        return (Array.isArray(e.members) && e.members.includes(memberId)) ||
-            e.category === 'saude' || e.category === 'family' ||
-            text.includes('pediatra') || text.includes('vacina') ||
-            text.includes('consulta') || text.includes('banho') ||
-            text.includes('sesta') || text.includes('alimentação') || text.includes('alimentacao');
-    });
+    const familyEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes(memberId));
     
     const familyTasks = State.tasks.filter(t => {
         const text = (t.title || '').toLowerCase();
