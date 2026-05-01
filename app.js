@@ -329,7 +329,6 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-sky-100 dark:border-sky-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">Próximo Veterinário</p>
                             ${nextConsult ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar veterinário">✏️</button>
@@ -392,7 +391,6 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-fuchsia-100 dark:border-fuchsia-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-fuchsia-600 dark:text-fuchsia-300">Próxima Vacina</p>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
@@ -456,7 +454,6 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-cyan-100 dark:border-cyan-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-cyan-600 dark:text-cyan-300">Próximo Banho</p>
                             ${nextBath ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Editar banho">✏️</button>
@@ -519,7 +516,6 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-violet-100 dark:border-violet-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-300">Próxima Tosa</p>
                             ${nextTosa ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Editar tosa">✏️</button>
@@ -801,7 +797,6 @@ function renderPersonalArea(container, config) {
             <div class="bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50 dark:from-cyan-900/25 dark:via-sky-900/25 dark:to-blue-900/25 rounded-xl p-4 card-hover border border-cyan-100 dark:border-cyan-800 shadow-lg shadow-cyan-500/10">
                 <div class="flex items-start justify-between gap-3 mb-2">
                     <div class="text-2xl">🏥</div>
-                    <span class="text-[10px] font-semibold uppercase tracking-[0.18em] px-2 py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-cyan-700 dark:text-cyan-200 border border-cyan-100 dark:border-cyan-800">Próximo</span>
                 </div>
                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">${nextConsult ? nextConsult.title : 'Sem consulta futura'}</p>
                 <p class="text-xl font-bold text-cyan-700 dark:text-cyan-200 mt-1">${nextConsult ? `${new Date(nextConsult.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
@@ -810,7 +805,6 @@ function renderPersonalArea(container, config) {
             <div class="bg-gradient-to-br from-violet-50 via-fuchsia-50 to-purple-50 dark:from-violet-900/25 dark:via-fuchsia-900/25 dark:to-purple-900/25 rounded-xl p-4 card-hover border border-violet-100 dark:border-violet-800 shadow-lg shadow-violet-500/10">
                 <div class="flex items-start justify-between gap-3 mb-2">
                     <div class="text-2xl">💉</div>
-                    <span class="text-[10px] font-semibold uppercase tracking-[0.18em] px-2 py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-violet-700 dark:text-violet-200 border border-violet-100 dark:border-violet-800">Próxima</span>
                 </div>
                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">${nextVaccine ? nextVaccine.title : 'Sem vacina futura'}</p>
                 <p class="text-xl font-bold text-violet-700 dark:text-violet-200 mt-1">${nextVaccine ? `${new Date(nextVaccine.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
@@ -873,7 +867,6 @@ function renderPersonalArea(container, config) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-sky-100 dark:border-sky-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">Próxima ${consultPrefix}</p>
                             ${nextConsult ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
@@ -936,7 +929,6 @@ function renderPersonalArea(container, config) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-fuchsia-100 dark:border-fuchsia-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-fuchsia-600 dark:text-fuchsia-300">Próxima Vacina</p>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
