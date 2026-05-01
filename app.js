@@ -236,9 +236,11 @@ function renderGucci(container) {
     const lastVaccine = [...gucciVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...gucciVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     const gucciBathEvents = gucciEvents.filter(e => e.title.toLowerCase().includes('banho'));
-    const lastBath = [...gucciBathEvents].filter(e => e.date <= todayISO()).sort((a, b) => b.date.localeCompare(a.date))[0];
+    const lastBath = [...gucciBathEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextBath = [...gucciBathEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     const gucciTosaEvents = gucciEvents.filter(e => e.title.toLowerCase().includes('tosa'));
-    const lastTosa = [...gucciTosaEvents].filter(e => e.date <= todayISO()).sort((a, b) => b.date.localeCompare(a.date))[0];
+    const lastTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     let html = `
     <div class="fade-in">
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
@@ -259,6 +261,24 @@ function renderGucci(container) {
                 <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">${nextVaccine ? nextVaccine.title : 'Sem vacina futura'}</p>
                 <p class="text-xl font-bold text-rose-700 dark:text-rose-200 mt-1">${nextVaccine ? `${new Date(nextVaccine.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
                 <p class="text-sm font-medium text-rose-700/90 dark:text-rose-200/90">${nextVaccine ? `${nextVaccine.time || 'Sem hora'}` : 'Adiciona uma nova vacina'}</p>
+            </div>
+            <div class="bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-sky-900/25 dark:via-cyan-900/25 dark:to-blue-900/25 rounded-xl p-4 card-hover border border-sky-100 dark:border-sky-800 shadow-lg shadow-sky-500/10">
+                <div class="flex items-start justify-between gap-3 mb-2">
+                    <div class="text-2xl">🛁</div>
+                    <span class="text-[10px] font-semibold uppercase tracking-[0.18em] px-2 py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-sky-700 dark:text-sky-200 border border-sky-100 dark:border-sky-800">Próximo</span>
+                </div>
+                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">${nextBath ? nextBath.title : 'Sem banho futuro'}</p>
+                <p class="text-xl font-bold text-sky-700 dark:text-sky-200 mt-1">${nextBath ? `${new Date(nextBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
+                <p class="text-sm font-medium text-sky-700/90 dark:text-sky-200/90">${nextBath ? `${nextBath.time || 'Sem hora'}` : 'Adiciona um novo banho'}</p>
+            </div>
+            <div class="bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-900/25 dark:via-violet-900/25 dark:to-fuchsia-900/25 rounded-xl p-4 card-hover border border-purple-100 dark:border-purple-800 shadow-lg shadow-purple-500/10">
+                <div class="flex items-start justify-between gap-3 mb-2">
+                    <div class="text-2xl">✂️</div>
+                    <span class="text-[10px] font-semibold uppercase tracking-[0.18em] px-2 py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-purple-700 dark:text-purple-200 border border-purple-100 dark:border-purple-800">Próxima</span>
+                </div>
+                <p class="text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight">${nextTosa ? nextTosa.title : 'Sem tosa futura'}</p>
+                <p class="text-xl font-bold text-purple-700 dark:text-purple-200 mt-1">${nextTosa ? `${new Date(nextTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
+                <p class="text-sm font-medium text-purple-700/90 dark:text-purple-200/90">${nextTosa ? `${nextTosa.time || 'Sem hora'}` : 'Adiciona uma nova tosa'}</p>
             </div>
         </div>
         
@@ -396,37 +416,60 @@ function renderGucci(container) {
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <div>
                             <p class="text-sm font-semibold">Registar banho</p>
-                            <p class="text-xs text-gray-500">Adiciona um novo registo ao histórico</p>
+                            <p class="text-xs text-gray-500">Data e hora do próximo banho</p>
                         </div>
                         <span class="text-lg">🫧</span>
                     </div>
-                    <div class="mb-2">
-                        <input type="date" id="gucciBathDate" value="${todayISO()}" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-800 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <input type="date" id="gucciBathDate" value="${todayISO()}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-800 text-sm outline-none focus:ring-2 focus:ring-blue-500">
+                        <input type="time" id="gucciBathTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-800 text-sm outline-none focus:ring-2 focus:ring-blue-500">
                     </div>
                     <input type="text" id="gucciBathNote" placeholder="Notas do banho (opcional)" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-800 text-sm outline-none focus:ring-2 focus:ring-blue-500 mb-3">
                     <button type="button" onclick="registerGucciBath()" class="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all">
                         Registar banho
                     </button>
                 </div>
-                <div class="mt-3 p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-amber-100 dark:border-amber-800">
-                    <div class="flex items-center justify-between gap-2 mb-2">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Último Banho</p>
-                        ${lastBath ? `
-                            <div class="flex items-center gap-1">
-                                <button type="button" onclick="openEventModal(${lastBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Editar banho">✏️</button>
-                                <button type="button" onclick="deleteEvent(${lastBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Apagar banho">🗑️</button>
-                            </div>
-                        ` : ''}
-                    </div>
-                    ${lastBath ? `
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-lg">🛁</div>
-                            <div class="flex-1">
-                                <div class="font-medium text-sm">${lastBath.title}</div>
-                                <div class="text-xs text-gray-500">${new Date(lastBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastBath.description ? ' • ' + lastBath.description : ''}</div>
-                            </div>
+                <div class="grid gap-3">
+                    <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-blue-100 dark:border-blue-800">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">Último Banho</p>
+                            ${lastBath ? `
+                                <div class="flex items-center gap-1">
+                                    <button type="button" onclick="openEventModal(${lastBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Editar banho">✏️</button>
+                                    <button type="button" onclick="deleteEvent(${lastBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Apagar banho">🗑️</button>
+                                </div>
+                            ` : ''}
                         </div>
-                    ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de banho.</p>'}
+                        ${lastBath ? `
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-lg text-white shadow-lg shadow-blue-500/20">🛁</div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-sm">${lastBath.title}</div>
+                                    <div class="text-xs text-gray-500">${new Date(lastBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastBath.time ? ' • ' + lastBath.time : ''}${lastBath.description ? ' • ' + lastBath.description : ''}</div>
+                                </div>
+                            </div>
+                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de banho.</p>'}
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-cyan-100 dark:border-cyan-800">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-cyan-600 dark:text-cyan-300">Próximo Banho</p>
+                            ${nextBath ? `
+                                <div class="flex items-center gap-1">
+                                    <button type="button" onclick="openEventModal(${nextBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Editar banho">✏️</button>
+                                    <button type="button" onclick="deleteEvent(${nextBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Apagar banho">🗑️</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${nextBath ? `
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-sky-500 flex items-center justify-center text-lg text-white shadow-lg shadow-cyan-500/20">🛁</div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-sm">${nextBath.title}</div>
+                                    <div class="text-xs text-gray-500">${new Date(nextBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextBath.time ? ' • ' + nextBath.time : ''}${nextBath.description ? ' • ' + nextBath.description : ''}</div>
+                                </div>
+                            </div>
+                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhuma marcação futura.</p>'}
+                    </div>
                 </div>
             </div>
 
@@ -436,37 +479,60 @@ function renderGucci(container) {
                     <div class="flex items-center justify-between gap-3 mb-3">
                         <div>
                             <p class="text-sm font-semibold">Registar tosa</p>
-                            <p class="text-xs text-gray-500">Adiciona um novo registo ao histórico</p>
+                            <p class="text-xs text-gray-500">Data e hora da próxima tosa</p>
                         </div>
                         <span class="text-lg">✂️</span>
                     </div>
-                    <div class="mb-2">
-                        <input type="date" id="gucciTosaDate" value="${todayISO()}" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-800 text-sm outline-none focus:ring-2 focus:ring-indigo-500">
+                    <div class="grid grid-cols-2 gap-2 mb-2">
+                        <input type="date" id="gucciTosaDate" value="${todayISO()}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-800 text-sm outline-none focus:ring-2 focus:ring-indigo-500">
+                        <input type="time" id="gucciTosaTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-800 text-sm outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                     <input type="text" id="gucciTosaNote" placeholder="Notas da tosa (opcional)" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-800 text-sm outline-none focus:ring-2 focus:ring-indigo-500 mb-3">
                     <button type="button" onclick="registerGucciTosa()" class="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all">
                         Registar tosa
                     </button>
                 </div>
-                <div class="mt-3 p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-purple-100 dark:border-purple-800">
-                    <div class="flex items-center justify-between gap-2 mb-2">
-                        <p class="text-xs font-semibold uppercase tracking-wide text-gray-500">Última Tosa</p>
-                        ${lastTosa ? `
-                            <div class="flex items-center gap-1">
-                                <button type="button" onclick="openEventModal(${lastTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Editar tosa">✏️</button>
-                                <button type="button" onclick="deleteEvent(${lastTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Apagar tosa">🗑️</button>
-                            </div>
-                        ` : ''}
-                    </div>
-                    ${lastTosa ? `
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-xl bg-purple-100 dark:bg-purple-900/30 flex items-center justify-center text-lg">✂️</div>
-                            <div class="flex-1">
-                                <div class="font-medium text-sm">${lastTosa.title}</div>
-                                <div class="text-xs text-gray-500">${new Date(lastTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastTosa.description ? ' • ' + lastTosa.description : ''}</div>
-                            </div>
+                <div class="grid gap-3">
+                    <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-purple-100 dark:border-purple-800">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-300">Última Tosa</p>
+                            ${lastTosa ? `
+                                <div class="flex items-center gap-1">
+                                    <button type="button" onclick="openEventModal(${lastTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Editar tosa">✏️</button>
+                                    <button type="button" onclick="deleteEvent(${lastTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Apagar tosa">🗑️</button>
+                                </div>
+                            ` : ''}
                         </div>
-                    ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de tosa.</p>'}
+                        ${lastTosa ? `
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-lg text-white shadow-lg shadow-indigo-500/20">✂️</div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-sm">${lastTosa.title}</div>
+                                    <div class="text-xs text-gray-500">${new Date(lastTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastTosa.time ? ' • ' + lastTosa.time : ''}${lastTosa.description ? ' • ' + lastTosa.description : ''}</div>
+                                </div>
+                            </div>
+                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de tosa.</p>'}
+                    </div>
+                    <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-violet-100 dark:border-violet-800">
+                        <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-300">Próxima Tosa</p>
+                            ${nextTosa ? `
+                                <div class="flex items-center gap-1">
+                                    <button type="button" onclick="openEventModal(${nextTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Editar tosa">✏️</button>
+                                    <button type="button" onclick="deleteEvent(${nextTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Apagar tosa">🗑️</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        ${nextTosa ? `
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center text-lg text-white shadow-lg shadow-violet-500/20">✂️</div>
+                                <div class="flex-1">
+                                    <div class="font-medium text-sm">${nextTosa.title}</div>
+                                    <div class="text-xs text-gray-500">${new Date(nextTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextTosa.time ? ' • ' + nextTosa.time : ''}${nextTosa.description ? ' • ' + nextTosa.description : ''}</div>
+                                </div>
+                            </div>
+                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhuma marcação futura.</p>'}
+                    </div>
                 </div>
             </div>
             </div>
@@ -481,6 +547,7 @@ function renderGucci(container) {
 
 async function registerGucciBath() {
     const bathDate = document.getElementById('gucciBathDate')?.value || todayISO();
+    const bathTime = document.getElementById('gucciBathTime')?.value || '';
     const bathNote = document.getElementById('gucciBathNote')?.value.trim() || '';
 
     State.events.push({
@@ -488,7 +555,7 @@ async function registerGucciBath() {
         title: 'Banho da Gucci',
         description: bathNote ? bathNote : 'Registo de banho',
         date: bathDate,
-        time: '',
+        time: bathTime,
         endTime: '',
         location: '',
         category: 'gucci',
@@ -549,6 +616,7 @@ async function registerGucciVaccine() {
 
 async function registerGucciTosa() {
     const tosaDate = document.getElementById('gucciTosaDate')?.value || todayISO();
+    const tosaTime = document.getElementById('gucciTosaTime')?.value || '';
     const tosaNote = document.getElementById('gucciTosaNote')?.value.trim() || '';
 
     State.events.push({
