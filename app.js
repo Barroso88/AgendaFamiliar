@@ -33,6 +33,7 @@ function renderDashboard(container) {
     const pendingShopping = State.shoppingItems.filter(i => !i.bought);
     const urgentShopping = pendingShopping.filter(i => i.priority === 'alta');
     const pendingTasks = State.tasks.filter(t => !t.completed);
+    const pendingWorkItems = pendingTasks.length + scheduledEvents.length;
     const urgentTasks = pendingTasks.filter(t => { const d = new Date(t.dueDate); const now = new Date(); return d <= now; });
     
     let html = `
@@ -66,8 +67,9 @@ function renderDashboard(container) {
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-lg flex items-center justify-center text-green-600">✅</div>
                     <div>
-                        <p class="text-2xl font-bold">${pendingTasks.length}</p>
+                        <p class="text-2xl font-bold">${pendingWorkItems}</p>
                         <p class="text-xs text-gray-500">Tarefas Pendentes</p>
+                        <p class="text-[10px] text-gray-400">Tarefas + eventos</p>
                     </div>
                 </div>
             </button>
@@ -167,12 +169,13 @@ function renderDashboard(container) {
                     ${State.members.map(m => {
                         const memberEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes(m.id) && isThisWeek(e.date));
                         const memberTasks = State.tasks.filter(t => t.assignedTo === m.id && !t.completed);
+                        const memberScheduledEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes(m.id) && e.date >= today && e.category !== 'feriado');
                         return `
                         <div class="flex items-center gap-3 p-3 rounded-lg ${getMemberBg(m.id)}">
                             <div class="w-10 h-10 rounded-full ${getMemberColor(m.id)} flex items-center justify-center text-sm font-bold">${m.avatar}</div>
                             <div class="flex-1">
                                 <div class="font-medium">${m.name} <span class="text-xs text-gray-500">(${m.role})</span></div>
-                                <div class="text-xs text-gray-500">${memberEvents.length} eventos esta semana • ${memberTasks.length} tarefas pendentes</div>
+                                <div class="text-xs text-gray-500">${memberEvents.length} eventos esta semana • ${memberTasks.length + memberScheduledEvents.length} tarefas pendentes</div>
                             </div>
                             <button onclick="State.filters.member='${m.id}'; navigateTo('calendar')" class="text-xs px-2 py-1 rounded-lg bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600">Ver</button>
                         </div>

@@ -36,6 +36,7 @@ function renderTasks(container) {
         sofia: '🎀',
         gucci: '🐾'
     };
+    const totalPendingWork = pending.length + reminderEvents.length;
     
     let html = `
     <div class="fade-in">
@@ -44,7 +45,7 @@ function renderTasks(container) {
                 <div class="text-3xl">✅</div>
                 <div>
                     <h3 class="text-xl font-bold">Tarefas Familiares</h3>
-                    <p class="text-sm text-gray-500">${completed.length}/${State.tasks.length} concluídas</p>
+                    <p class="text-sm text-gray-500">${completed.length}/${State.tasks.length} concluídas • ${reminderEvents.length} eventos agendados</p>
                 </div>
             </div>
             <button onclick="openTaskModal()" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-1">
@@ -115,7 +116,7 @@ function renderTasks(container) {
     
     if (filteredPending.length) {
         html += `<div class="mb-6">
-            <h4 class="font-bold text-sm text-gray-500 mb-3">TAREFAS PENDENTES (${filteredPending.length})</h4>
+            <h4 class="font-bold text-sm text-gray-500 mb-3">TAREFAS PENDENTES (${totalPendingWork})</h4>
             <div class="space-y-2">
                 ${filteredPending.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)).map(t => {
                     const member = getMember(t.assignedTo);
