@@ -25,6 +25,17 @@ function setTaskFilter(filterId, button) {
 function renderTasks(container) {
     const pending = State.tasks.filter(t => !t.completed);
     const completed = State.tasks.filter(t => t.completed);
+    const reminderEvents = State.events
+        .filter(e => e.category !== 'feriado')
+        .filter(e => e.date >= todayISO())
+        .filter(e => !State.filters.task || State.filters.task === 'all' || (Array.isArray(e.members) && e.members.includes(State.filters.task)))
+        .sort((a, b) => `${a.date} ${a.time || '00:00'}`.localeCompare(`${b.date} ${b.time || '00:00'}`));
+    const reminderMemberIcons = {
+        andre: '👨',
+        nayara: '👩',
+        sofia: '🎀',
+        gucci: '🐾'
+    };
     
     let html = `
     <div class="fade-in">
@@ -58,6 +69,45 @@ function renderTasks(container) {
             }).join('')}
             </div>
         </div>`;
+
+    if (reminderEvents.length) {
+        html += `
+        <div class="mb-6">
+            <h4 class="font-bold text-sm text-gray-500 mb-3">EVENTOS AGENDADOS (${reminderEvents.length})</h4>
+            <div class="space-y-2">
+                ${reminderEvents.map(event => {
+                    const memberId = Array.isArray(event.members) && event.members[0] ? event.members[0] : (event.category === 'gucci' ? 'gucci' : 'andre');
+                    const member = getMember(memberId);
+                    const icon = reminderMemberIcons[memberId] || member?.avatar || '📌';
+                    return `
+                    <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 hover:shadow-md transition-shadow">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-xl ${getMemberBg(memberId)} flex items-center justify-center text-base shadow-sm">${icon}</div>
+                            <div class="flex-1 min-w-0">
+                                <div class="font-medium">${event.title || 'Evento'}</div>
+                                ${event.description ? `<div class="text-sm text-gray-500 mt-1">${event.description}</div>` : ''}
+                                <div class="flex items-center gap-3 mt-2 flex-wrap">
+                                    <div class="flex items-center gap-1">
+                                        <span class="text-xs text-gray-500">${member?.name || 'Família'}</span>
+                                    </div>
+                                    <span class="text-xs text-gray-400">📅 ${formatShortDate(event.date)}${event.time ? ` • ${event.time}` : ''}</span>
+                                    ${event.location ? `<span class="text-xs text-gray-400">📍 ${event.location}</span>` : ''}
+                                </div>
+                            </div>
+                            <div class="flex gap-1">
+                                <button onclick="openEventModal(${event.id})" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Editar evento">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                </button>
+                                <button onclick="deleteEvent(${event.id})" class="p-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30" title="Apagar evento">
+                                    <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>`;
+                }).join('')}
+            </div>
+        </div>`;
+    }
     
     // Pending tasks
     const filterFn = State.filters.task && State.filters.task !== 'all' ? t => t.assignedTo === State.filters.task : () => true;
