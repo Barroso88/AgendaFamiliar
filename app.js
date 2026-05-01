@@ -247,7 +247,6 @@ function renderGucci(container) {
             <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/25 dark:via-orange-900/25 dark:to-yellow-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-amber-100 dark:border-amber-800 shadow-lg shadow-amber-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">🏥</div>
-                    <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-amber-700 dark:text-amber-200 border border-amber-100 dark:border-amber-800 whitespace-nowrap">Próxima</span>
                 </div>
                 <div class="min-w-0">
                     <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextConsult ? nextConsult.title : 'Sem consulta futura'}</p>
@@ -258,7 +257,6 @@ function renderGucci(container) {
             <div class="bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/25 dark:via-pink-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-rose-100 dark:border-rose-800 shadow-lg shadow-rose-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">💉</div>
-                    <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-rose-700 dark:text-rose-200 border border-rose-100 dark:border-rose-800 whitespace-nowrap">Próxima</span>
                 </div>
                 <div class="min-w-0">
                     <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextVaccine ? nextVaccine.title : 'Sem vacina futura'}</p>
@@ -269,7 +267,6 @@ function renderGucci(container) {
             <div class="bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-sky-900/25 dark:via-cyan-900/25 dark:to-blue-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-sky-100 dark:border-sky-800 shadow-lg shadow-sky-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">🛁</div>
-                    <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-sky-700 dark:text-sky-200 border border-sky-100 dark:border-sky-800 whitespace-nowrap">Próximo</span>
                 </div>
                 <div class="min-w-0">
                     <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextBath ? nextBath.title : 'Sem banho futuro'}</p>
@@ -280,7 +277,6 @@ function renderGucci(container) {
             <div class="bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-900/25 dark:via-violet-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-purple-100 dark:border-purple-800 shadow-lg shadow-purple-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">✂️</div>
-                    <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-purple-700 dark:text-purple-200 border border-purple-100 dark:border-purple-800 whitespace-nowrap">Próxima</span>
                 </div>
                 <div class="min-w-0">
                     <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextTosa ? nextTosa.title : 'Sem tosa futura'}</p>
