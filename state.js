@@ -449,7 +449,7 @@ const State = {
 };
 
 // ==================== NAVIGATION ====================
-function navigateTo(page) {
+function navigateTo(page, updateHash = true) {
     State.currentPage = page;
     document.querySelectorAll('.nav-btn').forEach(btn => {
         btn.classList.toggle('bg-indigo-50', btn.dataset.page === page);
@@ -463,6 +463,10 @@ function navigateTo(page) {
     closeNotifications();
     renderPage();
     
+    if (updateHash && typeof history !== 'undefined' && window.location.hash !== `#${page}`) {
+        history.replaceState(null, '', `#${page}`);
+    }
+    
     // Close sidebar on mobile
     if (window.innerWidth < 1024) {
         document.getElementById('sidebar').classList.add('collapsed');
@@ -471,6 +475,35 @@ function navigateTo(page) {
 
 function toggleSidebar() {
     document.getElementById('sidebar').classList.toggle('collapsed');
+}
+
+let globalControlsBound = false;
+function bindGlobalControls() {
+    if (globalControlsBound || typeof document === 'undefined') return;
+    globalControlsBound = true;
+
+    document.addEventListener('click', (event) => {
+        const navBtn = event.target.closest?.('[data-page]');
+        if (navBtn && navBtn.dataset.page) {
+            event.preventDefault();
+            navigateTo(navBtn.dataset.page);
+            return;
+        }
+
+        const themeBtn = event.target.closest?.('#themeButton');
+        if (themeBtn) {
+            event.preventDefault();
+            toggleThemeMenu();
+            return;
+        }
+    });
+
+    window.addEventListener('hashchange', () => {
+        const hashPage = window.location.hash.replace('#', '');
+        if (hashPage && PAGE_TITLES[hashPage]) {
+            navigateTo(hashPage, false);
+        }
+    });
 }
 
 // ==================== THEME ====================

@@ -227,18 +227,19 @@ function renderGucci(container) {
     const gucciTasks = State.tasks.filter(t => t.category === 'gucci' || t.assignedTo === 'gucci');
     const gucciShopping = State.shoppingItems.filter(i => i.category === 'animais');
     const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
-    const upcomingVet = gucciEvents.filter(e => e.date >= todayISO() && (e.title.toLowerCase().includes('consulta') || e.title.toLowerCase().includes('vet'))).sort((a, b) => a.date.localeCompare(b.date));
-    const upcomingVaccine = gucciEvents.filter(e => e.title.toLowerCase().includes('vacina') || e.title.toLowerCase().includes('desparasit')).sort((a, b) => a.date.localeCompare(b.date));
-    const gucciConsultEvents = gucciEvents.filter(e => e.title.toLowerCase().includes('consulta') || e.title.toLowerCase().includes('vet'));
+    const eventText = (event) => (event.title || '').toLowerCase();
+    const upcomingVet = gucciEvents.filter(e => e.date >= todayISO() && (eventText(e).includes('consulta') || eventText(e).includes('vet'))).sort((a, b) => a.date.localeCompare(b.date));
+    const upcomingVaccine = gucciEvents.filter(e => eventText(e).includes('vacina') || eventText(e).includes('desparasit')).sort((a, b) => a.date.localeCompare(b.date));
+    const gucciConsultEvents = gucciEvents.filter(e => eventText(e).includes('consulta') || eventText(e).includes('vet'));
     const lastConsult = [...gucciConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextConsult = [...gucciConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
-    const gucciVaccineEvents = gucciEvents.filter(e => e.title.toLowerCase().includes('vacina') || e.title.toLowerCase().includes('desparasit'));
+    const gucciVaccineEvents = gucciEvents.filter(e => eventText(e).includes('vacina') || eventText(e).includes('desparasit'));
     const lastVaccine = [...gucciVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...gucciVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
-    const gucciBathEvents = gucciEvents.filter(e => e.title.toLowerCase().includes('banho'));
+    const gucciBathEvents = gucciEvents.filter(e => eventText(e).includes('banho'));
     const lastBath = [...gucciBathEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextBath = [...gucciBathEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
-    const gucciTosaEvents = gucciEvents.filter(e => e.title.toLowerCase().includes('tosa'));
+    const gucciTosaEvents = gucciEvents.filter(e => eventText(e).includes('tosa'));
     const lastTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     let html = `
@@ -769,27 +770,28 @@ function renderPersonalArea(container, config) {
             text.includes('biberão') || text.includes('biberao') || text.includes('chupeta');
     });
     
+    const textOfEvent = (event) => (event.title || '').toLowerCase();
     const upcomingCare = familyEvents.filter(e => e.date >= todayISO() && (
-        e.title.toLowerCase().includes('pediatra') || e.title.toLowerCase().includes('consulta') ||
-        e.title.toLowerCase().includes('vacina') || e.title.toLowerCase().includes('leite') ||
-        e.title.toLowerCase().includes('banho')
+        textOfEvent(e).includes('pediatra') || textOfEvent(e).includes('consulta') ||
+        textOfEvent(e).includes('vacina') || textOfEvent(e).includes('leite') ||
+        textOfEvent(e).includes('banho')
     )).sort((a, b) => a.date.localeCompare(b.date));
     
     const upcomingActivities = familyEvents.filter(e => e.date >= todayISO() && (
-        e.title.toLowerCase().includes('sesta') || e.title.toLowerCase().includes('soninho') ||
-        e.title.toLowerCase().includes('brincar') || e.title.toLowerCase().includes('passeio') ||
-        e.title.toLowerCase().includes('colo')
+        textOfEvent(e).includes('sesta') || textOfEvent(e).includes('soninho') ||
+        textOfEvent(e).includes('brincar') || textOfEvent(e).includes('passeio') ||
+        textOfEvent(e).includes('colo')
     )).sort((a, b) => a.date.localeCompare(b.date));
     
     const pendingTasks = familyTasks.filter(t => !t.completed).sort((a, b) => (a.dueDate || '').localeCompare(b.dueDate || ''));
     const pendingSupplies = familyShopping.filter(i => !i.bought);
     
     const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
-    const consultEvents = familyEvents.filter(e => e.title.toLowerCase().includes('consulta') || e.title.toLowerCase().includes('pediatra'));
+    const consultEvents = familyEvents.filter(e => textOfEvent(e).includes('consulta') || textOfEvent(e).includes('pediatra'));
     const lastConsult = [...consultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextConsult = [...consultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     
-    const vaccineEvents = familyEvents.filter(e => e.title.toLowerCase().includes('vacina'));
+    const vaccineEvents = familyEvents.filter(e => textOfEvent(e).includes('vacina'));
     const lastVaccine = [...vaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...vaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     
@@ -1081,6 +1083,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     await State.init();
 
+    if (typeof bindGlobalControls === 'function') bindGlobalControls();
+    const initialHashPage = window.location.hash.replace('#', '');
+    if (initialHashPage && PAGE_TITLES[initialHashPage]) {
+        State.currentPage = initialHashPage;
+    }
     if (typeof applyTheme === 'function') applyTheme(State.theme);
     renderPage();
     
