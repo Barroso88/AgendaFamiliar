@@ -244,41 +244,49 @@ function renderGucci(container) {
     let html = `
     <div class="fade-in">
         <div class="gucci-top-grid grid gap-2 md:gap-4 mb-6">
-            <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/25 dark:via-orange-900/25 dark:to-yellow-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-amber-100 dark:border-amber-800 shadow-lg shadow-amber-500/10 min-w-0">
+            <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/25 dark:via-orange-900/25 dark:to-yellow-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-amber-100 dark:border-amber-800 shadow-lg shadow-amber-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">🏥</div>
                     <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-amber-700 dark:text-amber-200 border border-amber-100 dark:border-amber-800 whitespace-nowrap">Próxima</span>
                 </div>
-                <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight line-clamp-2">${nextConsult ? nextConsult.title : 'Sem consulta futura'}</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextConsult ? nextConsult.title : 'Sem consulta futura'}</p>
+                </div>
                 <p class="text-sm md:text-xl font-bold text-amber-700 dark:text-amber-200 mt-0.5 md:mt-1">${nextConsult ? `${new Date(nextConsult.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-amber-700/90 dark:text-amber-200/90">${nextConsult ? `${nextConsult.time || 'Sem hora'}` : 'Adiciona uma nova consulta'}</p>
+                <p class="text-[10px] md:text-sm font-medium text-amber-700/90 dark:text-amber-200/90 break-words whitespace-normal">${nextConsult ? `${nextConsult.time || 'Sem hora'}` : 'Adiciona uma nova consulta'}</p>
             </div>
-            <div class="bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/25 dark:via-pink-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-rose-100 dark:border-rose-800 shadow-lg shadow-rose-500/10 min-w-0">
+            <div class="bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/25 dark:via-pink-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-rose-100 dark:border-rose-800 shadow-lg shadow-rose-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">💉</div>
                     <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-rose-700 dark:text-rose-200 border border-rose-100 dark:border-rose-800 whitespace-nowrap">Próxima</span>
                 </div>
-                <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight line-clamp-2">${nextVaccine ? nextVaccine.title : 'Sem vacina futura'}</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextVaccine ? nextVaccine.title : 'Sem vacina futura'}</p>
+                </div>
                 <p class="text-sm md:text-xl font-bold text-rose-700 dark:text-rose-200 mt-0.5 md:mt-1">${nextVaccine ? `${new Date(nextVaccine.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-rose-700/90 dark:text-rose-200/90">${nextVaccine ? `${nextVaccine.time || 'Sem hora'}` : 'Adiciona uma nova vacina'}</p>
+                <p class="text-[10px] md:text-sm font-medium text-rose-700/90 dark:text-rose-200/90 break-words whitespace-normal">${nextVaccine ? `${nextVaccine.time || 'Sem hora'}` : 'Adiciona uma nova vacina'}</p>
             </div>
-            <div class="bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-sky-900/25 dark:via-cyan-900/25 dark:to-blue-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-sky-100 dark:border-sky-800 shadow-lg shadow-sky-500/10 min-w-0">
+            <div class="bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-sky-900/25 dark:via-cyan-900/25 dark:to-blue-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-sky-100 dark:border-sky-800 shadow-lg shadow-sky-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">🛁</div>
                     <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-sky-700 dark:text-sky-200 border border-sky-100 dark:border-sky-800 whitespace-nowrap">Próximo</span>
                 </div>
-                <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight line-clamp-2">${nextBath ? nextBath.title : 'Sem banho futuro'}</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextBath ? nextBath.title : 'Sem banho futuro'}</p>
+                </div>
                 <p class="text-sm md:text-xl font-bold text-sky-700 dark:text-sky-200 mt-0.5 md:mt-1">${nextBath ? `${new Date(nextBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-sky-700/90 dark:text-sky-200/90">${nextBath ? `${nextBath.time || 'Sem hora'}` : 'Adiciona um novo banho'}</p>
+                <p class="text-[10px] md:text-sm font-medium text-sky-700/90 dark:text-sky-200/90 break-words whitespace-normal">${nextBath ? `${nextBath.time || 'Sem hora'}` : 'Adiciona um novo banho'}</p>
             </div>
-            <div class="bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-900/25 dark:via-violet-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-purple-100 dark:border-purple-800 shadow-lg shadow-purple-500/10 min-w-0">
+            <div class="bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-900/25 dark:via-violet-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-purple-100 dark:border-purple-800 shadow-lg shadow-purple-500/10 min-w-0 overflow-hidden">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">✂️</div>
                     <span class="text-[8px] md:text-[10px] font-semibold uppercase tracking-[0.12em] md:tracking-[0.18em] px-1.5 md:px-2 py-0.5 md:py-1 rounded-full bg-white/70 dark:bg-gray-900/40 text-purple-700 dark:text-purple-200 border border-purple-100 dark:border-purple-800 whitespace-nowrap">Próxima</span>
                 </div>
-                <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight line-clamp-2">${nextTosa ? nextTosa.title : 'Sem tosa futura'}</p>
+                <div class="min-w-0">
+                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextTosa ? nextTosa.title : 'Sem tosa futura'}</p>
+                </div>
                 <p class="text-sm md:text-xl font-bold text-purple-700 dark:text-purple-200 mt-0.5 md:mt-1">${nextTosa ? `${new Date(nextTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-purple-700/90 dark:text-purple-200/90">${nextTosa ? `${nextTosa.time || 'Sem hora'}` : 'Adiciona uma nova tosa'}</p>
+                <p class="text-[10px] md:text-sm font-medium text-purple-700/90 dark:text-purple-200/90 break-words whitespace-normal">${nextTosa ? `${nextTosa.time || 'Sem hora'}` : 'Adiciona uma nova tosa'}</p>
             </div>
         </div>
         
