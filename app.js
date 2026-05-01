@@ -28,6 +28,7 @@ function renderPage() {
 function renderDashboard(container) {
     const today = todayISO();
     const todayEvents = State.events.filter(e => e.date === today).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    const scheduledEvents = State.events.filter(e => e.category !== 'feriado' && e.date >= today).sort((a, b) => `${a.date} ${a.time || '00:00'}`.localeCompare(`${b.date} ${b.time || '00:00'}`));
     const weekEvents = State.events.filter(e => isThisWeek(e.date) && e.date !== today).sort((a, b) => a.date.localeCompare(b.date));
     const pendingShopping = State.shoppingItems.filter(i => !i.bought);
     const urgentShopping = pendingShopping.filter(i => i.priority === 'alta');
@@ -38,7 +39,7 @@ function renderDashboard(container) {
     <div class="fade-in space-y-6">
         <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
             <h2 class="text-2xl font-bold mb-1">${getGreeting()}</h2>
-            <p class="text-indigo-100">${formatDate(today)} • ${todayEvents.length} eventos hoje</p>
+            <p class="text-indigo-100">${formatDate(today)} • ${todayEvents.length} eventos hoje • ${scheduledEvents.length} agendados</p>
         </div>
         
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -46,8 +47,9 @@ function renderDashboard(container) {
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center text-blue-600">📅</div>
                     <div>
-                        <p class="text-2xl font-bold">${todayEvents.length}</p>
+                        <p class="text-2xl font-bold">${scheduledEvents.length}</p>
                         <p class="text-xs text-gray-500">Eventos Hoje</p>
+                        <p class="text-[10px] text-gray-400">Hoje + agendados</p>
                     </div>
                 </div>
             </button>
