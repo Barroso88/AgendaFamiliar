@@ -90,6 +90,9 @@
             border: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.5));
             padding: 0.5rem;
         }
+        .gucci-top-grid {
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
         body[data-theme] #contentArea button.text-white,
         body[data-theme] #contentArea button[class*="text-white"] {
             background: linear-gradient(135deg, var(--theme-accent, #0ea5e9), var(--theme-accent-2, #14b8a6)) !important;

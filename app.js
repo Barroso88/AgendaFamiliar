@@ -243,7 +243,7 @@ function renderGucci(container) {
     const nextTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     let html = `
     <div class="fade-in">
-        <div class="grid grid-cols-4 gap-2 md:gap-4 mb-6">
+        <div class="gucci-top-grid grid gap-2 md:gap-4 mb-6">
             <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/25 dark:via-orange-900/25 dark:to-yellow-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-amber-100 dark:border-amber-800 shadow-lg shadow-amber-500/10 min-w-0">
                 <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
                     <div class="text-lg md:text-2xl">🏥</div>
