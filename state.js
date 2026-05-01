@@ -478,6 +478,7 @@ function toggleSidebar() {
 }
 
 let globalControlsBound = false;
+let routeWatcherStarted = false;
 function bindGlobalControls() {
     if (globalControlsBound || typeof document === 'undefined') return;
     globalControlsBound = true;
@@ -504,6 +505,20 @@ function bindGlobalControls() {
             navigateTo(hashPage, false);
         }
     });
+}
+
+function startRouteWatcher() {
+    if (routeWatcherStarted || typeof window === 'undefined') return;
+    routeWatcherStarted = true;
+    let lastHash = window.location.hash;
+    window.setInterval(() => {
+        if (window.location.hash === lastHash) return;
+        lastHash = window.location.hash;
+        const hashPage = window.location.hash.replace('#', '');
+        if (hashPage && PAGE_TITLES[hashPage]) {
+            navigateTo(hashPage, false);
+        }
+    }, 150);
 }
 
 // ==================== THEME ====================

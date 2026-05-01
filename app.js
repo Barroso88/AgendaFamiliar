@@ -228,6 +228,7 @@ function renderGucci(container) {
     const gucciShopping = State.shoppingItems.filter(i => i.category === 'animais');
     const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
     const eventText = (event) => (event.title || '').toLowerCase();
+    const consultPrefix = 'Consulta';
     const upcomingVet = gucciEvents.filter(e => e.date >= todayISO() && (eventText(e).includes('consulta') || eventText(e).includes('vet'))).sort((a, b) => a.date.localeCompare(b.date));
     const upcomingVaccine = gucciEvents.filter(e => eventText(e).includes('vacina') || eventText(e).includes('desparasit')).sort((a, b) => a.date.localeCompare(b.date));
     const gucciConsultEvents = gucciEvents.filter(e => eventText(e).includes('consulta') || eventText(e).includes('vet'));
@@ -457,6 +458,7 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-cyan-100 dark:border-cyan-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-cyan-600 dark:text-cyan-300">Próximo Banho</p>
                             ${nextBath ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Editar banho">✏️</button>
@@ -519,6 +521,7 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-violet-100 dark:border-violet-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-300">Próxima Tosa</p>
                             ${nextTosa ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Editar tosa">✏️</button>
@@ -871,6 +874,7 @@ function renderPersonalArea(container, config) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-sky-100 dark:border-sky-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">Próxima ${consultPrefix}</p>
                             ${nextConsult ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
@@ -886,7 +890,7 @@ function renderPersonalArea(container, config) {
                                     <div class="text-xs text-gray-500">${new Date(nextConsult.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextConsult.time ? ' • ' + nextConsult.time : ''}${nextConsult.description ? ' • ' + nextConsult.description : ''}</div>
                                 </div>
                             </div>
-                        ` : `<p class="text-sm text-gray-500">${emptyConsultText || 'Ainda não existe nenhuma marcação futura.'}</p>`}
+                        ` : `<p class="text-sm text-gray-500">Ainda não existe nenhuma marcação futura.</p>`}
                     </div>
                 </div>
             </div>
@@ -933,6 +937,7 @@ function renderPersonalArea(container, config) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-fuchsia-100 dark:border-fuchsia-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-fuchsia-600 dark:text-fuchsia-300">Próxima ${vaccinePrefix}</p>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
@@ -948,7 +953,7 @@ function renderPersonalArea(container, config) {
                                     <div class="text-xs text-gray-500">${new Date(nextVaccine.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextVaccine.time ? ' • ' + nextVaccine.time : ''}${nextVaccine.description ? ' • ' + nextVaccine.description : ''}</div>
                                 </div>
                             </div>
-                        ` : `<p class="text-sm text-gray-500">${emptyVaccineText || 'Ainda não existe nenhuma vacina futura.'}</p>`}
+                        ` : `<p class="text-sm text-gray-500">Ainda não existe nenhuma vacina futura.</p>`}
                     </div>
                 </div>
             </div>
@@ -1084,12 +1089,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     await State.init();
 
     if (typeof bindGlobalControls === 'function') bindGlobalControls();
+    if (typeof startRouteWatcher === 'function') startRouteWatcher();
     const initialHashPage = window.location.hash.replace('#', '');
-    if (initialHashPage && PAGE_TITLES[initialHashPage]) {
-        State.currentPage = initialHashPage;
-    }
     if (typeof applyTheme === 'function') applyTheme(State.theme);
-    renderPage();
+    if (initialHashPage && PAGE_TITLES[initialHashPage]) {
+        navigateTo(initialHashPage, false);
+    } else {
+        navigateTo('dashboard', false);
+    }
     
     if (window.innerWidth < 1024) {
         const sidebar = document.getElementById('sidebar');

@@ -29,7 +29,7 @@
             }
         }
     </script>
-    <link rel="stylesheet" href="styles.css?v=1.24">
+    <link rel="stylesheet" href="styles.css?v=1.26">
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
 
@@ -46,45 +46,45 @@
         </div>
         
         <nav class="flex-1 p-4 space-y-2 overflow-y-auto">
-            <a href="#dashboard" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="dashboard">
+            <a href="#dashboard" onclick="navigateTo('dashboard'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="dashboard">
                 <svg class="w-5 h-5 text-sky-500 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l9-9 9 9m-2 0v9a2 2 0 01-2 2h-4a1 1 0 01-1-1v-4a2 2 0 00-2-2h0a2 2 0 00-2 2v4a1 1 0 01-1 1H7a2 2 0 01-2-2v-9"/></svg>
                 Página Inicial
             </a>
-            <a href="#calendar" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="calendar">
+            <a href="#calendar" onclick="navigateTo('calendar'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="calendar">
                 <svg class="w-5 h-5 text-indigo-500 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 Calendário
             </a>
-            <a href="#eventos" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="eventos">
+            <a href="#eventos" onclick="navigateTo('eventos'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="eventos">
                 <svg class="w-5 h-5 text-indigo-400 dark:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
                 Eventos
             </a>
-            <a href="#shopping" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="shopping">
+            <a href="#shopping" onclick="navigateTo('shopping'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="shopping">
                 <svg class="w-5 h-5 text-amber-500 dark:text-amber-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"/></svg>
                 Lista de Compras
                 <span id="shoppingBadge" class="ml-auto bg-amber-500 text-white text-xs px-2 py-0.5 rounded-full hidden">0</span>
             </a>
-            <a href="#tasks" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="tasks">
+            <a href="#tasks" onclick="navigateTo('tasks'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="tasks">
                 <svg class="w-5 h-5 text-emerald-500 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
                 Tarefas
                 <span id="tasksBadge" class="ml-auto bg-red-500 text-white text-xs px-2 py-0.5 rounded-full hidden">0</span>
             </a>
-            <a href="#gucci" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="gucci">
+            <a href="#gucci" onclick="navigateTo('gucci'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="gucci">
                 <span class="icon-white text-xl">🐾</span>
                 Área da Gucci
             </a>
-            <a href="#sofia" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="sofia">
+            <a href="#sofia" onclick="navigateTo('sofia'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="sofia">
                 <span class="text-xl">🎀</span>
                 Área da Sofia
             </a>
-            <a href="#andre" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="andre">
+            <a href="#andre" onclick="navigateTo('andre'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="andre">
                 <span class="text-xl">👨</span>
                 Área do André
             </a>
-            <a href="#nayara" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="nayara">
+            <a href="#nayara" onclick="navigateTo('nayara'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="nayara">
                 <span class="text-xl">👩</span>
                 Área da Nayara
             </a>
-            <a href="#profiles" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="profiles">
+            <a href="#profiles" onclick="navigateTo('profiles'); return false;" class="nav-btn w-full h-11 flex items-center gap-3 px-3 rounded-lg text-sm font-medium transition-colors hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 shrink-0" data-page="profiles">
                 <svg class="w-5 h-5 text-purple-500 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                 Perfis
             </a>
@@ -220,10 +220,10 @@
 
 <div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
 
-    <script src="state.js?v=1.24"></script>
-    <script src="calendar.js?v=1.24"></script>
-    <script src="shopping.js?v=1.24"></script>
-    <script src="tasks.js?v=1.24"></script>
-    <script src="app.js?v=1.24"></script>
+    <script src="state.js?v=1.26"></script>
+    <script src="calendar.js?v=1.26"></script>
+    <script src="shopping.js?v=1.26"></script>
+    <script src="tasks.js?v=1.26"></script>
+    <script src="app.js?v=1.26"></script>
 </body>
 </html>
