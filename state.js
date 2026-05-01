@@ -418,8 +418,11 @@ const State = {
         const tasksBadge = document.getElementById('tasksBadge');
         const notifBadge = document.getElementById('notifBadge');
         
+        const today = todayISO();
         const pendingShopping = this.shoppingItems.filter(i => !i.bought).length;
         const pendingTasks = this.tasks.filter(t => !t.completed).length;
+        const scheduledEvents = this.events.filter(e => e.category !== 'feriado' && e.date >= today).length;
+        const pendingWork = pendingTasks + scheduledEvents;
         
         if (shoppingBadge) {
             shoppingBadge.textContent = pendingShopping;
@@ -437,8 +440,8 @@ const State = {
                 : `Há ${pendingShopping} itens por comprar na lista.`;
         }
         if (tasksBadge) {
-            tasksBadge.textContent = pendingTasks;
-            tasksBadge.classList.toggle('hidden', pendingTasks === 0);
+            tasksBadge.textContent = pendingWork;
+            tasksBadge.classList.toggle('hidden', pendingWork === 0);
         }
         if (notifBadge) {
             const notifCount = this.notifications.length;
