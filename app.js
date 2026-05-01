@@ -163,7 +163,7 @@ function renderDashboard(container) {
                 <h3 class="font-bold text-lg mb-4">👨‍👩‍👧‍🐕 Resumo por Membro</h3>
                 <div class="space-y-3">
                     ${State.members.map(m => {
-                        const memberEvents = State.events.filter(e => e.members.includes(m.id) && isThisWeek(e.date));
+                        const memberEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes(m.id) && isThisWeek(e.date));
                         const memberTasks = State.tasks.filter(t => t.assignedTo === m.id && !t.completed);
                         return `
                         <div class="flex items-center gap-3 p-3 rounded-lg ${getMemberBg(m.id)}">
@@ -223,7 +223,7 @@ function renderDashboardFallback(container) {
 
 // ==================== GUCCI AREA ====================
 function renderGucci(container) {
-    const gucciEvents = State.events.filter(e => e.category === 'gucci' || e.members.includes('gucci'));
+    const gucciEvents = State.events.filter(e => e.category === 'gucci' || (Array.isArray(e.members) && e.members.includes('gucci')));
     const gucciTasks = State.tasks.filter(t => t.category === 'gucci' || t.assignedTo === 'gucci');
     const gucciShopping = State.shoppingItems.filter(i => i.category === 'animais');
     const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
@@ -329,6 +329,7 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-sky-100 dark:border-sky-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">Próxima ${consultPrefix}</p>
                             ${nextConsult ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar veterinário">✏️</button>
@@ -391,6 +392,7 @@ function renderGucci(container) {
                     </div>
                     <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25 border border-fuchsia-100 dark:border-fuchsia-800">
                         <div class="flex items-center justify-between gap-2 mb-2">
+                            <p class="text-xs font-semibold uppercase tracking-wide text-fuchsia-600 dark:text-fuchsia-300">Próxima Vacina</p>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
@@ -744,7 +746,7 @@ function renderPersonalArea(container, config) {
     
     const familyEvents = State.events.filter(e => {
         const text = (e.title || '').toLowerCase();
-        return e.members.includes(memberId) ||
+        return (Array.isArray(e.members) && e.members.includes(memberId)) ||
             e.category === 'saude' || e.category === 'family' ||
             text.includes('pediatra') || text.includes('vacina') ||
             text.includes('consulta') || text.includes('banho') ||
@@ -1000,7 +1002,7 @@ function renderProfiles(container) {
         <h3 class="text-xl font-bold mb-6">👨‍👩‍👧‍🐕 Perfis da Família</h3>
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">`;
     State.members.forEach(m => {
-        const memberEvents = State.events.filter(e => e.members.includes(m.id));
+        const memberEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes(m.id));
         const memberTasks = State.tasks.filter(t => t.assignedTo === m.id);
         const upcomingEvents = memberEvents.filter(e => e.date >= todayISO()).sort((a, b) => a.date.localeCompare(b.date)).slice(0, 3);
         const pendingTasks = memberTasks.filter(t => !t.completed);
