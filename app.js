@@ -11,7 +11,8 @@ function renderPage() {
         sofia: renderSofia,
         andre: renderAndre,
         nayara: renderNayara,
-        profiles: renderProfiles
+        profiles: renderProfiles,
+        eventos: renderEventsList
     };
     const renderer = renderers[State.currentPage] || renderDashboard;
     content.innerHTML = '';
@@ -87,16 +88,17 @@ function renderDashboard(container) {
                 </div>
                 ${todayEvents.length ? `
                     <div class="space-y-2">
-                        ${todayEvents.map(e => `
-                            <div class="flex items-center gap-3 p-3 rounded-lg ${getMemberBg(e.members[0], '50')} border border-gray-100 dark:border-gray-700">
-                                <div class="w-2 h-2 rounded-full ${getMemberColor(e.members[0]).split(' ')[0]}"></div>
+                        ${todayEvents.map(e => {
+                            return `
+                            <div class="flex items-center gap-3 p-3 rounded-xl transition-all hover:-translate-y-0.5 hover:shadow-lg" style="background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 16px rgba(34, 197, 94, 0.4) !important; color: #022c22 !important;">
                                 <div class="flex-1 min-w-0">
-                                    <div class="font-medium text-sm truncate">${e.title}</div>
-                                    <div class="text-xs text-gray-500">${e.time || ''} ${e.location ? '• ' + e.location : ''}</div>
+                                    <div class="font-extrabold text-sm truncate" style="color: #022c22 !important;">${e.title}</div>
+                                    ${(e.time || e.location) ? `<div class="text-xs mt-0.5 font-bold tracking-wide" style="color: rgba(2, 44, 34, 0.8) !important;">${e.time || ''} ${e.location ? '• ' + e.location : ''}</div>` : ''}
                                 </div>
-                                <span class="text-xs px-2 py-1 rounded-full ${getCategoryColor(e.category)}">${getCategoryName(e.category)}</span>
+                                <span class="text-[10px] px-2 py-1 rounded-full font-black uppercase tracking-wider" style="background-color: rgba(0,0,0,0.15) !important; color: #022c22 !important;">${getCategoryName(e.category)}</span>
                             </div>
-                        `).join('')}
+                            `;
+                        }).join('')}
                     </div>
                 ` : '<p class="text-gray-500 text-sm py-4">Sem eventos para hoje 🎉</p>'}
             </div>

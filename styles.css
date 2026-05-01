@@ -83,11 +83,12 @@
             background:
                 radial-gradient(circle at top right, color-mix(in srgb, var(--calendar-accent, #0ea5e9) 12%, transparent), transparent 24%),
                 radial-gradient(circle at bottom left, color-mix(in srgb, var(--calendar-accent-2, #14b8a6) 10%, transparent), transparent 26%),
-                linear-gradient(180deg, var(--calendar-surface-strong, rgba(255,255,255,0.98)), var(--calendar-surface, rgba(255,255,255,0.94)));
+                linear-gradient(180deg, var(--calendar-surface-strong, rgba(255,255,255,0.6)), var(--calendar-surface, rgba(255,255,255,0.4)));
             box-shadow:
-                0 24px 50px var(--calendar-shadow, rgba(15,23,42,0.10)),
-                inset 0 1px 0 rgba(255,255,255,0.65);
-            border: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.95));
+                0 24px 50px var(--calendar-shadow, rgba(15,23,42,0.05)),
+                inset 0 1px 0 rgba(255,255,255,0.4);
+            border: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.5));
+            padding: 0.5rem;
         }
         body[data-theme] #contentArea button.text-white,
         body[data-theme] #contentArea button[class*="text-white"] {
@@ -131,12 +132,11 @@
             border: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.95));
         }
         .calendar-weekday {
-            background:
-                linear-gradient(135deg, color-mix(in srgb, var(--calendar-accent, #0ea5e9) 10%, var(--calendar-surface-strong, #fff)), color-mix(in srgb, var(--calendar-accent-2, #14b8a6) 6%, var(--calendar-surface, #fff)));
-            border-bottom: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.95));
+            background: transparent;
+            border-bottom: 2px solid color-mix(in srgb, var(--calendar-accent, #0ea5e9) 40%, transparent);
             letter-spacing: 0.22em;
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.65);
             color: var(--calendar-accent, #0ea5e9);
+            margin-bottom: 0.5rem;
         }
         .calendar-weekday.weekend-sat,
         .calendar-week-header.weekend-sat,
@@ -144,7 +144,7 @@
         .calendar-day.weekend-sat,
         .calendar-mini-weekend-sat,
         .calendar-weekday-mini.weekend-sat {
-            color: #2563eb;
+            color: #d97706; /* Amber-600 */
         }
         .calendar-weekday.weekend-sun,
         .calendar-week-header.weekend-sun,
@@ -152,7 +152,7 @@
         .calendar-day.weekend-sun,
         .calendar-mini-weekend-sun,
         .calendar-weekday-mini.weekend-sun {
-            color: #db2777;
+            color: #e11d48; /* Rose-600 */
         }
         .calendar-weekday.weekend-sat,
         .calendar-week-header.weekend-sat,
@@ -160,9 +160,9 @@
         .calendar-day.weekend-sat,
         .calendar-mini-weekend-sat {
             background:
-                radial-gradient(circle at top right, rgba(37,99,235,0.18), transparent 36%),
-                linear-gradient(180deg, rgba(219,234,254,0.96), rgba(239,246,255,0.92));
-            border-color: rgba(147,197,253,0.95);
+                radial-gradient(circle at top right, rgba(217,119,6,0.35), transparent 45%),
+                linear-gradient(180deg, rgba(253,230,138,0.95), rgba(254,243,199,0.95));
+            border-color: rgba(252,211,77,1);
         }
         .calendar-weekday.weekend-sun,
         .calendar-week-header.weekend-sun,
@@ -170,9 +170,9 @@
         .calendar-day.weekend-sun,
         .calendar-mini-weekend-sun {
             background:
-                radial-gradient(circle at top right, rgba(219,39,119,0.16), transparent 36%),
-                linear-gradient(180deg, rgba(252,231,243,0.96), rgba(255,241,242,0.92));
-            border-color: rgba(251,182,206,0.95);
+                radial-gradient(circle at top right, rgba(225,29,72,0.35), transparent 45%),
+                linear-gradient(180deg, rgba(254,205,211,0.95), rgba(255,228,230,0.95));
+            border-color: rgba(253,164,175,1);
         }
         .dark .calendar-weekday.weekend-sat,
         .dark .calendar-week-header.weekend-sat,
@@ -180,9 +180,9 @@
         .dark .calendar-day.weekend-sat,
         .dark .calendar-mini-weekend-sat {
             background:
-                radial-gradient(circle at top right, rgba(59,130,246,0.22), transparent 36%),
-                linear-gradient(180deg, rgba(30,41,59,0.98), rgba(15,23,42,0.94));
-            border-color: rgba(96,165,250,0.45);
+                radial-gradient(circle at top right, rgba(245,158,11,0.45), transparent 45%),
+                linear-gradient(180deg, rgba(120,53,15,0.5), rgba(30,41,59,0.95));
+            border-color: rgba(245,158,11,0.6);
         }
         .dark .calendar-weekday.weekend-sun,
         .dark .calendar-week-header.weekend-sun,
@@ -190,9 +190,9 @@
         .dark .calendar-day.weekend-sun,
         .dark .calendar-mini-weekend-sun {
             background:
-                radial-gradient(circle at top right, rgba(236,72,153,0.20), transparent 36%),
-                linear-gradient(180deg, rgba(59,18,41,0.98), rgba(31,11,24,0.94));
-            border-color: rgba(244,114,182,0.42);
+                radial-gradient(circle at top right, rgba(244,63,94,0.45), transparent 45%),
+                linear-gradient(180deg, rgba(136,19,55,0.5), rgba(30,41,59,0.95));
+            border-color: rgba(244,63,94,0.6);
         }
         .calendar-week-header {
             background:
@@ -239,65 +239,68 @@
         }
         .calendar-day {
             min-height: 80px;
+            border-radius: 1rem;
             transition: background-color 0.2s, transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
             background:
                 radial-gradient(circle at top right, color-mix(in srgb, var(--calendar-accent, #0ea5e9) 8%, transparent), transparent 24%),
                 radial-gradient(circle at bottom left, color-mix(in srgb, var(--calendar-accent-2, #14b8a6) 6%, transparent), transparent 22%),
-                linear-gradient(180deg, var(--calendar-surface, rgba(255,255,255,0.94)), var(--calendar-surface-strong, rgba(255,255,255,0.98)));
-            border-right: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.95));
-            border-bottom: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.95));
+                linear-gradient(180deg, var(--calendar-surface, rgba(255,255,255,0.98)), var(--calendar-surface-strong, rgba(255,255,255,1)));
+            border: 1px solid var(--calendar-border, rgba(191, 219, 254, 0.6));
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
         }
         .calendar-day:hover {
-            transform: translateY(-2px) scale(1.01);
-            box-shadow: 0 16px 26px var(--calendar-shadow, rgba(15,23,42,0.10));
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-color: color-mix(in srgb, var(--calendar-accent, #0ea5e9) 50%, transparent);
+            z-index: 20;
         }
         .calendar-day.today {
             background:
-                radial-gradient(circle at top right, rgba(255, 87, 87, 0.56), transparent 40%),
-                radial-gradient(circle at bottom left, rgba(220, 38, 38, 0.22), transparent 36%),
-                linear-gradient(180deg, rgba(255, 228, 228, 0.98), rgba(255, 240, 240, 0.96));
-            border: 1px solid rgba(220, 38, 38, 0.75);
+                radial-gradient(circle at top right, rgba(59, 130, 246, 0.6), transparent 45%),
+                radial-gradient(circle at bottom left, rgba(37, 99, 235, 0.2), transparent 40%),
+                linear-gradient(180deg, rgba(219, 234, 254, 1), rgba(239, 246, 255, 1));
+            border: 1px solid rgba(37, 99, 235, 0.8);
             box-shadow:
-                0 0 0 1px rgba(239, 68, 68, 0.28),
-                0 0 18px rgba(239, 68, 68, 0.52),
-                0 0 38px rgba(220, 38, 38, 0.28),
+                0 0 0 1px rgba(59, 130, 246, 0.3),
+                0 0 18px rgba(59, 130, 246, 0.5),
+                0 0 38px rgba(37, 99, 235, 0.3),
                 inset 0 1px 0 rgba(255,255,255,0.9);
         }
         .dark .calendar-day.today {
             background:
-                radial-gradient(circle at top right, rgba(255, 87, 87, 0.50), transparent 40%),
-                radial-gradient(circle at bottom left, rgba(239, 68, 68, 0.20), transparent 36%),
-                linear-gradient(180deg, rgba(59, 18, 18, 0.98), rgba(32, 10, 10, 0.98));
-            border: 1px solid rgba(248, 113, 113, 0.72);
+                radial-gradient(circle at top right, rgba(96, 165, 250, 0.5), transparent 45%),
+                radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.2), transparent 40%),
+                linear-gradient(180deg, rgba(30, 58, 138, 1), rgba(23, 37, 84, 1));
+            border: 1px solid rgba(96, 165, 250, 0.75);
             box-shadow:
-                0 0 0 1px rgba(248, 113, 113, 0.26),
-                0 0 22px rgba(248, 113, 113, 0.44),
-                0 0 42px rgba(239, 68, 68, 0.24),
-                inset 0 1px 0 rgba(255,255,255,0.10);
+                0 0 0 1px rgba(96, 165, 250, 0.3),
+                0 0 22px rgba(59, 130, 246, 0.4),
+                0 0 42px rgba(37, 99, 235, 0.3),
+                inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .today-glow {
             box-shadow:
-                0 0 0 1px rgba(239, 68, 68, 0.30),
-                0 0 14px rgba(239, 68, 68, 0.52),
-                0 0 28px rgba(220, 38, 38, 0.24),
+                0 0 0 1px rgba(59, 130, 246, 0.3),
+                0 0 14px rgba(59, 130, 246, 0.5),
+                0 0 28px rgba(37, 99, 235, 0.3),
                 inset 0 1px 0 rgba(255,255,255,0.75);
         }
         .dark .today-glow {
             box-shadow:
-                0 0 0 1px rgba(248, 113, 113, 0.34),
-                0 0 18px rgba(248, 113, 113, 0.50),
-                0 0 34px rgba(239, 68, 68, 0.22),
-                inset 0 1px 0 rgba(255,255,255,0.10);
+                0 0 0 1px rgba(96, 165, 250, 0.3),
+                0 0 18px rgba(59, 130, 246, 0.4),
+                0 0 34px rgba(37, 99, 235, 0.2),
+                inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .calendar-mini-day { min-height: 2rem; }
         .calendar-mini-day.today {
             border-radius: 9999px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             color: white;
             box-shadow:
                 0 0 0 1px rgba(255,255,255,0.55),
-                0 0 16px rgba(239, 68, 68, 0.50),
-                0 0 30px rgba(220, 38, 38, 0.22),
+                0 0 16px rgba(59, 130, 246, 0.5),
+                0 0 30px rgba(37, 99, 235, 0.2),
                 inset 0 1px 0 rgba(255,255,255,0.35);
         }
         .calendar-mini-default {
@@ -309,10 +312,24 @@
         .dark .calendar-mini-default {
             color: #e2e8f0;
         }
+        .calendar-mini-holiday {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border: 1px solid #16a34a;
+            color: #022c22 !important;
+            box-shadow: 0 0 12px rgba(34, 197, 94, 0.4), inset 0 1px 0 rgba(255,255,255,0.4);
+            font-weight: 800;
+        }
+        .dark .calendar-mini-holiday {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            border: 1px solid #86efac;
+            color: #022c22 !important;
+            box-shadow: 0 0 16px rgba(74, 222, 128, 0.6), inset 0 1px 0 rgba(255,255,255,0.6);
+            font-weight: 800;
+        }
         .calendar-day-chip {
             background:
-                linear-gradient(135deg, #ef4444, #dc2626);
-            border: 1px solid rgba(248, 113, 113, 0.75);
+                linear-gradient(135deg, #3b82f6, #2563eb);
+            border: 1px solid rgba(96, 165, 250, 0.75);
             color: #fff;
         }
         .calendar-event-pill {

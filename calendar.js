@@ -6,30 +6,32 @@ function renderCalendar(container) {
     let html = `
     <div class="fade-in calendar-shell rounded-[32px] p-1" style="${calendarVars}">
         <div class="calendar-panel rounded-[28px] overflow-hidden">
-        <div class="flex flex-wrap items-center justify-between gap-4 px-4 lg:px-6 pt-5 pb-4">
-            <div class="flex items-center gap-2">
-                <button onclick="changeDate(-1)" class="calendar-nav-btn p-2 rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                </button>
-                <div>
-                    <p class="text-[10px] uppercase tracking-[0.28em] text-gray-400 dark:text-gray-500 mb-1">Calendário</p>
-                    <h3 class="text-lg font-bold tracking-tight text-gray-900 dark:text-white">${getCurrentPeriodLabel()}</h3>
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 px-4 lg:px-6 pt-5 pb-4">
+            <div class="flex items-center justify-between w-full md:w-auto">
+                <div class="flex items-center gap-2">
+                    <button onclick="changeDate(-1)" class="calendar-nav-btn p-2 rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <div>
+                        <p class="text-[9px] md:text-[10px] uppercase tracking-[0.28em] text-gray-400 dark:text-gray-500 mb-0.5 md:mb-1">Calendário</p>
+                        <h3 class="text-base md:text-lg font-bold tracking-tight text-gray-900 dark:text-white">${getCurrentPeriodLabel()}</h3>
+                    </div>
+                    <button onclick="changeDate(1)" class="calendar-nav-btn p-2 rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                    </button>
                 </div>
-                <button onclick="changeDate(1)" class="calendar-nav-btn p-2 rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
-                </button>
-                <button onclick="goToToday()" class="ml-2 px-3 py-1.5 text-sm rounded-full text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all calendar-accent-btn">Hoje</button>
+                <button onclick="goToToday()" class="md:ml-2 px-3 py-1.5 text-xs md:text-sm rounded-full text-white shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all calendar-accent-btn">Hoje</button>
             </div>
-            <div class="flex items-center gap-2 flex-wrap">
-                <div class="inline-flex items-center gap-1 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 bg-white/80 dark:bg-gray-800/80 p-1 shadow-sm">
-                    <button onclick="setCalendarView('day')" class="calendar-tab px-3.5 py-1.5 text-sm rounded-xl ${view === 'day' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Dia</button>
-                    <button onclick="setCalendarView('week')" class="calendar-tab px-3.5 py-1.5 text-sm rounded-xl ${view === 'week' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Semana</button>
-                    <button onclick="setCalendarView('month')" class="calendar-tab px-3.5 py-1.5 text-sm rounded-xl ${view === 'month' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Mês</button>
-                    <button onclick="setCalendarView('year')" class="calendar-tab px-3.5 py-1.5 text-sm rounded-xl ${view === 'year' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Ano</button>
+            <div class="flex items-center w-full md:w-auto gap-2 justify-between md:justify-end">
+                <div class="inline-flex items-center gap-0.5 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 bg-white/80 dark:bg-gray-800/80 p-1 shadow-sm overflow-x-auto" style="scrollbar-width: none;">
+                    <button onclick="setCalendarView('day')" class="calendar-tab px-3 md:px-3.5 py-1.5 md:py-1.5 text-xs md:text-sm font-medium rounded-xl whitespace-nowrap ${view === 'day' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Dia</button>
+                    <button onclick="setCalendarView('week')" class="calendar-tab px-3 md:px-3.5 py-1.5 md:py-1.5 text-xs md:text-sm font-medium rounded-xl whitespace-nowrap ${view === 'week' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Semana</button>
+                    <button onclick="setCalendarView('month')" class="calendar-tab px-3 md:px-3.5 py-1.5 md:py-1.5 text-xs md:text-sm font-medium rounded-xl whitespace-nowrap ${view === 'month' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Mês</button>
+                    <button onclick="setCalendarView('year')" class="calendar-tab px-3 md:px-3.5 py-1.5 md:py-1.5 text-xs md:text-sm font-medium rounded-xl whitespace-nowrap ${view === 'year' ? 'active text-white' : 'text-gray-600 dark:text-gray-300'}">Ano</button>
                 </div>
-                <button onclick="openEventModal()" class="px-4 py-2 text-white text-sm rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-1 calendar-accent-btn">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                    Novo Evento
+                <button onclick="openEventModal()" class="px-3 md:px-4 py-1.5 md:py-2 text-white text-xs md:text-sm rounded-full shadow-lg hover:shadow-xl hover:-translate-y-0.5 transition-all flex items-center gap-1 calendar-accent-btn whitespace-nowrap">
+                    <svg class="w-4 h-4 hidden sm:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Novo
                 </button>
             </div>
         </div>
@@ -66,16 +68,16 @@ function renderMonthView() {
     const today = todayISO();
     
     let html = `
-    <div class="calendar-panel rounded-3xl overflow-hidden">
-    <div class="grid grid-cols-7">
+    <div class="calendar-panel rounded-3xl overflow-visible bg-transparent !border-none !shadow-none !p-0">
+    <div class="grid grid-cols-7 gap-1.5 md:gap-3">
         ${['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'].map((d, idx) => {
             const weekendClass = idx === 5 ? 'weekend-sat' : idx === 6 ? 'weekend-sun' : '';
-            return `<div class="calendar-weekday ${weekendClass} p-3 text-center text-[10px] uppercase tracking-[0.22em] font-semibold">${d}</div>`;
+            return `<div class="calendar-weekday ${weekendClass} p-1.5 md:p-3 text-center text-[9px] md:text-[10px] uppercase tracking-[0.1em] md:tracking-[0.22em] font-semibold">${d}</div>`;
         }).join('')}`;
     
     // Empty cells before first day
     for (let i = 0; i < startDay; i++) {
-        html += `<div class="calendar-day p-1 min-h-[80px]"></div>`;
+        html += `<div class="calendar-day p-1 md:p-2 min-h-[45px] md:min-h-[80px] opacity-20 bg-gray-50/30 dark:bg-gray-800/20 border-dashed"></div>`;
     }
     
     // Days
@@ -84,20 +86,28 @@ function renderMonthView() {
         const isToday = dateStr === today;
         const weekdayIndex = (startDay + day - 1) % 7;
         const weekendClass = weekdayIndex === 5 ? 'weekend-sat' : weekdayIndex === 6 ? 'weekend-sun' : '';
-        const dayEvents = getFilteredEvents().filter(e => e.date === dateStr);
+        const dayEvents = getFilteredEvents().filter(e => isEventOnDate(e, dateStr));
         
-        html += `<div role="button" tabindex="0" onclick="openTaskModal(null, '${dateStr}')" class="calendar-day ${weekendClass} p-2 ${isToday ? 'today' : ''} cursor-pointer">
-            <div class="flex items-center justify-between mb-2">
-                <div class="text-xs font-semibold ${isToday ? 'text-indigo-600 dark:text-indigo-300' : 'text-gray-600 dark:text-gray-400'}">${day}</div>
-                ${isToday ? '<span class="calendar-badge text-[10px] px-2 py-0.5 rounded-full text-white">Hoje</span>' : ''}
+        html += `<div role="button" tabindex="0" onclick="openTaskModal(null, '${dateStr}')" class="calendar-day ${weekendClass} p-1 md:p-2 min-h-[45px] md:min-h-[80px] ${isToday ? 'today' : ''} cursor-pointer group transition-all duration-300 relative">
+            <div class="flex flex-col md:flex-row items-center md:justify-between mb-0.5 md:mb-2">
+                <div class="text-[11px] md:text-sm font-bold ${isToday ? 'text-indigo-600 dark:text-indigo-300 md:scale-110 origin-left transition-transform' : 'text-gray-700 dark:text-gray-300'} group-hover:text-indigo-500 transition-colors">${day}</div>
+                ${isToday ? '<span class="hidden md:inline-block calendar-badge bg-blue-600 text-[10px] px-2 py-0.5 rounded-full text-white shadow-md animate-pulse">Hoje</span>' : ''}
             </div>
-            <div class="space-y-0.5">
+            
+            <div class="hidden md:block space-y-1 relative z-10">
                 ${dayEvents.slice(0, 3).map(e => {
-                    const memberTone = getMemberBg(e.members[0], '100');
-                    return `<div class="calendar-event-pill text-[10px] px-1.5 py-1 rounded-lg truncate cursor-pointer ${memberTone} ${getMemberText(e.members[0])} hover:opacity-90 shadow-sm" onclick="event.stopPropagation(); openEventModal(${e.id})" title="${e.title}">${e.time ? e.time + ' ' : ''}${e.title}</div>`;
+                    return `<div class="calendar-event-pill text-[10px] px-2 py-1 rounded-lg truncate cursor-pointer transition-all duration-200 hover:scale-[1.03] hover:-translate-y-0.5 hover:shadow-md active:scale-95" style="background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 12px rgba(34,197,94,0.4) !important; color: #022c22 !important;" onclick="event.stopPropagation(); openEventModal(${e.id})" title="${e.title}"><span class="font-extrabold opacity-90 mr-1">${e.time ? e.time : ''}</span><span class="font-extrabold">${e.title}</span></div>`;
                 }).join('')}
-                ${dayEvents.length > 3 ? `<div class="text-[10px] text-gray-500 px-1">+${dayEvents.length - 3} mais</div>` : ''}
+                ${dayEvents.length > 3 ? `<div class="text-[10px] font-medium text-gray-500 px-1 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-md inline-block mt-1">+${dayEvents.length - 3} mais</div>` : ''}
             </div>
+
+            ${dayEvents.length > 0 ? `
+            <div class="md:hidden flex justify-center flex-wrap gap-0.5 mt-0.5 relative z-10">
+                ${dayEvents.slice(0, 3).map(e => `<span class="w-1.5 h-1.5 rounded-full ${getMemberBg(e.members[0], '500')}" title="${e.title}"></span>`).join('')}
+                ${dayEvents.length > 3 ? `<span class="w-1.5 h-1.5 rounded-full bg-gray-400"></span>` : ''}
+            </div>` : ''}
+            
+            <div class="absolute inset-0 bg-indigo-50/0 dark:bg-indigo-900/0 group-hover:bg-indigo-50/50 dark:group-hover:bg-indigo-900/20 transition-colors pointer-events-none"></div>
         </div>`;
     }
     
@@ -112,8 +122,9 @@ function renderWeekView() {
     startOfWeek.setDate(State.currentDate.getDate() - dayOfWeek);
     const todayStr = todayISO();
     
-    let html = `<div class="calendar-panel rounded-3xl overflow-hidden">`;
-    html += `<div class="grid grid-cols-7">`;
+    let html = `<div class="calendar-panel rounded-3xl overflow-hidden overflow-x-auto" style="scrollbar-width: thin;">
+        <div class="min-w-[600px] md:min-w-0">
+        <div class="grid grid-cols-7">`;
     
     // Header
     for (let i = 0; i < 7; i++) {
@@ -135,7 +146,7 @@ function renderWeekView() {
         const d = new Date(startOfWeek);
         d.setDate(startOfWeek.getDate() + i);
         const dateStr = d.toISOString().split('T')[0];
-        const dayEvents = getFilteredEvents().filter(e => e.date === dateStr);
+        const dayEvents = getFilteredEvents().filter(e => isEventOnDate(e, dateStr));
         const weekendClass = i === 5 ? 'weekend-sat' : i === 6 ? 'weekend-sun' : '';
         
         html += `<div role="button" tabindex="0" onclick="openTaskModal(null, '${dateStr}')" class="calendar-week-column ${weekendClass} p-2 min-h-[420px] cursor-pointer ${dateStr === todayStr ? 'calendar-week-column-today' : ''}">`;
@@ -147,18 +158,18 @@ function renderWeekView() {
             html += `<div class="text-[10px] text-gray-400 border-t border-gray-50/80 dark:border-gray-700/70 py-1">${String(hour).padStart(2, '0')}:00</div>`;
             hourEvents.forEach(e => {
                 const pillGlow = dateStr === todayStr ? 'today-glow' : '';
-                html += `<div class="calendar-event-pill text-xs p-1.5 rounded-xl mb-1 cursor-pointer ${getMemberBg(e.members[0], '100')} ${getMemberText(e.members[0])} ${pillGlow} hover:opacity-90 shadow-sm" onclick="event.stopPropagation(); openEventModal(${e.id})">${e.time} ${e.title}</div>`;
+                html += `<div class="calendar-event-pill text-[10px] p-2 rounded-xl mb-1.5 cursor-pointer ${pillGlow} transition-all hover:scale-[1.02] active:scale-95" style="background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 12px rgba(34,197,94,0.4) !important; color: #022c22 !important;" onclick="event.stopPropagation(); openEventModal(${e.id})"><span class="font-bold mr-1 opacity-90">${e.time || ''}</span><span class="font-bold">${e.title}</span></div>`;
             });
         }
         html += '</div>';
     }
-    html += '</div></div>';
+    html += '</div></div></div>';
     return html;
 }
 
 function renderDayView() {
     const dateStr = State.currentDate.toISOString().split('T')[0];
-    const dayEvents = getFilteredEvents().filter(e => e.date === dateStr).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    const dayEvents = getFilteredEvents().filter(e => isEventOnDate(e, dateStr)).sort((a, b) => (a.time || '').localeCompare(b.time || ''));
     const isToday = dateStr === todayISO();
     const displayDate = formatDate(dateStr);
     
@@ -179,12 +190,12 @@ function renderDayView() {
     } else {
         dayEvents.forEach(e => {
             html += `
-            <div class="flex items-start gap-3 p-4 rounded-2xl ${getMemberBg(e.members[0], '50')} border border-gray-200/70 dark:border-gray-700/70 cursor-pointer hover:shadow-lg transition-all ${isToday ? 'today-glow' : ''}" onclick="openEventModal(${e.id})">
-                <div class="text-center min-w-[60px]">
-                    <div class="text-sm font-bold ${getMemberText(e.members[0])}">${e.time || '--:--'}</div>
-                    ${e.endTime ? `<div class="text-xs text-gray-400">${e.endTime}</div>` : ''}
+            <div class="flex items-start gap-4 p-4 rounded-2xl cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${isToday ? 'today-glow' : ''}" style="background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 16px rgba(34,197,94,0.4) !important; color: #022c22 !important;" onclick="openEventModal(${e.id})">
+                <div class="text-center min-w-[65px] pt-1">
+                    <div class="text-sm font-extrabold" style="color: rgba(2, 44, 34, 0.9) !important;">${e.time || '--:--'}</div>
+                    ${e.endTime ? `<div class="text-[10px] font-bold uppercase tracking-wider mt-0.5" style="color: rgba(2, 44, 34, 0.6) !important;">${e.endTime}</div>` : ''}
                 </div>
-                <div class="flex-1">
+                <div class="flex-1" style="color: #022c22 !important;">
                     <div class="font-bold">${e.title}</div>
                     ${e.description ? `<div class="text-sm text-gray-500 mt-1">${e.description}</div>` : ''}
                     ${e.location ? `<div class="text-xs text-gray-400 mt-1">📍 ${e.location}</div>` : ''}
@@ -195,12 +206,11 @@ function renderDayView() {
                         </div>
                     </div>
                 </div>
-                <div class="flex gap-1">
-                    <button onclick="event.stopPropagation(); openEventModal(${e.id})" class="p-1.5 rounded-lg hover:bg-white dark:hover:bg-gray-700">
-                        <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
+                    <button onclick="event.stopPropagation(); openEventModal(${e.id})" class="p-2 rounded-xl hover:bg-white dark:hover:bg-gray-700 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg class="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/></svg>
                     </button>
-                    <button onclick="event.stopPropagation(); deleteEvent(${e.id})" class="p-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30">
-                        <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                    <button onclick="event.stopPropagation(); deleteEvent(${e.id})" class="p-2 rounded-xl hover:bg-red-100 dark:hover:bg-red-900/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                     </button>
                 </div>
             </div>`;
@@ -226,7 +236,7 @@ function renderYearView() {
                     <p class="text-[10px] uppercase tracking-[0.28em] text-gray-400">Mês</p>
                     <h4 class="text-lg font-semibold text-gray-900 dark:text-white">${monthName}</h4>
                 </div>
-                <span class="calendar-badge text-xs px-2 py-1 rounded-full text-white">${lastDay.getDate()}</span>
+                <span class="calendar-badge bg-blue-600 text-xs px-2 py-1 rounded-full text-white">${lastDay.getDate()}</span>
             </div>
             <div class="grid grid-cols-7 gap-1 text-[10px] text-gray-400 mb-2">
                 ${['S', 'T', 'Q', 'Q', 'S', 'S', 'D'].map((day, idx) => {
@@ -242,12 +252,14 @@ function renderYearView() {
 
         for (let day = 1; day <= lastDay.getDate(); day++) {
             const dateStr = `${year}-${String(monthIndex + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-            const dayEvents = getFilteredEvents().filter(e => e.date === dateStr);
+            const dayEvents = getFilteredEvents().filter(e => isEventOnDate(e, dateStr));
             const isToday = dateStr === today;
             const weekdayIndex = (startDay + day - 1) % 7;
             const weekendClass = weekdayIndex === 5 ? 'weekend-sat' : weekdayIndex === 6 ? 'weekend-sun' : '';
+            const isHoliday = dayEvents.some(e => e.category === 'feriado');
+            const baseClass = isToday ? 'today-glow' : isHoliday ? 'calendar-mini-holiday' : 'calendar-mini-default';
             monthHtml += `
-                <button type="button" onclick="event.stopPropagation(); State.currentDate=new Date('${dateStr}T00:00:00'); setCalendarView('day')" class="calendar-mini-day ${isToday ? 'today' : ''} ${weekendClass === 'weekend-sat' ? 'calendar-mini-weekend-sat' : weekendClass === 'weekend-sun' ? 'calendar-mini-weekend-sun' : ''} flex items-center justify-center rounded-full text-xs font-medium ${isToday ? 'today-glow' : 'calendar-mini-default'}">
+                <button type="button" onclick="event.stopPropagation(); State.currentDate=new Date('${dateStr}T00:00:00'); setCalendarView('day')" class="calendar-mini-day ${isToday ? 'today' : ''} ${weekendClass === 'weekend-sat' ? 'calendar-mini-weekend-sat' : weekendClass === 'weekend-sun' ? 'calendar-mini-weekend-sun' : ''} flex items-center justify-center rounded-full text-xs font-medium ${baseClass}">
                     ${day}
                     ${dayEvents.length ? `<span class="ml-1 text-[9px] opacity-80">${dayEvents.length}</span>` : ''}
                 </button>`;
@@ -340,9 +352,15 @@ function openEventModal(eventId = null) {
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Data *</label>
+                    <label class="block text-sm font-medium mb-1">Data início *</label>
                     <input type="date" id="evtDate" value="${isEdit ? event.date : todayISO()}" required class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
+                <div>
+                    <label class="block text-sm font-medium mb-1">Data fim (Opcional)</label>
+                    <input type="date" id="evtEndDate" value="${isEdit ? event.endDate || '' : ''}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
                 <div class="grid grid-cols-2 gap-2">
                     <div>
                         <label class="block text-sm font-medium mb-1">Hora início</label>
@@ -353,10 +371,10 @@ function openEventModal(eventId = null) {
                         <input type="time" id="evtEndTime" value="${isEdit ? event.endTime || '' : ''}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
                     </div>
                 </div>
-            </div>
-            <div>
-                <label class="block text-sm font-medium mb-1">Local</label>
-                <input type="text" id="evtLocation" value="${isEdit ? event.location || '' : ''}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                <div>
+                    <label class="block text-sm font-medium mb-1">Local</label>
+                    <input type="text" id="evtLocation" value="${isEdit ? event.location || '' : ''}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
             </div>
             <div class="grid grid-cols-2 gap-4">
                 <div>
@@ -395,6 +413,7 @@ async function saveEvent(e, eventId) {
         title: document.getElementById('evtTitle').value,
         description: document.getElementById('evtDesc').value,
         date: document.getElementById('evtDate').value,
+        endDate: document.getElementById('evtEndDate').value || null,
         time: document.getElementById('evtTime').value,
         endTime: document.getElementById('evtEndTime').value,
         location: document.getElementById('evtLocation').value,
@@ -424,4 +443,82 @@ async function deleteEvent(id) {
         showToast('Evento eliminado', 'warning');
         renderPage();
     }
+}
+
+// ==================== EVENTS LIST PAGE ====================
+function renderEventsList(container) {
+    const sortedEvents = [...State.events].sort((a, b) => {
+        return new Date(a.date) - new Date(b.date) || (a.time || '').localeCompare(b.time || '');
+    });
+    
+    let html = `
+    <div class="fade-in space-y-6">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold">Eventos Agendados</h2>
+            <button onclick="openEventModal()" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-medium hover:bg-indigo-700 transition-colors flex items-center gap-2 shadow-md">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                Novo Evento
+            </button>
+        </div>
+        
+        <div class="grid gap-3">
+    `;
+    
+    if (sortedEvents.length === 0) {
+        html += '<p class="text-gray-500 text-center py-12 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700">Nenhum evento agendado. Cria o teu primeiro evento!</p>';
+    } else {
+        const todayStr = todayISO();
+        sortedEvents.forEach(e => {
+            const isPast = e.endDate ? e.endDate < todayStr : e.date < todayStr;
+            const isUpcoming = e.date > todayStr;
+            const isOngoing = !isPast && !isUpcoming;
+            const opacityClass = isPast ? 'opacity-60 grayscale-[0.2]' : '';
+            const borderClass = isOngoing ? 'border-indigo-400 dark:border-indigo-500 shadow-md ring-1 ring-indigo-500/20' : 'border-gray-100 dark:border-gray-700 hover:shadow-md hover:border-gray-300 dark:hover:border-gray-600';
+            
+            html += `
+                <div class="bg-white dark:bg-gray-800 rounded-xl p-4 border transition-all relative overflow-hidden ${borderClass} ${opacityClass} flex flex-col md:flex-row gap-4 items-start md:items-center group">
+                    <div class="flex flex-col items-center justify-center min-w-[70px] bg-gray-50 dark:bg-gray-900/50 rounded-lg p-2 border border-gray-100 dark:border-gray-700">
+                        <span class="text-xs text-gray-500 uppercase font-semibold tracking-wider">${new Date(e.date + 'T00:00:00').toLocaleDateString('pt-PT', { month: 'short' })}</span>
+                        <span class="text-2xl font-bold text-gray-900 dark:text-gray-100 leading-none my-0.5">${new Date(e.date + 'T00:00:00').getDate()}</span>
+                        <span class="text-[10px] text-gray-400">${new Date(e.date + 'T00:00:00').getFullYear()}</span>
+                    </div>
+                    
+                    <div class="flex-1 min-w-0 w-full">
+                        <div class="flex flex-wrap items-center gap-2 mb-1">
+                            <h3 class="font-bold text-lg text-gray-900 dark:text-gray-100">${e.title}</h3>
+                            <span class="text-[10px] px-2 py-0.5 rounded-full uppercase tracking-wider font-semibold ${getCategoryColor(e.category)}">${getCategoryName(e.category)}</span>
+                            ${isOngoing ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-indigo-100 text-indigo-700 dark:bg-indigo-900/30 dark:text-indigo-300 font-bold animate-pulse">HOJE</span>' : ''}
+                            ${isPast ? '<span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 dark:bg-gray-700 dark:text-gray-400 font-semibold">Passado</span>' : ''}
+                        </div>
+                        <div class="flex flex-wrap items-center gap-3 text-xs text-gray-500 dark:text-gray-400 mt-1">
+                            ${e.endDate ? `<span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 5l7 7-7 7M5 5l7 7-7 7"/></svg> Até ${formatShortDate(e.endDate)}</span>` : ''}
+                            ${e.time ? `<span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> ${e.time}${e.endTime ? ' - ' + e.endTime : ''}</span>` : ''}
+                            ${e.location ? `<span class="flex items-center gap-1"><svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> ${e.location}</span>` : ''}
+                        </div>
+                        ${e.description ? `<p class="text-sm mt-2 text-gray-600 dark:text-gray-300 line-clamp-2">${e.description}</p>` : ''}
+                    </div>
+                    
+                    <div class="flex items-center justify-between md:justify-end gap-4 mt-2 md:mt-0 w-full md:w-auto">
+                        <div class="flex -space-x-2">
+                            ${e.members.map(m => `<div class="w-8 h-8 rounded-full ${getMemberColor(m)} flex items-center justify-center text-xs border-2 border-white dark:border-gray-800 shadow-sm" title="${getMember(m).name}">${getMember(m).avatar}</div>`).join('')}
+                        </div>
+                        <div class="flex gap-1">
+                            <button onclick="openEventModal(${e.id})" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors text-gray-400 hover:text-indigo-600 dark:hover:text-indigo-400" title="Editar evento">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                            </button>
+                            <button onclick="deleteEvent(${e.id})" class="p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors text-gray-400 hover:text-red-600 dark:hover:text-red-400" title="Eliminar evento">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+        });
+    }
+    
+    html += `
+        </div>
+    </div>`;
+    
+    container.innerHTML = html;
 }

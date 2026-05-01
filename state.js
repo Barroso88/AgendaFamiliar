@@ -178,7 +178,8 @@ const PAGE_TITLES = {
     sofia: 'Área da Sofia',
     andre: 'Área do André',
     nayara: 'Área da Nayara',
-    profiles: 'Perfis da Família'
+    profiles: 'Gerir Perfis da Família',
+    eventos: 'Eventos'
 };
 
 const State = {
@@ -202,7 +203,8 @@ const State = {
         { id: 'escola', name: 'Escola', color: 'purple' },
         { id: 'lazer', name: 'Lazer', color: 'green' },
         { id: 'domestico', name: 'Tarefas Domésticas', color: 'gray' },
-        { id: 'gucci', name: 'Compromissos da Gucci', color: 'amber' }
+        { id: 'gucci', name: 'Compromissos da Gucci', color: 'amber' },
+        { id: 'feriado', name: 'Feriado Nacional', color: 'rose' }
     ],
     
     events: [],
@@ -212,7 +214,99 @@ const State = {
     
     async init() {
         await this.loadData();
+        this.injectHolidays();
         this.updateBadges();
+    },
+    
+    injectHolidays() {
+        const holidays = [
+            // 2026
+            { id: 'hol_2026_01', title: 'Ano Novo', date: '2026-01-01' },
+            { id: 'hol_2026_02', title: 'Carnaval', date: '2026-02-17' },
+            { id: 'hol_2026_03', title: 'Sexta-feira Santa', date: '2026-04-03' },
+            { id: 'hol_2026_04', title: 'Páscoa', date: '2026-04-05' },
+            { id: 'hol_2026_05', title: 'Dia da Liberdade', date: '2026-04-25' },
+            { id: 'hol_2026_06', title: 'Dia do Trabalhador', date: '2026-05-01' },
+            { id: 'hol_2026_07', title: 'Corpo de Deus', date: '2026-06-04' },
+            { id: 'hol_2026_08', title: 'Dia de Portugal', date: '2026-06-10' },
+            { id: 'hol_2026_09', title: 'Assunção de N. Sra.', date: '2026-08-15' },
+            { id: 'hol_2026_10', title: 'Implantação da República', date: '2026-10-05' },
+            { id: 'hol_2026_11', title: 'Dia de Todos os Santos', date: '2026-11-01' },
+            { id: 'hol_2026_12', title: 'Restauração Independência', date: '2026-12-01' },
+            { id: 'hol_2026_13', title: 'Imaculada Conceição', date: '2026-12-08' },
+            { id: 'hol_2026_14', title: 'Natal', date: '2026-12-25' },
+
+            // 2027
+            { id: 'hol_2027_01', title: 'Ano Novo', date: '2027-01-01' },
+            { id: 'hol_2027_02', title: 'Carnaval', date: '2027-02-09' },
+            { id: 'hol_2027_03', title: 'Sexta-feira Santa', date: '2027-03-26' },
+            { id: 'hol_2027_04', title: 'Páscoa', date: '2027-03-28' },
+            { id: 'hol_2027_05', title: 'Dia da Liberdade', date: '2027-04-25' },
+            { id: 'hol_2027_06', title: 'Dia do Trabalhador', date: '2027-05-01' },
+            { id: 'hol_2027_07', title: 'Corpo de Deus', date: '2027-05-27' },
+            { id: 'hol_2027_08', title: 'Dia de Portugal', date: '2027-06-10' },
+            { id: 'hol_2027_09', title: 'Assunção de N. Sra.', date: '2027-08-15' },
+            { id: 'hol_2027_10', title: 'Implantação da República', date: '2027-10-05' },
+            { id: 'hol_2027_11', title: 'Dia de Todos os Santos', date: '2027-11-01' },
+            { id: 'hol_2027_12', title: 'Restauração Independência', date: '2027-12-01' },
+            { id: 'hol_2027_13', title: 'Imaculada Conceição', date: '2027-12-08' },
+            { id: 'hol_2027_14', title: 'Natal', date: '2027-12-25' },
+
+            // 2028
+            { id: 'hol_2028_01', title: 'Ano Novo', date: '2028-01-01' },
+            { id: 'hol_2028_02', title: 'Carnaval', date: '2028-02-29' },
+            { id: 'hol_2028_03', title: 'Sexta-feira Santa', date: '2028-04-14' },
+            { id: 'hol_2028_04', title: 'Páscoa', date: '2028-04-16' },
+            { id: 'hol_2028_05', title: 'Dia da Liberdade', date: '2028-04-25' },
+            { id: 'hol_2028_06', title: 'Dia do Trabalhador', date: '2028-05-01' },
+            { id: 'hol_2028_07', title: 'Corpo de Deus', date: '2028-06-15' },
+            { id: 'hol_2028_08', title: 'Dia de Portugal', date: '2028-06-10' },
+            { id: 'hol_2028_09', title: 'Assunção de N. Sra.', date: '2028-08-15' },
+            { id: 'hol_2028_10', title: 'Implantação da República', date: '2028-10-05' },
+            { id: 'hol_2028_11', title: 'Dia de Todos os Santos', date: '2028-11-01' },
+            { id: 'hol_2028_12', title: 'Restauração Independência', date: '2028-12-01' },
+            { id: 'hol_2028_13', title: 'Imaculada Conceição', date: '2028-12-08' },
+            { id: 'hol_2028_14', title: 'Natal', date: '2028-12-25' },
+
+            // 2029
+            { id: 'hol_2029_01', title: 'Ano Novo', date: '2029-01-01' },
+            { id: 'hol_2029_02', title: 'Carnaval', date: '2029-02-13' },
+            { id: 'hol_2029_03', title: 'Sexta-feira Santa', date: '2029-03-30' },
+            { id: 'hol_2029_04', title: 'Páscoa', date: '2029-04-01' },
+            { id: 'hol_2029_05', title: 'Dia da Liberdade', date: '2029-04-25' },
+            { id: 'hol_2029_06', title: 'Dia do Trabalhador', date: '2029-05-01' },
+            { id: 'hol_2029_07', title: 'Corpo de Deus', date: '2029-05-31' },
+            { id: 'hol_2029_08', title: 'Dia de Portugal', date: '2029-06-10' },
+            { id: 'hol_2029_09', title: 'Assunção de N. Sra.', date: '2029-08-15' },
+            { id: 'hol_2029_10', title: 'Implantação da República', date: '2029-10-05' },
+            { id: 'hol_2029_11', title: 'Dia de Todos os Santos', date: '2029-11-01' },
+            { id: 'hol_2029_12', title: 'Restauração Independência', date: '2029-12-01' },
+            { id: 'hol_2029_13', title: 'Imaculada Conceição', date: '2029-12-08' },
+            { id: 'hol_2029_14', title: 'Natal', date: '2029-12-25' }
+        ];
+
+        let added = false;
+        holidays.forEach(h => {
+            if (!this.events.find(e => e.id === h.id)) {
+                this.events.push({
+                    id: h.id,
+                    title: h.title,
+                    description: 'Feriado Nacional de Portugal',
+                    date: h.date,
+                    time: '',
+                    endTime: '',
+                    location: '',
+                    category: 'feriado',
+                    members: ['andre', 'nayara', 'sofia'],
+                    reminder: false
+                });
+                added = true;
+            }
+        });
+        
+        if (added) {
+            this.saveData();
+        }
     },
     
     async loadData() {
@@ -626,8 +720,15 @@ function getMemberColor(memberId) {
 }
 
 function getMemberBg(memberId, opacity = '10') {
-    const colors = { andre: `bg-andre-${opacity}`, nayara: `bg-nayara-${opacity}`, sofia: `bg-sofia-${opacity}`, gucci: `bg-gucci-${opacity}` };
-    return colors[memberId] || `bg-gray-${opacity}`;
+    const maps = {
+        '10': { andre: 'bg-andre-10', nayara: 'bg-nayara-10', sofia: 'bg-sofia-10', gucci: 'bg-gucci-10' },
+        '50': { andre: 'bg-andre-50', nayara: 'bg-nayara-50', sofia: 'bg-sofia-50', gucci: 'bg-gucci-50' },
+        '100': { andre: 'bg-andre-100', nayara: 'bg-nayara-100', sofia: 'bg-sofia-100', gucci: 'bg-gucci-100' },
+        '200': { andre: 'bg-andre-200', nayara: 'bg-nayara-200', sofia: 'bg-sofia-200', gucci: 'bg-gucci-200' },
+        '500': { andre: 'bg-andre-500', nayara: 'bg-nayara-500', sofia: 'bg-sofia-500', gucci: 'bg-gucci-500' }
+    };
+    const group = maps[opacity] || maps['100'];
+    return group[memberId] || `bg-gray-${opacity}`;
 }
 
 function getMemberText(memberId) {
@@ -636,7 +737,7 @@ function getMemberText(memberId) {
 }
 
 function getCategoryColor(cat) {
-    const colors = { consultas: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400', exames: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400', profissional: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400', escola: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400', lazer: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', domestico: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300', gucci: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400' };
+    const colors = { consultas: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400', exames: 'bg-orange-100 text-orange-700 dark:bg-orange-900/30 dark:text-orange-400', profissional: 'bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400', escola: 'bg-purple-100 text-purple-700 dark:bg-purple-900/30 dark:text-purple-400', lazer: 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400', domestico: 'bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300', gucci: 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-400', feriado: 'bg-rose-100 text-rose-700 dark:bg-rose-900/30 dark:text-rose-400' };
     return colors[cat] || 'bg-gray-100 text-gray-700';
 }
 
@@ -662,6 +763,11 @@ function formatShortDate(dateStr) {
 function isToday(dateStr) {
     const today = todayISO();
     return dateStr === today;
+}
+
+function isEventOnDate(e, dateStr) {
+    if (!e.endDate) return e.date === dateStr;
+    return dateStr >= e.date && dateStr <= e.endDate;
 }
 
 function isThisWeek(dateStr) {
