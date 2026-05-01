@@ -243,7 +243,7 @@ function renderGucci(container) {
     const nextTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     let html = `
     <div class="fade-in">
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 mb-6">
             <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/25 dark:via-orange-900/25 dark:to-yellow-900/25 rounded-xl p-4 card-hover border border-amber-100 dark:border-amber-800 shadow-lg shadow-amber-500/10">
                 <div class="flex items-start justify-between gap-3 mb-2">
                     <div class="text-2xl">🏥</div>
@@ -282,7 +282,7 @@ function renderGucci(container) {
             </div>
         </div>
         
-        <div class="grid lg:grid-cols-2 gap-6">
+        <div class="grid gap-6 lg:grid-cols-2">
             <div class="h-full min-h-[420px] bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 rounded-xl border border-amber-100 dark:border-amber-800 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🏥 Veterinário</h3>
                 <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl border border-amber-100 dark:border-amber-800">
