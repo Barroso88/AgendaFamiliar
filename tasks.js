@@ -113,7 +113,10 @@ function renderTasks(container) {
     }
     
     // Pending tasks
-    const filterFn = State.filters.task && State.filters.task !== 'all' ? t => t.assignedTo === State.filters.task : () => true;
+    const filterFn = State.filters.task && State.filters.task !== 'all' ? t => {
+        const assigned = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
+        return assigned.includes(State.filters.task);
+    } : () => true;
     const filteredPending = pending.filter(filterFn);
     
     if (filteredPending.length) {
@@ -121,7 +124,8 @@ function renderTasks(container) {
             <h4 class="font-bold text-sm text-gray-500 mb-3">TAREFAS PENDENTES (${totalPendingWork})</h4>
             <div class="space-y-2">
                 ${filteredPending.sort((a, b) => taskMoment(a) - taskMoment(b)).map(t => {
-                    const member = getMember(t.assignedTo);
+                    const assignedList = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
+                    const members = assignedList.map(id => getMember(id)).filter(Boolean);
                     const isOverdue = taskMoment(t) < new Date() && !isToday(t.dueDate);
                     return `
                     <div class="bg-white dark:bg-gray-800 rounded-xl border ${isOverdue ? 'border-red-200 dark:border-red-800' : 'border-gray-100 dark:border-gray-700'} p-4 hover:shadow-md transition-shadow">
@@ -131,9 +135,11 @@ function renderTasks(container) {
                                 <div class="font-medium ${isOverdue ? 'text-red-600 dark:text-red-400' : ''}">${t.title}</div>
                                 ${t.description ? `<div class="text-sm text-gray-500 mt-1">${t.description}</div>` : ''}
                                 <div class="flex items-center gap-3 mt-2 flex-wrap">
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full ${getMemberColor(member.id)} flex items-center justify-center text-[10px]">${member.avatar}</div>
-                                        <span class="text-xs text-gray-500">${member.name}</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex -space-x-1">
+                                            ${members.map(m => `<div class="w-5 h-5 rounded-full ${getMemberColor(m.id)} flex items-center justify-center text-[10px] border border-white dark:border-gray-800" title="${m.name}">${m.avatar}</div>`).join('')}
+                                        </div>
+                                        <span class="text-xs text-gray-500">${members.map(m => m.name).join(', ')}</span>
                                     </div>
                                     <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}${formatTaskSchedule(t) ? ` ${formatTaskSchedule(t)}` : ''}</span>
                                     ${isOverdue ? '<span class="text-xs text-red-500 font-medium">⚠️ Atrasada</span>' : ''}
@@ -162,7 +168,8 @@ function renderTasks(container) {
             <h4 class="font-bold text-sm text-gray-500 mb-3">TAREFAS CONCLUÍDAS (${filteredCompleted.length})</h4>
             <div class="space-y-2">
                 ${filteredCompleted.map(t => {
-                    const member = getMember(t.assignedTo);
+                    const assignedList = Array.isArray(t.assignedTo) ? t.assignedTo : [t.assignedTo];
+                    const members = assignedList.map(id => getMember(id)).filter(Boolean);
                     return `
                     <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 opacity-60">
                         <div class="flex items-start gap-3">
@@ -170,9 +177,11 @@ function renderTasks(container) {
                             <div class="flex-1 min-w-0">
                                 <div class="font-medium line-through text-gray-500">${t.title}</div>
                                 <div class="flex items-center gap-3 mt-2">
-                                    <div class="flex items-center gap-1">
-                                        <div class="w-5 h-5 rounded-full ${getMemberColor(member.id)} flex items-center justify-center text-[10px]">${member.avatar}</div>
-                                        <span class="text-xs text-gray-500">${member.name}</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="flex -space-x-1">
+                                            ${members.map(m => `<div class="w-5 h-5 rounded-full ${getMemberColor(m.id)} flex items-center justify-center text-[10px] border border-white dark:border-gray-800" title="${m.name}">${m.avatar}</div>`).join('')}
+                                        </div>
+                                        <span class="text-xs text-gray-500">${members.map(m => m.name).join(', ')}</span>
                                     </div>
                                     <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}${formatTaskSchedule(t) ? ` ${formatTaskSchedule(t)}` : ''}</span>
                                 </div>
@@ -202,6 +211,7 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
     const initialAllDay = isEdit ? !!task.allDay : false;
     const initialTime = isEdit ? (task.dueTime || '') : '';
     const initialMember = isEdit ? task.assignedTo : (prefillMember || (State.filters.member && State.filters.member !== 'all' ? State.filters.member : State.members[0]?.id || 'andre'));
+    const initialMemberArray = Array.isArray(initialMember) ? initialMember : [initialMember];
     
     const content = `
     <div class="p-6">
@@ -220,26 +230,36 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
                 <label class="block text-sm font-medium mb-1">Descrição</label>
                 <textarea id="taskDesc" rows="2" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">${isEdit ? task.description || '' : ''}</textarea>
             </div>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                    <label class="block text-sm font-medium mb-1">Atribuído a *</label>
-                    <select id="taskMember" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
-                        ${State.members.map(m => `<option value="${m.id}" ${(isEdit && task.assignedTo === m.id) || (!isEdit && initialMember === m.id) ? 'selected' : ''}>${m.name}</option>`).join('')}
-                    </select>
+                    <label class="block text-sm font-medium mb-2">Atribuído a *</label>
+                    <div class="flex flex-col gap-2" id="taskMembersContainer">
+                        ${State.members.map(m => `
+                            <label class="flex items-center gap-2 p-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 cursor-pointer hover:shadow-sm transition-all select-none">
+                                <input type="checkbox" name="taskMember" value="${m.id}" ${initialMemberArray.includes(m.id) ? 'checked' : ''} class="checkbox-custom">
+                                <div class="flex items-center gap-1.5">
+                                    <div class="w-6 h-6 rounded-full ${getMemberColor(m.id)} flex items-center justify-center text-xs shadow-sm">${m.avatar}</div>
+                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300">${m.name}</span>
+                                </div>
+                            </label>
+                        `).join('')}
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium mb-1">Data limite *</label>
-                    <input type="date" id="taskDue" value="${initialDate}" required class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
-                </div>
-            </div>
-            <div>
-                <label class="inline-flex items-center gap-2 text-sm font-medium mb-2">
-                    <input type="checkbox" id="taskAllDay" ${initialAllDay ? 'checked' : ''} onchange="toggleTaskTimeField()" class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
-                    Todo o dia
-                </label>
-                <div id="taskTimeField">
-                    <label class="block text-sm font-medium mb-1">Hora</label>
-                    <input type="time" id="taskTime" value="${initialTime}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium mb-1">Data limite *</label>
+                        <input type="date" id="taskDue" value="${initialDate}" required class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                    </div>
+                    <div>
+                        <label class="inline-flex items-center gap-2 text-sm font-medium mb-2">
+                            <input type="checkbox" id="taskAllDay" ${initialAllDay ? 'checked' : ''} onchange="toggleTaskTimeField()" class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                            Todo o dia
+                        </label>
+                        <div id="taskTimeField">
+                            <label class="block text-sm font-medium mb-1">Hora</label>
+                            <input type="time" id="taskTime" value="${initialTime}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="flex gap-3 pt-2">
@@ -270,11 +290,18 @@ function toggleTaskTimeField() {
 
 async function saveTask(e, taskId) {
     e.preventDefault();
+    
+    const assignedTo = Array.from(document.querySelectorAll('input[name="taskMember"]:checked')).map(cb => cb.value);
+    if (assignedTo.length === 0) {
+        showToast('Selecione pelo menos um membro', 'warning');
+        return;
+    }
+
     const taskData = {
         id: taskId || Date.now(),
         title: document.getElementById('taskTitle').value,
         description: document.getElementById('taskDesc').value,
-        assignedTo: document.getElementById('taskMember').value,
+        assignedTo: assignedTo,
         dueDate: document.getElementById('taskDue').value,
         allDay: document.getElementById('taskAllDay')?.checked || false,
         dueTime: document.getElementById('taskAllDay')?.checked ? '' : document.getElementById('taskTime').value,
