@@ -37,6 +37,7 @@ function renderTasks(container) {
         gucci: '🐾'
     };
     const totalPendingWork = pending.length + reminderEvents.length;
+    const taskMoment = (task) => new Date(`${task.dueDate}T${task.dueTime || '23:59'}`);
     
     let html = `
     <div class="fade-in">
@@ -118,9 +119,9 @@ function renderTasks(container) {
         html += `<div class="mb-6">
             <h4 class="font-bold text-sm text-gray-500 mb-3">TAREFAS PENDENTES (${totalPendingWork})</h4>
             <div class="space-y-2">
-                ${filteredPending.sort((a, b) => new Date(a.dueDate) - new Date(b.dueDate)).map(t => {
+                ${filteredPending.sort((a, b) => taskMoment(a) - taskMoment(b)).map(t => {
                     const member = getMember(t.assignedTo);
-                    const isOverdue = new Date(t.dueDate) < new Date() && !isToday(t.dueDate);
+                    const isOverdue = taskMoment(t) < new Date() && !isToday(t.dueDate);
                     return `
                     <div class="bg-white dark:bg-gray-800 rounded-xl border ${isOverdue ? 'border-red-200 dark:border-red-800' : 'border-gray-100 dark:border-gray-700'} p-4 hover:shadow-md transition-shadow">
                         <div class="flex items-start gap-3">
@@ -133,7 +134,7 @@ function renderTasks(container) {
                                         <div class="w-5 h-5 rounded-full ${getMemberColor(member.id)} flex items-center justify-center text-[10px]">${member.avatar}</div>
                                         <span class="text-xs text-gray-500">${member.name}</span>
                                     </div>
-                                    <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}</span>
+                                    <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}${t.dueTime ? ` • ${t.dueTime}` : ''}</span>
                                     ${isOverdue ? '<span class="text-xs text-red-500 font-medium">⚠️ Atrasada</span>' : ''}
                                 </div>
                             </div>
@@ -197,6 +198,7 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
     const task = taskId ? State.tasks.find(t => t.id === taskId) : null;
     const isEdit = !!task;
     const initialDate = isEdit ? task.dueDate : (prefillDate || todayISO());
+    const initialTime = isEdit ? (task.dueTime || '') : '';
     const initialMember = isEdit ? task.assignedTo : (prefillMember || (State.filters.member && State.filters.member !== 'all' ? State.filters.member : State.members[0]?.id || 'andre'));
     
     const content = `
@@ -228,6 +230,10 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
                     <input type="date" id="taskDue" value="${initialDate}" required class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
             </div>
+            <div>
+                <label class="block text-sm font-medium mb-1">Hora</label>
+                <input type="time" id="taskTime" value="${initialTime}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+            </div>
             <div class="flex gap-3 pt-2">
                 <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-600">Cancelar</button>
                 <button type="submit" class="flex-1 px-4 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700">${isEdit ? 'Guardar' : 'Criar Tarefa'}</button>
@@ -248,6 +254,7 @@ async function saveTask(e, taskId) {
         description: document.getElementById('taskDesc').value,
         assignedTo: document.getElementById('taskMember').value,
         dueDate: document.getElementById('taskDue').value,
+        dueTime: document.getElementById('taskTime').value,
         completed: taskId ? State.tasks.find(t => t.id === taskId).completed : false,
         category: 'geral'
     };
