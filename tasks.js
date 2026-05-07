@@ -37,7 +37,8 @@ function renderTasks(container) {
         gucci: '🐾'
     };
     const totalPendingWork = pending.length + reminderEvents.length;
-    const taskMoment = (task) => new Date(`${task.dueDate}T${task.dueTime || '23:59'}`);
+    const taskMoment = (task) => new Date(`${task.dueDate}T${task.allDay ? '23:59' : (task.dueTime || '23:59')}`);
+    const formatTaskSchedule = (task) => task.allDay ? 'Todo o dia' : (task.dueTime ? `• ${task.dueTime}` : '');
     
     let html = `
     <div class="fade-in">
@@ -134,7 +135,7 @@ function renderTasks(container) {
                                         <div class="w-5 h-5 rounded-full ${getMemberColor(member.id)} flex items-center justify-center text-[10px]">${member.avatar}</div>
                                         <span class="text-xs text-gray-500">${member.name}</span>
                                     </div>
-                                    <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}${t.dueTime ? ` • ${t.dueTime}` : ''}</span>
+                                    <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}${formatTaskSchedule(t) ? ` ${formatTaskSchedule(t)}` : ''}</span>
                                     ${isOverdue ? '<span class="text-xs text-red-500 font-medium">⚠️ Atrasada</span>' : ''}
                                 </div>
                             </div>
@@ -173,7 +174,7 @@ function renderTasks(container) {
                                         <div class="w-5 h-5 rounded-full ${getMemberColor(member.id)} flex items-center justify-center text-[10px]">${member.avatar}</div>
                                         <span class="text-xs text-gray-500">${member.name}</span>
                                     </div>
-                                    <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}</span>
+                                    <span class="text-xs text-gray-400">📅 ${formatShortDate(t.dueDate)}${formatTaskSchedule(t) ? ` ${formatTaskSchedule(t)}` : ''}</span>
                                 </div>
                             </div>
                             <button onclick="deleteTask(${t.id})" class="p-1.5 rounded-lg hover:bg-red-100 dark:hover:bg-red-900/30">
@@ -198,6 +199,7 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
     const task = taskId ? State.tasks.find(t => t.id === taskId) : null;
     const isEdit = !!task;
     const initialDate = isEdit ? task.dueDate : (prefillDate || todayISO());
+    const initialAllDay = isEdit ? !!task.allDay : false;
     const initialTime = isEdit ? (task.dueTime || '') : '';
     const initialMember = isEdit ? task.assignedTo : (prefillMember || (State.filters.member && State.filters.member !== 'all' ? State.filters.member : State.members[0]?.id || 'andre'));
     
@@ -231,8 +233,14 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
                 </div>
             </div>
             <div>
-                <label class="block text-sm font-medium mb-1">Hora</label>
-                <input type="time" id="taskTime" value="${initialTime}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                <label class="inline-flex items-center gap-2 text-sm font-medium mb-2">
+                    <input type="checkbox" id="taskAllDay" ${initialAllDay ? 'checked' : ''} onchange="toggleTaskTimeField()" class="w-4 h-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                    Todo o dia
+                </label>
+                <div id="taskTimeField">
+                    <label class="block text-sm font-medium mb-1">Hora</label>
+                    <input type="time" id="taskTime" value="${initialTime}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
             </div>
             <div class="flex gap-3 pt-2">
                 <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-600">Cancelar</button>
@@ -240,8 +248,22 @@ function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) 
             </div>
         </form>
     </div>`;
-    
+
     openModal(content);
+    toggleTaskTimeField();
+}
+
+function toggleTaskTimeField() {
+    const allDay = document.getElementById('taskAllDay');
+    const timeField = document.getElementById('taskTimeField');
+    const timeInput = document.getElementById('taskTime');
+    if (!allDay || !timeField || !timeInput) return;
+    const isAllDay = allDay.checked;
+    timeField.classList.toggle('hidden', isAllDay);
+    timeInput.required = !isAllDay;
+    if (isAllDay) {
+        timeInput.value = '';
+    }
 }
 
 // ==================== FUNÇÕES CORRIGIDAS (ASYNC/AWAIT) ====================
@@ -254,7 +276,8 @@ async function saveTask(e, taskId) {
         description: document.getElementById('taskDesc').value,
         assignedTo: document.getElementById('taskMember').value,
         dueDate: document.getElementById('taskDue').value,
-        dueTime: document.getElementById('taskTime').value,
+        allDay: document.getElementById('taskAllDay')?.checked || false,
+        dueTime: document.getElementById('taskAllDay')?.checked ? '' : document.getElementById('taskTime').value,
         completed: taskId ? State.tasks.find(t => t.id === taskId).completed : false,
         category: 'geral'
     };
