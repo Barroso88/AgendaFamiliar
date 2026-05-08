@@ -88,7 +88,7 @@ function renderMonthView() {
         const weekendClass = weekdayIndex === 5 ? 'weekend-sat' : weekdayIndex === 6 ? 'weekend-sun' : '';
         const dayEvents = getFilteredEvents().filter(e => isEventOnDate(e, dateStr));
         
-        html += `<div role="button" tabindex="0" onclick="openTaskModal(null, '${dateStr}')" class="calendar-day ${weekendClass} p-1 md:p-2 min-h-[45px] md:min-h-[80px] ${isToday ? 'today' : ''} cursor-pointer group transition-all duration-300 relative">
+        html += `<div role="button" tabindex="0" onclick="handleDayClick('${dateStr}')" class="calendar-day ${weekendClass} p-1 md:p-2 min-h-[45px] md:min-h-[80px] ${isToday ? 'today' : ''} cursor-pointer group transition-all duration-300 relative">
             <div class="flex flex-col md:flex-row items-center md:justify-between mb-0.5 md:mb-2">
                 <div class="text-[11px] md:text-sm font-bold ${isToday ? 'text-indigo-600 dark:text-indigo-300 md:scale-110 origin-left transition-transform' : 'text-gray-700 dark:text-gray-300'} group-hover:text-indigo-500 transition-colors">${day}</div>
                 ${isToday ? '<span class="hidden md:inline-block calendar-badge bg-blue-600 text-[10px] px-2 py-0.5 rounded-full text-white shadow-md animate-pulse">Hoje</span>' : ''}
@@ -133,7 +133,7 @@ function renderWeekView() {
         const dateStr = d.toISOString().split('T')[0];
         const isToday = dateStr === todayStr;
         const weekendClass = i === 5 ? 'weekend-sat' : i === 6 ? 'weekend-sun' : '';
-        html += `<div role="button" tabindex="0" onclick="openTaskModal(null, '${dateStr}')" class="calendar-week-header ${weekendClass} p-3 text-center cursor-pointer ${isToday ? 'calendar-week-header-today' : ''}">
+        html += `<div role="button" tabindex="0" onclick="handleDayClick('${dateStr}')" class="calendar-week-header ${weekendClass} p-3 text-center cursor-pointer ${isToday ? 'calendar-week-header-today' : ''}">
             <div class="text-[10px] uppercase tracking-[0.22em] text-gray-500">${d.toLocaleDateString('pt-PT', { weekday: 'short' })}</div>
             <div class="mt-1 inline-flex items-center justify-center w-10 h-10 rounded-full text-lg font-bold ${isToday ? 'calendar-day-chip today-glow' : 'calendar-day-chip'}">${d.getDate()}</div>
         </div>`;
@@ -149,7 +149,7 @@ function renderWeekView() {
         const dayEvents = getFilteredEvents().filter(e => isEventOnDate(e, dateStr));
         const weekendClass = i === 5 ? 'weekend-sat' : i === 6 ? 'weekend-sun' : '';
         
-        html += `<div role="button" tabindex="0" onclick="openTaskModal(null, '${dateStr}')" class="calendar-week-column ${weekendClass} p-2 min-h-[420px] cursor-pointer ${dateStr === todayStr ? 'calendar-week-column-today' : ''}">`;
+        html += `<div role="button" tabindex="0" onclick="handleDayClick('${dateStr}')" class="calendar-week-column ${weekendClass} p-2 min-h-[420px] cursor-pointer ${dateStr === todayStr ? 'calendar-week-column-today' : ''}">`;
         for (let hour = 7; hour <= 21; hour++) {
             const hourEvents = dayEvents.filter(e => {
                 const h = parseInt((e.time || '').split(':')[0]);
@@ -175,7 +175,7 @@ function renderDayView() {
     
     let html = `
     <div class="calendar-panel rounded-3xl overflow-hidden border border-gray-200/70 dark:border-gray-700/70 p-4">
-        <div role="button" tabindex="0" onclick="openTaskModal(null, '${dateStr}')" class="text-center mb-4 cursor-pointer">
+        <div role="button" tabindex="0" onclick="handleDayClick('${dateStr}')" class="text-center mb-4 cursor-pointer">
             <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/80 dark:bg-gray-800/80 border border-gray-200/70 dark:border-gray-700/70 shadow-sm mb-3">
                 <span class="h-2 w-2 rounded-full ${isToday ? 'bg-indigo-500 today-glow' : 'bg-gray-400'}"></span>
                 <span class="text-xs uppercase tracking-[0.22em] text-gray-500">${isToday ? 'Data atual' : 'Agenda diária'}</span>
@@ -350,8 +350,17 @@ function goToToday() {
     renderCalendar(document.getElementById('contentArea'));
 }
 
+function handleDayClick(dateStr) {
+    if (window.innerWidth < 768) {
+        State.currentDate = new Date(dateStr + 'T00:00:00');
+        setCalendarView('day');
+    } else {
+        openEventModal(null, dateStr);
+    }
+}
+
 // ==================== EVENT MODAL ====================
-function openEventModal(eventId = null) {
+function openEventModal(eventId = null, defaultDate = null) {
     const event = eventId ? State.events.find(e => e.id === eventId) : null;
     const isEdit = !!event;
     
@@ -375,9 +384,8 @@ function openEventModal(eventId = null) {
             <div class="grid grid-cols-2 gap-4">
                 <div>
                     <label class="block text-sm font-medium mb-1">Data início *</label>
-                    <input type="date" id="evtDate" value="${isEdit ? event.date : todayISO()}" required class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
+                    <input type="date" id="evtDate" value="${isEdit ? event.date : (defaultDate || todayISO())}" required class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
-                <div>
                     <label class="block text-sm font-medium mb-1">Data fim (Opcional)</label>
                     <input type="date" id="evtEndDate" value="${isEdit ? event.endDate || '' : ''}" class="w-full px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
