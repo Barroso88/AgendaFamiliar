@@ -232,6 +232,23 @@ const server = http.createServer(async (req, res) => {
         const requestUrl = new URL(req.url, `http://${req.headers.host}`);
         const pathname = decodeURIComponent(requestUrl.pathname);
 
+        if (pathname === '/api/debug-state') {
+            try {
+                const state = getDbState();
+                res.writeHead(200, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ 
+                    hasState: !!state, 
+                    events: state?.events?.length || 0,
+                    tasks: state?.tasks?.length || 0,
+                    updatedAt: state?.updatedAt || 0
+                }));
+            } catch (e) {
+                res.writeHead(500, { 'Content-Type': 'application/json' });
+                res.end(JSON.stringify({ error: e.message }));
+            }
+            return;
+        }
+
         if (pathname === '/api/recover') {
             try {
                 const fsSync = require('fs');
