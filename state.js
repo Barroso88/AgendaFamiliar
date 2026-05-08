@@ -183,6 +183,7 @@ const PAGE_TITLES = {
 };
 
 const State = {
+    authToken: safeLocalStorageGet('auth_token') || null,
     currentPage: 'dashboard',
     theme: normalizeThemeId(safeLocalStorageGet('theme')),
     currentDate: new Date(),
@@ -326,8 +327,23 @@ const State = {
             return;
         }
 
+        if (!this.authToken) {
+            console.warn("Sem token de autenticação, não vai obter dados remotos.");
+            return; // Esperar pelo login
+        }
+
         try {
-            const response = await fetch(REMOTE_STATE_ENDPOINT, { cache: 'no-store' });
+            const response = await fetch(REMOTE_STATE_ENDPOINT, { 
+                cache: 'no-store',
+                headers: { 'Authorization': `Bearer ${this.authToken}` }
+            });
+            if (response.status === 401) {
+                alert("Acesso negado. Esta conta não está autorizada a aceder à Agenda Familiar.");
+                localStorage.removeItem('auth_token');
+                this.authToken = null;
+                window.location.reload();
+                return;
+            }
             if (response.ok) {
                 const remoteData = await response.json();
                 this.applyStatePayload(pickLatestState(remoteData, cachedState));
@@ -369,28 +385,25 @@ const State = {
         try {
             safeLocalStorageSet(STORAGE_KEYS.state, serialized);
             if (isRemoteApiAvailable()) {
-                let sent = false;
-                if (navigator.sendBeacon) {
-                    try {
-                        sent = navigator.sendBeacon(
-                            REMOTE_STATE_ENDPOINT,
-                            new Blob([serialized], { type: 'application/json' })
-                        );
-                    } catch (beaconError) {
-                        sent = false;
-                    }
+                if (!this.authToken) return; // Previne tentar gravar se não estiver autenticado
+                const response = await fetch(REMOTE_STATE_ENDPOINT, {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${this.authToken}`
+                    },
+                    body: serialized,
+                    keepalive: true
+                });
+                if (response.status === 401) {
+                    alert("Acesso negado ou sessão expirada.");
+                    localStorage.removeItem('auth_token');
+                    this.authToken = null;
+                    window.location.reload();
+                    return;
                 }
-
-                if (!sent) {
-                    const response = await fetch(REMOTE_STATE_ENDPOINT, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: serialized,
-                        keepalive: true
-                    });
-                    if (!response.ok) {
-                        throw new Error(`Remote save failed with status ${response.status}`);
-                    }
+                if (!response.ok) {
+                    throw new Error(`Remote save failed with status ${response.status}`);
                 }
             }
         } catch (e) {

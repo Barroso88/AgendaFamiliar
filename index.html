@@ -12,6 +12,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Cormorant+Garamond:wght@600;700&family=Fraunces:opsz,wght@9..144,600;9..144,700&family=Montserrat:wght@400;500;600;700&family=Merriweather:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="icon" href="./favicon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="./favicon.svg">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -33,7 +34,85 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 min-h-screen">
 
-<div id="app" class="flex h-screen overflow-hidden">
+<!-- Login Container -->
+<div id="loginContainer" class="fixed inset-0 z-50 flex min-h-screen bg-white dark:bg-gray-900 overflow-hidden">
+    <!-- Left Panel: Graphic/Brand (Hidden on Mobile) -->
+    <div class="hidden lg:flex lg:w-1/2 relative bg-indigo-900 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-indigo-600 via-purple-700 to-amber-600 opacity-90"></div>
+        <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=2564&auto=format&fit=crop')] bg-cover bg-center mix-blend-overlay opacity-30"></div>
+        <!-- Animated Blobs -->
+        <div class="absolute top-[-10%] left-[-10%] w-96 h-96 bg-amber-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-60 animate-pulse"></div>
+        <div class="absolute bottom-[-10%] right-[-10%] w-96 h-96 bg-fuchsia-500 rounded-full mix-blend-multiply filter blur-[128px] opacity-60 animate-pulse" style="animation-delay: 2s;"></div>
+        
+        <div class="relative z-10 p-12 flex flex-col h-full justify-between text-white w-full">
+            <div class="w-16 h-16 bg-white/10 backdrop-blur-md rounded-2xl flex items-center justify-center shadow-2xl border border-white/20">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            </div>
+            <div>
+                <h1 class="text-5xl font-extrabold mb-6 tracking-tight leading-[1.1] drop-shadow-lg">A tua vida familiar,<br>agora em perfeita<br>sintonia.</h1>
+                <p class="text-lg text-indigo-50 max-w-md font-medium drop-shadow-md">Calendários, compras, tarefas e até os compromissos da Gucci. Tudo organizado num só lugar seguro e partilhado.</p>
+            </div>
+            <div class="flex items-center gap-4 text-sm font-medium text-white/70">
+                <span>© 2026 Agenda Familiar</span>
+                <span class="w-1.5 h-1.5 rounded-full bg-white/40"></span>
+                <span>Acesso Restrito</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel: Login Form -->
+    <div class="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12 relative">
+        <!-- Mobile Background Elements -->
+        <div class="absolute top-0 right-0 w-64 h-64 bg-indigo-50 dark:bg-indigo-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 lg:hidden"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-amber-50 dark:bg-amber-900/20 rounded-full mix-blend-multiply filter blur-3xl opacity-70 lg:hidden"></div>
+
+        <div class="w-full max-w-md relative z-10">
+            <!-- Mobile Logo -->
+            <div class="lg:hidden flex justify-center mb-10">
+                <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl flex items-center justify-center shadow-xl shadow-indigo-500/30 border border-white/20">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                </div>
+            </div>
+
+            <div class="text-center lg:text-left mb-10">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-3 tracking-tight">Bem-vindo de volta</h2>
+                <p class="text-gray-500 dark:text-gray-400">Inicia sessão com a tua conta Google autorizada para acederes à Agenda Familiar.</p>
+            </div>
+
+            <div class="bg-white/80 dark:bg-gray-800/80 border border-gray-100 dark:border-gray-700 rounded-3xl p-8 sm:p-10 backdrop-blur-xl shadow-2xl shadow-indigo-500/5 dark:shadow-black/20">
+                <div class="flex flex-col items-center">
+                    <div id="g_id_onload"
+                         data-client_id="325347990401-qc3psp9e17fn4vi742f96cv4thkh6qo5.apps.googleusercontent.com"
+                         data-context="signin"
+                         data-ux_mode="popup"
+                         data-callback="handleGoogleLogin"
+                         data-auto_prompt="false">
+                    </div>
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-shape="pill"
+                         data-theme="outline"
+                         data-text="signin_with"
+                         data-size="large"
+                         data-logo_alignment="left"
+                         data-width="280">
+                    </div>
+                </div>
+                
+                <div class="mt-10 flex items-center gap-4">
+                    <div class="h-px bg-gray-200 dark:bg-gray-700 flex-1"></div>
+                    <span class="text-xs font-semibold text-gray-400 uppercase tracking-widest">Protegido</span>
+                    <div class="h-px bg-gray-200 dark:bg-gray-700 flex-1"></div>
+                </div>
+                <p class="text-xs text-center text-gray-400 mt-6 leading-relaxed">
+                    Acesso exclusivo aos membros da família autorizados.<br>O teu acesso será validado de forma segura.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="app" class="flex h-screen overflow-hidden hidden">
     
     <aside id="sidebar" class="sidebar fixed lg:relative z-30 w-64 h-full bg-white dark:bg-gray-800 border-r border-gray-200 dark:border-gray-700 flex flex-col shadow-lg lg:shadow-none">
         <div class="p-4 bg-gradient-to-b from-white/90 to-gray-50/70 dark:from-gray-800 dark:to-gray-800/80 backdrop-blur-sm">
@@ -102,6 +181,10 @@
                         <p id="shoppingAlertText" class="text-xs text-amber-700/90 dark:text-amber-100/90 mt-1">Existem itens pendentes na lista de compras.</p>
                     </div>
                 </div>
+            </button>
+            <button onclick="logout()" class="w-full text-left flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors hover:bg-red-50 dark:hover:bg-red-900/20 text-red-600 dark:text-red-400">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                Terminar Sessão
             </button>
         </div>
     </aside>
@@ -219,6 +302,34 @@
 </div>
 
 <div id="toastContainer" class="fixed bottom-4 right-4 z-50 space-y-2"></div>
+
+    <script>
+        window.handleGoogleLogin = async (response) => {
+            const token = response.credential;
+            localStorage.setItem('auth_token', token);
+            document.getElementById('loginContainer').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+            
+            // Recarrega a página para inicializar o State com o token
+            window.location.reload();
+        };
+
+        window.logout = () => {
+            localStorage.removeItem('auth_token');
+            window.location.reload();
+        };
+
+        // Verifica se já temos token
+        document.addEventListener('DOMContentLoaded', () => {
+            if (localStorage.getItem('auth_token')) {
+                document.getElementById('loginContainer').classList.add('hidden');
+                document.getElementById('app').classList.remove('hidden');
+            } else {
+                document.getElementById('loginContainer').classList.remove('hidden');
+                document.getElementById('app').classList.add('hidden');
+            }
+        });
+    </script>
 
     <script src="state.js?v=1.30"></script>
     <script src="calendar.js?v=1.30"></script>

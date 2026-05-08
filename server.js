@@ -3,6 +3,34 @@ const fs = require('fs/promises');
 const path = require('path');
 const { URL } = require('url');
 const { DatabaseSync } = require('node:sqlite');
+const { OAuth2Client } = require('google-auth-library');
+
+const GOOGLE_CLIENT_ID = '325347990401-qc3psp9e17fn4vi742f96cv4thkh6qo5.apps.googleusercontent.com';
+const googleClient = new OAuth2Client(GOOGLE_CLIENT_ID);
+const ALLOWED_EMAILS = [
+    'andremrbarroso@gmail.com',
+    'naykfreitas@gmail.com',
+    'a.m.r.barroso@gmail.com'
+];
+
+async function verifyGoogleToken(token) {
+    if (!token) return null;
+    try {
+        const ticket = await googleClient.verifyIdToken({
+            idToken: token,
+            audience: GOOGLE_CLIENT_ID,
+        });
+        const payload = ticket.getPayload();
+        if (ALLOWED_EMAILS.length > 0 && !ALLOWED_EMAILS.includes(payload.email)) {
+            console.log(`Acesso negado para email: ${payload.email}`);
+            return null;
+        }
+        return payload;
+    } catch (err) {
+        console.error('Erro na validação do token:', err.message);
+        return null;
+    }
+}
 
 const PORT = Number(process.env.PORT || 3035);
 const DATA_DIR = process.env.DATA_DIR || path.join(__dirname, 'data');
@@ -161,6 +189,15 @@ function sendJson(res, statusCode, payload) {
 }
 
 async function handleApiState(req, res) {
+    const authHeader = req.headers.authorization || '';
+    const token = authHeader.replace('Bearer ', '');
+    const user = await verifyGoogleToken(token);
+    
+    if (!user) {
+        sendJson(res, 401, { ok: false, error: 'Não autorizado. Faz login primeiro.' });
+        return;
+    }
+
     if (req.method === 'GET') {
         const state = getDbState() || emptyState();
         sendJson(res, 200, state);

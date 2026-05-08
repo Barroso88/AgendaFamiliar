@@ -96,7 +96,7 @@ function renderMonthView() {
             
             <div class="hidden md:block space-y-1 relative z-10">
                 ${dayEvents.slice(0, 3).map(e => {
-                    return `<div class="calendar-event-pill text-[10px] px-2 py-1 rounded-lg truncate cursor-pointer transition-all duration-200 hover:scale-[1.03] hover:-translate-y-0.5 hover:shadow-md active:scale-95" style="background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 12px rgba(34,197,94,0.4) !important; color: #022c22 !important;" onclick="event.stopPropagation(); ${e.isTask ? `openTaskModal(${e.originalId})` : `openEventModal(${e.id})`}" title="${e.title}"><span class="font-extrabold opacity-90 mr-1">${e.time ? e.time : ''}</span><span class="font-extrabold">${e.title}</span></div>`;
+                    return `<div class="calendar-event-pill text-[10px] px-2 py-1 rounded-lg truncate cursor-pointer transition-all duration-200 hover:scale-[1.03] hover:-translate-y-0.5 hover:shadow-md active:scale-95" style="${e.isTask ? 'background: linear-gradient(135deg, #818cf8, #4f46e5) !important; border: 1px solid #4338ca !important; box-shadow: 0 0 12px rgba(79,70,229,0.4) !important; color: white !important;' : 'background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 12px rgba(34,197,94,0.4) !important; color: #022c22 !important;'}" onclick="event.stopPropagation(); ${e.isTask ? `openTaskModal(${e.originalId})` : `openEventModal(${e.id})`}" title="${e.title}"><span class="font-extrabold opacity-90 mr-1">${e.time ? e.time : ''}</span><span class="font-extrabold">${e.title}</span></div>`;
                 }).join('')}
                 ${dayEvents.length > 3 ? `<div class="text-[10px] font-medium text-gray-500 px-1 py-0.5 bg-gray-100 dark:bg-gray-800 rounded-md inline-block mt-1">+${dayEvents.length - 3} mais</div>` : ''}
             </div>
@@ -158,7 +158,7 @@ function renderWeekView() {
             html += `<div class="text-[10px] text-gray-400 border-t border-gray-50/80 dark:border-gray-700/70 py-1">${String(hour).padStart(2, '0')}:00</div>`;
             hourEvents.forEach(e => {
                 const pillGlow = dateStr === todayStr ? 'today-glow' : '';
-                html += `<div class="calendar-event-pill text-[10px] p-2 rounded-xl mb-1.5 cursor-pointer ${pillGlow} transition-all hover:scale-[1.02] active:scale-95" style="background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 12px rgba(34,197,94,0.4) !important; color: #022c22 !important;" onclick="event.stopPropagation(); ${e.isTask ? `openTaskModal(${e.originalId})` : `openEventModal(${e.id})`}"><span class="font-bold mr-1 opacity-90">${e.time || ''}</span><span class="font-bold">${e.title}</span></div>`;
+                html += `<div class="calendar-event-pill text-[10px] p-2 rounded-xl mb-1.5 cursor-pointer ${pillGlow} transition-all hover:scale-[1.02] active:scale-95" style="${e.isTask ? 'background: linear-gradient(135deg, #818cf8, #4f46e5) !important; border: 1px solid #4338ca !important; box-shadow: 0 0 12px rgba(79,70,229,0.4) !important; color: white !important;' : 'background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 12px rgba(34,197,94,0.4) !important; color: #022c22 !important;'}" onclick="event.stopPropagation(); ${e.isTask ? `openTaskModal(${e.originalId})` : `openEventModal(${e.id})`}"><span class="font-bold mr-1 opacity-90">${e.time || ''}</span><span class="font-bold">${e.title}</span></div>`;
             });
         }
         html += '</div>';
@@ -190,12 +190,12 @@ function renderDayView() {
     } else {
         dayEvents.forEach(e => {
             html += `
-            <div class="flex items-start gap-4 p-4 rounded-2xl cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${isToday ? 'today-glow' : ''}" style="background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 16px rgba(34,197,94,0.4) !important; color: #022c22 !important;" onclick="${e.isTask ? `openTaskModal(${e.originalId})` : `openEventModal(${e.id})`}">
+            <div class="flex items-start gap-4 p-4 rounded-2xl cursor-pointer hover:shadow-xl hover:-translate-y-1 transition-all duration-300 ${isToday ? 'today-glow' : ''}" style="${e.isTask ? 'background: linear-gradient(135deg, #818cf8, #4f46e5) !important; border: 1px solid #4338ca !important; box-shadow: 0 0 16px rgba(79,70,229,0.4) !important; color: white !important;' : 'background: linear-gradient(135deg, #4ade80, #22c55e) !important; border: 1px solid #16a34a !important; box-shadow: 0 0 16px rgba(34,197,94,0.4) !important; color: #022c22 !important;'}" onclick="${e.isTask ? `openTaskModal(${e.originalId})` : `openEventModal(${e.id})`}">
                 <div class="text-center min-w-[65px] pt-1">
-                    <div class="text-sm font-extrabold" style="color: rgba(2, 44, 34, 0.9) !important;">${e.time || '--:--'}</div>
-                    ${e.endTime ? `<div class="text-[10px] font-bold uppercase tracking-wider mt-0.5" style="color: rgba(2, 44, 34, 0.6) !important;">${e.endTime}</div>` : ''}
+                    <div class="text-sm font-extrabold" style="${e.isTask ? 'color: rgba(255, 255, 255, 0.9) !important;' : 'color: rgba(2, 44, 34, 0.9) !important;'}">${e.time || '--:--'}</div>
+                    ${e.endTime ? `<div class="text-[10px] font-bold uppercase tracking-wider mt-0.5" style="${e.isTask ? 'color: rgba(255, 255, 255, 0.7) !important;' : 'color: rgba(2, 44, 34, 0.6) !important;'}">${e.endTime}</div>` : ''}
                 </div>
-                <div class="flex-1" style="color: #022c22 !important;">
+                <div class="flex-1" style="${e.isTask ? 'color: white !important;' : 'color: #022c22 !important;'}">
                     <div class="font-bold">${e.title}</div>
                     ${e.description ? `<div class="text-sm text-gray-500 mt-1">${e.description}</div>` : ''}
                     ${e.location ? `<div class="text-xs text-gray-400 mt-1">📍 ${e.location}</div>` : ''}
@@ -296,7 +296,7 @@ function getFilteredEvents() {
             id: `task_${t.id}`,
             isTask: true,
             originalId: t.id,
-            title: `[Tarefa] ${t.title}`,
+            title: t.title,
             description: t.description,
             date: t.dueDate,
             endDate: null,
