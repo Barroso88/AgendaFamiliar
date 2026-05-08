@@ -8,8 +8,8 @@ RUN npm install --omit=dev
 COPY . .
 
 ENV PORT=3035
-ENV DATA_DIR=/data
-VOLUME ["/data"]
+ENV DATA_DIR=/app/data
+VOLUME ["/app/data"]
 
 EXPOSE 3035
 

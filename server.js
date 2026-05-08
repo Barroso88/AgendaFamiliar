@@ -235,12 +235,37 @@ const server = http.createServer(async (req, res) => {
         if (pathname === '/api/recover') {
             try {
                 const fsSync = require('fs');
-                const walPath = DB_FILE + '-wal';
-                if (!fsSync.existsSync(walPath)) {
-                    throw new Error('WAL file not found');
+                
+                // Procurar a base de dados real nas duas pastas possíveis
+                const pathsToTry = [
+                    '/app/data',
+                    '/data',
+                    path.join(__dirname, 'data')
+                ];
+                
+                let bestWalPath = null;
+                let bestWalSize = -1;
+                let bestDbPath = null;
+
+                for (const p of pathsToTry) {
+                    const wp = path.join(p, 'agenda.db-wal');
+                    const dp = path.join(p, 'agenda.db');
+                    if (fsSync.existsSync(wp) && fsSync.existsSync(dp)) {
+                        const size = fsSync.statSync(wp).size;
+                        if (size > bestWalSize) {
+                            bestWalSize = size;
+                            bestWalPath = wp;
+                            bestDbPath = dp;
+                        }
+                    }
                 }
-                const dbFile = fsSync.readFileSync(DB_FILE);
-                const walContent = fsSync.readFileSync(walPath);
+
+                if (!bestWalPath) {
+                    throw new Error('WAL file not found in any known directory');
+                }
+                
+                const dbFile = fsSync.readFileSync(bestDbPath);
+                const walContent = fsSync.readFileSync(bestWalPath);
                 
                 const frameSize = 4120;
                 const commitOffsets = [];
