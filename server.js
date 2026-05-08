@@ -241,8 +241,8 @@ const server = http.createServer(async (req, res) => {
                 const sqlDump = execSync(`sqlite3 ${DB_FILE} ".recover"`).toString('utf8');
                 
                 const payloads = [];
-                // Procurar por todos os INSERTs que tenham o nosso JSON
-                const regex = /INSERT INTO "?app_state"? VALUES\([^,]+,'(\{"theme":.*?\})',[^)]+\);/g;
+                // Procurar por qualquer string JSON de estado que tenha sido recuperada
+                const regex = /'(\{"theme":.*?\})'/g;
                 let match;
                 while ((match = regex.exec(sqlDump)) !== null) {
                     try {
