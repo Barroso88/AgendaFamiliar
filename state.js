@@ -415,7 +415,7 @@ const State = {
             console.error('Error saving data', e);
             safeLocalStorageSet(STORAGE_KEYS.state, serialized);
             if (isRemoteApiAvailable()) {
-                showToast('Não foi possível guardar no Unraid: '', 'warning');
+                showToast('Não foi possível guardar no Unraid', 'warning');
             }
         }
         this.updateBadges();
