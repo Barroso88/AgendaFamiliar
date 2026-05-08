@@ -2,7 +2,7 @@ const http = require('http');
 const fs = require('fs/promises');
 const path = require('path');
 const { URL } = require('url');
-const { DatabaseSync } = require('node:sqlite');
+const { Pool } = require('pg');
 const { OAuth2Client } = require('google-auth-library');
 
 const GOOGLE_CLIENT_ID = '325347990401-qc3psp9e17fn4vi742f96cv4thkh6qo5.apps.googleusercontent.com';
@@ -52,7 +52,7 @@ const MIME_TYPES = {
     '.ico': 'image/x-icon'
 };
 
-let db = null;
+let pool = null;
 
 function emptyState() {
     return {
@@ -113,54 +113,59 @@ async function readLegacySnapshot() {
     return (await readJsonFile(LEGACY_JSON_FILE)) || (await readLatestLegacyBackup());
 }
 
-function initDatabase() {
-    db = new DatabaseSync(DB_FILE);
-    db.exec(`
-        PRAGMA journal_mode = WAL;
-        PRAGMA synchronous = NORMAL;
+async function initDatabase() {
+    pool = new Pool({
+        host: process.env.DB_HOST || 'localhost',
+        port: Number(process.env.DB_PORT) || 5432,
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'postgres',
+        database: process.env.DB_NAME || 'agenda'
+    });
+
+    await pool.query(`
         CREATE TABLE IF NOT EXISTS app_state (
             id INTEGER PRIMARY KEY CHECK (id = 1),
             payload TEXT NOT NULL,
-            updated_at INTEGER NOT NULL
+            updated_at BIGINT NOT NULL
         );
     `);
 }
 
-function getDbState() {
-    const row = db.prepare('SELECT payload, updated_at FROM app_state WHERE id = 1').get();
-    if (!row) return null;
+async function getDbState() {
     try {
-        return normalizeState(JSON.parse(row.payload));
-    } catch {
+        const { rows } = await pool.query('SELECT payload, updated_at FROM app_state WHERE id = 1');
+        if (rows.length === 0) return null;
+        return normalizeState(JSON.parse(rows[0].payload));
+    } catch (e) {
         return null;
     }
 }
 
-function saveDbState(state) {
+async function saveDbState(state) {
     const payload = normalizeState(state);
-    db.prepare(`
+    await pool.query(`
         INSERT INTO app_state (id, payload, updated_at)
-        VALUES (1, ?, ?)
+        VALUES (1, $1, $2)
         ON CONFLICT(id) DO UPDATE SET
-            payload = excluded.payload,
-            updated_at = excluded.updated_at
-    `).run(JSON.stringify(payload), payload.updatedAt);
+            payload = EXCLUDED.payload,
+            updated_at = EXCLUDED.updated_at
+    `, [JSON.stringify(payload), payload.updatedAt]);
     return payload;
 }
 
 async function bootstrapStorage() {
     await ensureDataDir();
-    initDatabase();
+    await initDatabase();
 
-    const current = getDbState();
+    const current = await getDbState();
     if (current) return current;
 
     const legacy = await readLegacySnapshot();
     if (legacy) {
-        return saveDbState(legacy);
+        return await saveDbState(legacy);
     }
 
-    return saveDbState(emptyState());
+    return await saveDbState(emptyState());
 }
 
 function contentType(filePath) {
@@ -199,7 +204,7 @@ async function handleApiState(req, res) {
     }
 
     if (req.method === 'GET') {
-        const state = getDbState() || emptyState();
+        const state = (await getDbState()) || emptyState();
         sendJson(res, 200, state);
         return;
     }
@@ -213,7 +218,7 @@ async function handleApiState(req, res) {
         req.on('end', async () => {
             try {
                 const parsed = JSON.parse(body || '{}');
-                const payload = saveDbState(parsed);
+                const payload = await saveDbState(parsed);
                 sendJson(res, 200, { ok: true, updatedAt: payload.updatedAt });
             } catch (error) {
                 console.error('Erro no processamento do POST:', error);
@@ -251,7 +256,7 @@ const server = http.createServer(async (req, res) => {
 
         if (pathname === '/api/debug-state') {
             try {
-                const state = getDbState();
+                const state = await getDbState();
                 res.writeHead(200, { 'Content-Type': 'application/json' });
                 res.end(JSON.stringify({ 
                     hasState: !!state, 
@@ -268,98 +273,8 @@ const server = http.createServer(async (req, res) => {
         }
 
         if (pathname === '/api/recover') {
-            try {
-                const fsSync = require('fs');
-                
-                // Procurar a base de dados real nas duas pastas possíveis
-                const pathsToTry = [
-                    '/app/data',
-                    '/data',
-                    path.join(__dirname, 'data')
-                ];
-                
-                let bestWalPath = null;
-                let bestWalSize = -1;
-                let bestDbPath = null;
-
-                for (const p of pathsToTry) {
-                    const wp = path.join(p, 'agenda.db-wal');
-                    const dp = path.join(p, 'agenda.db');
-                    if (fsSync.existsSync(wp) && fsSync.existsSync(dp)) {
-                        const size = fsSync.statSync(wp).size;
-                        if (size > bestWalSize) {
-                            bestWalSize = size;
-                            bestWalPath = wp;
-                            bestDbPath = dp;
-                        }
-                    }
-                }
-
-                if (!bestWalPath) {
-                    throw new Error('WAL file not found in any known directory');
-                }
-                
-                const dbFile = fsSync.readFileSync(bestDbPath);
-                const walContent = fsSync.readFileSync(bestWalPath);
-                
-                const frameSize = 4120;
-                const commitOffsets = [];
-                // Identificar todos os commits no histórico do WAL
-                for (let offset = 32; offset <= walContent.length - frameSize; offset += frameSize) {
-                    const dbSize = walContent.readUInt32BE(offset + 4);
-                    if (dbSize !== 0) commitOffsets.push(offset);
-                }
-
-                let recoveredPayload = null;
-                const tempDbPath = path.join(DATA_DIR, 'temp_recover.db');
-                const tempWalPath = tempDbPath + '-wal';
-
-                // Rebobinar o WAL commit a commit (do mais recente para o mais antigo)
-                for (let i = commitOffsets.length - 1; i >= 0; i--) {
-                    const commitOffset = commitOffsets[i];
-                    const newWalSize = commitOffset + frameSize;
-                    
-                    fsSync.writeFileSync(tempDbPath, dbFile);
-                    fsSync.writeFileSync(tempWalPath, walContent.slice(0, newWalSize));
-                    
-                    try {
-                        const tempDb = new DatabaseSync(tempDbPath);
-                        const row = tempDb.prepare('SELECT payload FROM app_state WHERE id = 1').get();
-                        tempDb.close(); // Isto apaga o tempWalPath automaticamente
-                        
-                        if (row && row.payload) {
-                            const parsed = JSON.parse(row.payload);
-                            const hasRealEvents = parsed.events && parsed.events.some(e => !e.id.startsWith('hol_'));
-                            const hasTasks = parsed.tasks && parsed.tasks.length > 0;
-                            
-                            if (hasRealEvents || hasTasks) {
-                                recoveredPayload = parsed;
-                                break; // Encontrámos a base de dados boa (com dados reais)!
-                            }
-                        }
-                    } catch (e) {
-                        // Ignorar frames incompletos
-                    }
-                }
-                
-                try { fsSync.unlinkSync(tempDbPath); } catch(e){}
-
-                if (recoveredPayload) {
-                    // FORÇAR a data de atualização para AGORA, para o browser aceitar que esta 
-                    // versão é mais recente que a cache envenenada
-                    recoveredPayload.updatedAt = Date.now();
-                    saveDbState(recoveredPayload);
-                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-                    res.end(JSON.stringify({ ok: true, message: 'MILAGRE! Recuperados ' + recoveredPayload.events.length + ' eventos da máquina do tempo do SQLite.' }));
-                    return;
-                }
-
-                res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify({ ok: false, message: 'O histórico foi vasculhado e não há nenhum evento guardado no ficheiro WAL.' }));
-            } catch (err) {
-                res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify({ ok: false, message: err.message }));
-            }
+            res.writeHead(400, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify({ ok: false, message: 'Recover is disabled in Postgres mode.' }));
             return;
         }
 
