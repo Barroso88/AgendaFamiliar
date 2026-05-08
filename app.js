@@ -340,7 +340,7 @@ function renderGucci(container) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">Próxima ${consultPrefix}</p>
                             ${nextConsult ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar veterinário">✏️</button>
+                                    <button type="button" onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar veterinário">✏️</button>
                                     <button type="button" onclick="deleteEvent(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Apagar veterinário">🗑️</button>
                                 </div>
                             ` : ''}
@@ -383,7 +383,7 @@ function renderGucci(container) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-rose-600 dark:text-rose-300">Última Vacina</p>
                             ${lastVaccine ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${lastVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar vacina">✏️</button>
+                                    <button type="button" onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar vacina">✏️</button>
                                     <button type="button" onclick="deleteEvent(${lastVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Apagar vacina">🗑️</button>
                                 </div>
                             ` : ''}
@@ -403,7 +403,7 @@ function renderGucci(container) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-fuchsia-600 dark:text-fuchsia-300">Próxima Vacina</p>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
+                                    <button type="button" onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
                                     <button type="button" onclick="deleteEvent(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Apagar vacina">🗑️</button>
                                 </div>
                             ` : ''}
@@ -447,7 +447,7 @@ function renderGucci(container) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">Último Banho</p>
                             ${lastBath ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${lastBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Editar banho">✏️</button>
+                                    <button type="button" onclick="openEventModal('${lastBath.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Editar banho">✏️</button>
                                     <button type="button" onclick="deleteEvent(${lastBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Apagar banho">🗑️</button>
                                 </div>
                             ` : ''}
@@ -467,7 +467,7 @@ function renderGucci(container) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-cyan-600 dark:text-cyan-300">Próximo Banho</p>
                             ${nextBath ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${nextBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Editar banho">✏️</button>
+                                    <button type="button" onclick="openEventModal('${nextBath.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Editar banho">✏️</button>
                                     <button type="button" onclick="deleteEvent(${nextBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Apagar banho">🗑️</button>
                                 </div>
                             ` : ''}
@@ -510,7 +510,7 @@ function renderGucci(container) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-purple-600 dark:text-purple-300">Última Tosa</p>
                             ${lastTosa ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${lastTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Editar tosa">✏️</button>
+                                    <button type="button" onclick="openEventModal('${lastTosa.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Editar tosa">✏️</button>
                                     <button type="button" onclick="deleteEvent(${lastTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Apagar tosa">🗑️</button>
                                 </div>
                             ` : ''}
@@ -530,7 +530,7 @@ function renderGucci(container) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-violet-600 dark:text-violet-300">Próxima Tosa</p>
                             ${nextTosa ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${nextTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Editar tosa">✏️</button>
+                                    <button type="button" onclick="openEventModal('${nextTosa.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Editar tosa">✏️</button>
                                     <button type="button" onclick="deleteEvent(${nextTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Apagar tosa">🗑️</button>
                                 </div>
                             ` : ''}
@@ -856,7 +856,7 @@ function renderPersonalArea(container, config) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-rose-600 dark:text-rose-300">Última ${consultPrefix}</p>
                             ${lastConsult ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${lastConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
+                                    <button type="button" onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
                                     <button type="button" onclick="deleteEvent(${lastConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Apagar ${consultPrefix.toLowerCase()}">🗑️</button>
                                 </div>
                             ` : ''}
@@ -876,7 +876,7 @@ function renderPersonalArea(container, config) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">Próxima ${consultPrefix}</p>
                             ${nextConsult ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
+                                    <button type="button" onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
                                     <button type="button" onclick="deleteEvent(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Apagar ${consultPrefix.toLowerCase()}">🗑️</button>
                                 </div>
                             ` : ''}
@@ -919,7 +919,7 @@ function renderPersonalArea(container, config) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-rose-600 dark:text-rose-300">Última Vacina</p>
                             ${lastVaccine ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${lastVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar vacina">✏️</button>
+                                    <button type="button" onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar vacina">✏️</button>
                                     <button type="button" onclick="deleteEvent(${lastVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Apagar vacina">🗑️</button>
                                 </div>
                             ` : ''}
@@ -939,7 +939,7 @@ function renderPersonalArea(container, config) {
                             <p class="text-xs font-semibold uppercase tracking-wide text-fuchsia-600 dark:text-fuchsia-300">Próxima ${vaccinePrefix}</p>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
+                                    <button type="button" onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
                                     <button type="button" onclick="deleteEvent(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Apagar vacina">🗑️</button>
                                 </div>
                             ` : ''}
