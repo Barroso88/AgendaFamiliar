@@ -234,44 +234,24 @@ const server = http.createServer(async (req, res) => {
 
         if (pathname === '/api/recover') {
             try {
-                const walPath = path.join(DATA_DIR, 'agenda.db-wal');
-                const walBuffer = await fs.readFile(walPath);
-                const walString = walBuffer.toString('utf8');
-                const indices = [];
-                let i = -1;
-                while ((i = walString.indexOf('{"theme":', i + 1)) !== -1) {
-                    indices.push(i);
-                }
-
+                const { execSync } = require('child_process');
+                // Ensure sqlite3 CLI is available in alpine
+                try { execSync('apk add --no-cache sqlite', { stdio: 'ignore' }); } catch(e) {}
+                
+                const sqlDump = execSync(`sqlite3 ${DB_FILE} ".recover"`).toString('utf8');
+                
                 const payloads = [];
-                for (const startIndex of indices) {
-                    let braceCount = 0;
-                    let inString = false;
-                    let escape = false;
-                    for (let j = startIndex; j < walString.length; j++) {
-                        const char = walString[j];
-                        if (inString) {
-                            if (escape) escape = false;
-                            else if (char === '\\') escape = true;
-                            else if (char === '"') inString = false;
-                        } else {
-                            if (char === '"') inString = true;
-                            else if (char === '{') braceCount++;
-                            else if (char === '}') {
-                                braceCount--;
-                                if (braceCount === 0) {
-                                    const jsonStr = walString.substring(startIndex, j + 1);
-                                    try {
-                                        const parsed = JSON.parse(jsonStr);
-                                        if (parsed.events && Array.isArray(parsed.events)) {
-                                            payloads.push(parsed);
-                                        }
-                                    } catch (e) {}
-                                    break;
-                                }
-                            }
+                // Procurar por todos os INSERTs que tenham o nosso JSON
+                const regex = /INSERT INTO "?app_state"? VALUES\([^,]+,'(\{"theme":.*?\})',[^)]+\);/g;
+                let match;
+                while ((match = regex.exec(sqlDump)) !== null) {
+                    try {
+                        const jsonStr = match[1].replace(/''/g, "'"); // unescape SQL single quotes
+                        const parsed = JSON.parse(jsonStr);
+                        if (parsed.events && Array.isArray(parsed.events)) {
+                            payloads.push(parsed);
                         }
-                    }
+                    } catch (e) {}
                 }
 
                 if (payloads.length > 0) {
@@ -289,7 +269,7 @@ const server = http.createServer(async (req, res) => {
                     }
                 }
                 res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify({ ok: false, message: 'Nenhum backup válido encontrado no WAL.' }));
+                res.end(JSON.stringify({ ok: false, message: 'Nenhum backup válido encontrado no WAL usando sqlite3 recovery.' }));
             } catch (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
                 res.end(JSON.stringify({ ok: false, message: err.message }));
