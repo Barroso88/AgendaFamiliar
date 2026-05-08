@@ -232,6 +232,23 @@ const server = http.createServer(async (req, res) => {
         const requestUrl = new URL(req.url, `http://${req.headers.host}`);
         const pathname = decodeURIComponent(requestUrl.pathname);
 
+        if (pathname === '/limpar') {
+            res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' });
+            res.end(`
+                <!DOCTYPE html>
+                <html>
+                <head><meta charset="utf-8"><title>A Limpar...</title></head>
+                <body>
+                    <script>
+                        localStorage.clear();
+                        window.location.href = '/';
+                    </script>
+                </body>
+                </html>
+            `);
+            return;
+        }
+
         if (pathname === '/api/debug-state') {
             try {
                 const state = getDbState();
