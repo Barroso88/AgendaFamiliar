@@ -257,7 +257,8 @@ const server = http.createServer(async (req, res) => {
                     hasState: !!state, 
                     events: state?.events?.length || 0,
                     tasks: state?.tasks?.length || 0,
-                    updatedAt: state?.updatedAt || 0
+                    updatedAt: state?.updatedAt || 0,
+                    firstEvents: state?.events?.slice(0, 5) || []
                 }));
             } catch (e) {
                 res.writeHead(500, { 'Content-Type': 'application/json' });
