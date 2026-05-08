@@ -96,7 +96,7 @@ function sanitizeStatePayload(payload) {
     const tasks = Array.isArray(source.tasks) ? source.tasks : defaults.tasks;
     tasks.forEach(t => {
         if (t.members && !t.assignedTo) {
-            t.assignedTo = t.members;
+            t.assignedTo = Array.isArray(t.members) ? t.members[0] : t.members;
             delete t.members;
         }
     });

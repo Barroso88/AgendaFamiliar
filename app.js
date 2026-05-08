@@ -125,7 +125,8 @@ function renderDashboard(container) {
                     <div>
                         <p class="text-xs font-semibold text-gray-500 mb-2">TAREFAS</p>
                         ${urgentTasks.map(t => {
-                            const member = getMember(t.assignedTo);
+                            const assignedId = Array.isArray(t.assignedTo) ? t.assignedTo[0] : t.assignedTo;
+                            const member = getMember(assignedId) || { id: 'family', avatar: '👨‍👩‍👧‍👦', name: 'Família' };
                             return `
                             <div class="flex items-center gap-2 p-2 rounded-lg bg-orange-50 dark:bg-orange-900/20 mb-1">
                                 <span class="text-orange-500 text-sm">⏰</span>
@@ -155,7 +156,7 @@ function renderDashboard(container) {
                                     <div class="text-xs text-gray-500">${e.time || ''}</div>
                                 </div>
                                 <div class="flex -space-x-1">
-                                    ${e.members.map(m => `<div class="w-6 h-6 rounded-full ${getMemberColor(m)} flex items-center justify-center text-xs">${getMember(m).avatar}</div>`).join('')}
+                                    ${e.members.map(m => { const memb = getMember(m); return memb ? `<div class="w-6 h-6 rounded-full ${getMemberColor(m)} flex items-center justify-center text-xs" title="${memb.name}">${memb.avatar}</div>` : ''; }).join('')}
                                 </div>
                             </div>
                         `).join('')}
