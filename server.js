@@ -242,7 +242,8 @@ const server = http.createServer(async (req, res) => {
                 
                 const payloads = [];
                 // Procurar por qualquer string JSON de estado que tenha sido recuperada
-                const regex = /'(\{"theme":.*?\})'/g;
+                // Permite apóstrofes escapados ('' no SQLite) e falha de forma limpa.
+                const regex = /'(\{"theme":(?:[^']|'')*\})'/g;
                 let match;
                 while ((match = regex.exec(sqlDump)) !== null) {
                     try {
