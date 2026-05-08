@@ -234,43 +234,62 @@ const server = http.createServer(async (req, res) => {
 
         if (pathname === '/api/recover') {
             try {
-                const { execSync } = require('child_process');
-                // Ensure sqlite3 CLI is available in alpine
-                try { execSync('apk add --no-cache sqlite', { stdio: 'ignore' }); } catch(e) {}
+                const fsSync = require('fs');
+                const walPath = DB_FILE + '-wal';
+                if (!fsSync.existsSync(walPath)) {
+                    throw new Error('WAL file not found');
+                }
+                const dbFile = fsSync.readFileSync(DB_FILE);
+                const walContent = fsSync.readFileSync(walPath);
                 
-                const sqlDump = execSync(`sqlite3 ${DB_FILE} ".recover"`).toString('utf8');
-                
-                const payloads = [];
-                // Procurar por qualquer string JSON de estado que tenha sido recuperada
-                // Permite apóstrofes escapados ('' no SQLite) e falha de forma limpa.
-                const regex = /'(\{"theme":(?:[^']|'')*\})'/g;
-                let match;
-                while ((match = regex.exec(sqlDump)) !== null) {
-                    try {
-                        const jsonStr = match[1].replace(/''/g, "'"); // unescape SQL single quotes
-                        const parsed = JSON.parse(jsonStr);
-                        if (parsed.events && Array.isArray(parsed.events)) {
-                            payloads.push(parsed);
-                        }
-                    } catch (e) {}
+                const frameSize = 4120;
+                const commitOffsets = [];
+                // Identificar todos os commits no histórico do WAL
+                for (let offset = 32; offset <= walContent.length - frameSize; offset += frameSize) {
+                    const dbSize = walContent.readUInt32BE(offset + 4);
+                    if (dbSize !== 0) commitOffsets.push(offset);
                 }
 
-                if (payloads.length > 0) {
-                    payloads.sort((a, b) => {
-                        const aCount = (a.events?.length || 0) + (a.tasks?.length || 0);
-                        const bCount = (b.events?.length || 0) + (b.tasks?.length || 0);
-                        return bCount - aCount;
-                    });
-                    const bestPayload = payloads[0];
-                    if ((bestPayload.events?.length || 0) > 0) {
-                        saveDbState(bestPayload);
-                        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
-                        res.end(JSON.stringify({ ok: true, message: 'Sucesso! Recuperados ' + bestPayload.events.length + ' eventos e ' + (bestPayload.tasks?.length || 0) + ' tarefas.' }));
-                        return;
+                let recoveredPayload = null;
+                const tempDbPath = path.join(DATA_DIR, 'temp_recover.db');
+                const tempWalPath = tempDbPath + '-wal';
+
+                // Rebobinar o WAL commit a commit (do mais recente para o mais antigo)
+                for (let i = commitOffsets.length - 1; i >= 0; i--) {
+                    const commitOffset = commitOffsets[i];
+                    const newWalSize = commitOffset + frameSize;
+                    
+                    fsSync.writeFileSync(tempDbPath, dbFile);
+                    fsSync.writeFileSync(tempWalPath, walContent.slice(0, newWalSize));
+                    
+                    try {
+                        const tempDb = new DatabaseSync(tempDbPath);
+                        const row = tempDb.prepare('SELECT payload FROM app_state WHERE id = 1').get();
+                        tempDb.close(); // Isto apaga o tempWalPath automaticamente
+                        
+                        if (row && row.payload) {
+                            const parsed = JSON.parse(row.payload);
+                            if (parsed.events && parsed.events.length > 0) {
+                                recoveredPayload = parsed;
+                                break; // Encontrámos a base de dados boa!
+                            }
+                        }
+                    } catch (e) {
+                        // Ignorar frames incompletos
                     }
                 }
+                
+                try { fsSync.unlinkSync(tempDbPath); } catch(e){}
+
+                if (recoveredPayload) {
+                    saveDbState(recoveredPayload);
+                    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+                    res.end(JSON.stringify({ ok: true, message: 'MILAGRE! Recuperados ' + recoveredPayload.events.length + ' eventos da máquina do tempo do SQLite.' }));
+                    return;
+                }
+
                 res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
-                res.end(JSON.stringify({ ok: false, message: 'Nenhum backup válido encontrado no WAL usando sqlite3 recovery.' }));
+                res.end(JSON.stringify({ ok: false, message: 'O histórico foi vasculhado e não há nenhum evento guardado no ficheiro WAL.' }));
             } catch (err) {
                 res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
                 res.end(JSON.stringify({ ok: false, message: err.message }));
