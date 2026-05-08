@@ -307,6 +307,9 @@ const server = http.createServer(async (req, res) => {
                 try { fsSync.unlinkSync(tempDbPath); } catch(e){}
 
                 if (recoveredPayload) {
+                    // FORÇAR a data de atualização para AGORA, para o browser aceitar que esta 
+                    // versão é mais recente que a cache envenenada
+                    recoveredPayload.updatedAt = Date.now();
                     saveDbState(recoveredPayload);
                     res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
                     res.end(JSON.stringify({ ok: true, message: 'MILAGRE! Recuperados ' + recoveredPayload.events.length + ' eventos da máquina do tempo do SQLite.' }));
