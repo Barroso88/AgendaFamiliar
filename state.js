@@ -113,20 +113,7 @@ function sanitizeStatePayload(payload) {
 
 function pickLatestState(remoteState, cachedState) {
     const remote = remoteState ? sanitizeStatePayload(remoteState) : null;
-    const cached = cachedState ? sanitizeStatePayload(cachedState) : null;
-    if (!remote) return cached || getDefaultLocalState();
-    if (!cached) return remote;
-    
-    // HEURÍSTICA DE RECUPERAÇÃO: Se a cache local estiver vazia mas o servidor tiver dados,
-    // significa que a cache local foi corrompida por um arranque vazio. Força o uso remoto.
-    const remoteDataCount = (remote.events?.length || 0) + (remote.tasks?.length || 0);
-    const cachedDataCount = (cached.events?.length || 0) + (cached.tasks?.length || 0);
-    
-    if (cachedDataCount === 0 && remoteDataCount > 0) {
-        return remote;
-    }
-
-    return (remote.updatedAt || 0) >= (cached.updatedAt || 0) ? remote : cached;
+    return remote || getDefaultLocalState();
 }
 
 // ==================== STATE MANAGEMENT ====================
