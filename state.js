@@ -93,11 +93,19 @@ function createEmptyStatePayload() {
 function sanitizeStatePayload(payload) {
     const defaults = createEmptyStatePayload();
     const source = payload && typeof payload === 'object' ? payload : {};
+    const tasks = Array.isArray(source.tasks) ? source.tasks : defaults.tasks;
+    tasks.forEach(t => {
+        if (t.members && !t.assignedTo) {
+            t.assignedTo = t.members;
+            delete t.members;
+        }
+    });
+
     return {
         theme: normalizeThemeId(source.theme || defaults.theme),
         events: Array.isArray(source.events) ? source.events : defaults.events,
         shoppingItems: Array.isArray(source.shoppingItems) ? source.shoppingItems : defaults.shoppingItems,
-        tasks: Array.isArray(source.tasks) ? source.tasks : defaults.tasks,
+        tasks: tasks,
         notifications: Array.isArray(source.notifications) ? source.notifications : defaults.notifications,
         updatedAt: Number.isFinite(source.updatedAt) ? source.updatedAt : defaults.updatedAt
     };
