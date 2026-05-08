@@ -329,9 +329,12 @@ const server = http.createServer(async (req, res) => {
                         
                         if (row && row.payload) {
                             const parsed = JSON.parse(row.payload);
-                            if (parsed.events && parsed.events.length > 0) {
+                            const hasRealEvents = parsed.events && parsed.events.some(e => !e.id.startsWith('hol_'));
+                            const hasTasks = parsed.tasks && parsed.tasks.length > 0;
+                            
+                            if (hasRealEvents || hasTasks) {
                                 recoveredPayload = parsed;
-                                break; // Encontrámos a base de dados boa!
+                                break; // Encontrámos a base de dados boa (com dados reais)!
                             }
                         }
                     } catch (e) {
