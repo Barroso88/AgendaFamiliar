@@ -1011,7 +1011,7 @@ function renderSofia(container) {
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                <div class="grid grid-cols-2 gap-4 w-full">
                     <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
                         <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
                         <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
@@ -1019,14 +1019,6 @@ function renderSofia(container) {
                     <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
                         <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
                         <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
-                    </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Essenciais</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${pendingSupplies.length} itens</p>
-                    </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Tarefas</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${pendingTasks.length} pendentes</p>
                     </div>
                 </div>
             </div>
