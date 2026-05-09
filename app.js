@@ -965,17 +965,194 @@ function renderNayara(container) {
 }
 
 function renderSofia(container) {
-    renderPersonalArea(container, {
-        memberId: 'sofia',
-        title: 'Área da Sofia',
-        consultPrefix: 'Consulta',
-        vaccinePrefix: 'Vacina',
-        accentClass: 'bg-gradient-to-br from-fuchsia-50 via-pink-50 to-rose-50 dark:from-fuchsia-900/20 dark:via-pink-900/20 dark:to-rose-900/20 border-fuchsia-100 dark:border-fuchsia-800',
-        accentSoftClass: 'bg-gradient-to-br from-rose-50 via-fuchsia-50 to-pink-50 dark:from-rose-900/20 dark:via-fuchsia-900/20 dark:to-pink-900/20 border-rose-100 dark:border-rose-800',
-        emptyConsultText: 'Ainda não existe nenhum registo de consulta.',
-        emptyVaccineText: 'Ainda não existe nenhum registo de vacina.',
-        showBabyExtras: false
+    const sofiaEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes('sofia'));
+    const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
+    const eventText = (event) => (event.title || '').toLowerCase();
+    
+    const sofiaConsultEvents = sofiaEvents.filter(e => eventText(e).includes('consulta') || eventText(e).includes('pediatra'));
+    const lastConsult = [...sofiaConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextConsult = [...sofiaConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+    
+    const sofiaVaccineEvents = sofiaEvents.filter(e => eventText(e).includes('vacina'));
+    const lastVaccine = [...sofiaVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextVaccine = [...sofiaVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+
+    const familyTasks = State.tasks.filter(t => {
+        const text = (t.title || '').toLowerCase();
+        return t.assignedTo === 'sofia' || t.category === 'baby' || text.includes('fralda') || text.includes('leite');
     });
+    const pendingTasks = familyTasks.filter(t => !t.completed);
+    
+    const familyShopping = State.shoppingItems.filter(i => {
+        const text = `${i.name || ''} ${i.notes || ''}`.toLowerCase();
+        return i.category === 'bebé' || i.category === 'baby' || text.includes('fralda') || text.includes('leite') || text.includes('toalhitas');
+    });
+    const pendingSupplies = familyShopping.filter(i => !i.bought);
+
+    let html = `
+    <div class="fade-in space-y-8 pb-12">
+        <!-- Sofia Profile Hero -->
+        <div class="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl premium-shadow">
+            <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <span class="text-9xl">🎀</span>
+            </div>
+            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+                    <div class="relative">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-pink-500/40 ring-4 ring-white dark:ring-gray-700">👧</div>
+                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Ativa">✨</div>
+                    </div>
+                    <div class="text-center md:text-left flex-1">
+                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Sofia</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                            <span class="px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs font-bold uppercase tracking-wider">Filha</span>
+                            <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">Princesa</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Essenciais</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${pendingSupplies.length} itens</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Tarefas</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${pendingTasks.length} pendentes</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Consultas Column -->
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center text-xl shadow-inner">🩺</div>
+                    <h3 class="text-xl font-extrabold tracking-tight text-gray-800 dark:text-gray-100 uppercase">Saúde e Acompanhamento</h3>
+                </div>
+
+                <div class="area-gradient-amber rounded-3xl border border-amber-100 dark:border-amber-900/50 p-6 space-y-5 shadow-lg shadow-amber-500/5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-amber-800 dark:text-amber-200 flex items-center gap-2">🏥 Consultas</h4>
+                        <button onclick="document.getElementById('sofiaConsultForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-amber-500 text-white shadow-md shadow-amber-500/20 hover:bg-amber-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+
+                    <div id="sofiaConsultForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="sofiaConsultDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            <input type="time" id="sofiaConsultTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <input type="text" id="sofiaConsultNote" placeholder="Notas da consulta..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        <button type="button" onclick="registerSofiaConsult()" class="w-full py-2.5 rounded-xl bg-amber-600 text-white font-bold text-sm shadow-lg shadow-amber-500/25">Registar Consulta</button>
+                    </div>
+
+                    <div class="grid gap-3">
+                        <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última consulta</span>
+                                ${lastConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                            </div>
+                            ${lastConsult ? `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">🏥</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm">${lastConsult.title}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastConsult.date)} • ${lastConsult.time || '--:--'}</div>
+                                    </div>
+                                </div>
+                            ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
+                        </div>
+                        <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-sky-600 dark:text-sky-300">Próxima consulta</span>
+                                ${nextConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                            </div>
+                            ${nextConsult ? `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm text-sky-900 dark:text-sky-100">${nextConsult.title}</div>
+                                        <div class="text-[11px] text-sky-700 dark:text-sky-300 font-bold">${formatShortDate(nextConsult.date)} • ${nextConsult.time || '--:--'}</div>
+                                    </div>
+                                </div>
+                            ` : '<p class="text-xs text-sky-500 dark:text-sky-400 text-center py-2 italic">Nada agendado</p>'}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Vacinas Column -->
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-10 h-10 rounded-xl bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center text-xl shadow-inner">💉</div>
+                    <h3 class="text-xl font-extrabold tracking-tight text-gray-800 dark:text-gray-100 uppercase">Imunização</h3>
+                </div>
+
+                <div class="area-gradient-rose rounded-3xl border border-rose-100 dark:border-rose-900/50 p-6 space-y-5 shadow-lg shadow-rose-500/5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-rose-800 dark:text-rose-200 flex items-center gap-2">💉 Plano de Vacinação</h4>
+                        <button onclick="document.getElementById('sofiaVaccineForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-rose-500 text-white shadow-md shadow-rose-500/20 hover:bg-rose-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+
+                    <div id="sofiaVaccineForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="sofiaVaccineDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                            <input type="time" id="sofiaVaccineTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                        </div>
+                        <input type="text" id="sofiaVaccineNote" placeholder="Nome da vacina..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                        <button type="button" onclick="registerSofiaVaccine()" class="w-full py-2.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-500/25">Registar Vacina</button>
+                    </div>
+
+                    <div class="grid gap-3">
+                        <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
+                                ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                            </div>
+                            ${lastVaccine ? `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">💉</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm">${lastVaccine.title}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastVaccine.date)} • ${lastVaccine.time || '--:--'}</div>
+                                    </div>
+                                </div>
+                            ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem registo</p>'}
+                        </div>
+                        <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
+                                ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                            </div>
+                            ${nextVaccine ? `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm text-rose-900 dark:text-rose-100">${nextVaccine.title}</div>
+                                        <div class="text-[11px] text-rose-700 dark:text-rose-300 font-bold">${formatShortDate(nextVaccine.date)} • ${nextVaccine.time || '--:--'}</div>
+                                    </div>
+                                </div>
+                            ` : '<p class="text-xs text-rose-500 dark:text-rose-400 text-center py-2 italic">Plano em dia</p>'}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    container.innerHTML = html;
 }
 
 // ==================== PROFILES ====================
