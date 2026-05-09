@@ -7,6 +7,7 @@ function renderPage() {
         shopping: renderShopping,
         shopping_market: renderShoppingFocus,
         tasks: renderTasks,
+        notes: typeof renderNotes !== 'undefined' ? renderNotes : renderDashboardFallback,
         gucci: renderGucci,
         sofia: renderSofia,
         andre: renderAndre,

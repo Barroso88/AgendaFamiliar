@@ -82,6 +82,7 @@ function getDefaultLocalState() {
         shoppingItems: [],
         tasks: [],
         notifications: [],
+        notes: [],
         updatedAt: 0
     };
 }
@@ -107,6 +108,7 @@ function sanitizeStatePayload(payload) {
         shoppingItems: Array.isArray(source.shoppingItems) ? source.shoppingItems : defaults.shoppingItems,
         tasks: tasks,
         notifications: Array.isArray(source.notifications) ? source.notifications : defaults.notifications,
+        notes: Array.isArray(source.notes) ? source.notes : defaults.notes,
         updatedAt: Number.isFinite(source.updatedAt) ? source.updatedAt : defaults.updatedAt
     };
 }
@@ -183,6 +185,7 @@ const PAGE_TITLES = {
     sofia: 'Área da Sofia',
     andre: 'Área do André',
     nayara: 'Área da Nayara',
+    notes: 'Notas da Família',
     profiles: 'Gerir Perfis da Família',
     eventos: 'Eventos'
 };

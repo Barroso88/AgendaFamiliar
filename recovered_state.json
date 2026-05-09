@@ -1,0 +1,1142 @@
+{
+  "theme": "ocean",
+  "events": [
+    {
+      "id": "hol_2026_01",
+      "title": "Ano Novo",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-01-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_02",
+      "title": "Carnaval",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-02-17",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_03",
+      "title": "Sexta-feira Santa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-04-03",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_04",
+      "title": "Páscoa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-04-05",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_05",
+      "title": "Dia da Liberdade",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-04-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_06",
+      "title": "Dia do Trabalhador",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-05-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_07",
+      "title": "Corpo de Deus",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-06-04",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_08",
+      "title": "Dia de Portugal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-06-10",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_09",
+      "title": "Assunção de N. Sra.",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-08-15",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_10",
+      "title": "Implantação da República",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-10-05",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_11",
+      "title": "Dia de Todos os Santos",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-11-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_12",
+      "title": "Restauração Independência",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-12-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_13",
+      "title": "Imaculada Conceição",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-12-08",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2026_14",
+      "title": "Natal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2026-12-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_01",
+      "title": "Ano Novo",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-01-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_02",
+      "title": "Carnaval",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-02-09",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_03",
+      "title": "Sexta-feira Santa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-03-26",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_04",
+      "title": "Páscoa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-03-28",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_05",
+      "title": "Dia da Liberdade",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-04-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_06",
+      "title": "Dia do Trabalhador",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-05-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_07",
+      "title": "Corpo de Deus",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-05-27",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_08",
+      "title": "Dia de Portugal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-06-10",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_09",
+      "title": "Assunção de N. Sra.",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-08-15",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_10",
+      "title": "Implantação da República",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-10-05",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_11",
+      "title": "Dia de Todos os Santos",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-11-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_12",
+      "title": "Restauração Independência",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-12-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_13",
+      "title": "Imaculada Conceição",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-12-08",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2027_14",
+      "title": "Natal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2027-12-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_01",
+      "title": "Ano Novo",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-01-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_02",
+      "title": "Carnaval",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-02-29",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_03",
+      "title": "Sexta-feira Santa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-04-14",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_04",
+      "title": "Páscoa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-04-16",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_05",
+      "title": "Dia da Liberdade",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-04-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_06",
+      "title": "Dia do Trabalhador",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-05-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_07",
+      "title": "Corpo de Deus",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-06-15",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_08",
+      "title": "Dia de Portugal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-06-10",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_09",
+      "title": "Assunção de N. Sra.",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-08-15",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_10",
+      "title": "Implantação da República",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-10-05",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_11",
+      "title": "Dia de Todos os Santos",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-11-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_12",
+      "title": "Restauração Independência",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-12-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_13",
+      "title": "Imaculada Conceição",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-12-08",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2028_14",
+      "title": "Natal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2028-12-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_01",
+      "title": "Ano Novo",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-01-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_02",
+      "title": "Carnaval",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-02-13",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_03",
+      "title": "Sexta-feira Santa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-03-30",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_04",
+      "title": "Páscoa",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-04-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_05",
+      "title": "Dia da Liberdade",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-04-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_06",
+      "title": "Dia do Trabalhador",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-05-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_07",
+      "title": "Corpo de Deus",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-05-31",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_08",
+      "title": "Dia de Portugal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-06-10",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_09",
+      "title": "Assunção de N. Sra.",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-08-15",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_10",
+      "title": "Implantação da República",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-10-05",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_11",
+      "title": "Dia de Todos os Santos",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-11-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_12",
+      "title": "Restauração Independência",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-12-01",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_13",
+      "title": "Imaculada Conceição",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-12-08",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    },
+    {
+      "id": "hol_2029_14",
+      "title": "Natal",
+      "description": "Feriado Nacional de Portugal",
+      "date": "2029-12-25",
+      "time": "",
+      "endTime": "",
+      "location": "",
+      "category": "feriado",
+      "members": [
+        "andre",
+        "nayara",
+        "sofia"
+      ],
+      "reminder": false
+    }
+  ],
+  "shoppingItems": [
+    {
+      "id": 1777227553884.224,
+      "name": "Água",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.7852,
+      "name": "Banana",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.4138,
+      "name": "Papaia",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.8044,
+      "name": "Leite desnatado magro",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.3806,
+      "name": "Descafeinado",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.4043,
+      "name": "Feijão",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.8557,
+      "name": "Milho",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.4688,
+      "name": "Natas",
+      "category": "outros",
+      "quantity": 3,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.8542,
+      "name": "Carne",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.407,
+      "name": "Alheira",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.6216,
+      "name": "Bacon",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.0989,
+      "name": "Laranja",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.4866,
+      "name": "Pão",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.1255,
+      "name": "Croassant",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.514,
+      "name": "Queijo cotagge",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777227553884.045,
+      "name": "Batata 1kg",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777228680601.7627,
+      "name": "Tapioca",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777229452232.5537,
+      "name": "Leite condensado",
+      "category": "outros",
+      "quantity": 2,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    },
+    {
+      "id": 1777229836314.1313,
+      "name": "Tomate",
+      "category": "outros",
+      "quantity": 1,
+      "priority": "baixa",
+      "notes": "",
+      "addedBy": "andre",
+      "bought": true
+    }
+  ],
+  "tasks": [
+    {
+      "id": 1776566492905,
+      "title": "Pagar IUC",
+      "description": "",
+      "assignedTo": "andre",
+      "dueDate": "2026-04-30",
+      "completed": true,
+      "category": "geral"
+    },
+    {
+      "id": 1776569228908,
+      "title": "Fazer inspeção do carro",
+      "description": "",
+      "assignedTo": "andre",
+      "dueDate": "2026-04-30",
+      "completed": false,
+      "category": "geral"
+    },
+    {
+      "id": 1776572052027,
+      "title": "Fazer IRS",
+      "description": "",
+      "assignedTo": "andre",
+      "dueDate": "2026-04-30",
+      "completed": true,
+      "category": "geral"
+    },
+    {
+      "id": 1777373898358,
+      "title": "Vacina ",
+      "description": "Agendada ",
+      "assignedTo": "gucci",
+      "dueDate": "2026-05-05",
+      "completed": false,
+      "category": "geral"
+    },
+    {
+      "id": 1777413044021,
+      "title": "Banho ",
+      "description": "Agendado ",
+      "assignedTo": "gucci",
+      "dueDate": "2026-05-02",
+      "completed": false,
+      "category": "geral"
+    }
+  ],
+  "notifications": [],
+  "updatedAt": 1777600295090
+}
