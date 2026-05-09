@@ -108,7 +108,7 @@ function renderDashboard(container) {
                 ` : '<p class="text-gray-500 text-sm py-4">Sem eventos para hoje 🎉</p>'}
             </div>
             
-            <div class="h-full min-h-[420px] bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4">⚠️ Urgente</h3>
                 ${urgentShopping.length ? `
                     <div class="mb-3">
@@ -142,7 +142,7 @@ function renderDashboard(container) {
         </div>
         
         <div class="grid lg:grid-cols-2 gap-6">
-            <div class="h-full min-h-[420px] bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
                 <h3 class="font-bold text-lg mb-4">📆 Esta Semana</h3>
                 ${weekEvents.length ? `
                     <div class="space-y-2">
