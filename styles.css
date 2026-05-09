@@ -538,22 +538,58 @@
             border-color: var(--theme-border, rgba(191, 219, 254, 0.95)) !important;
         }
 
-/* Note Card Colors */
-body[data-theme] #contentArea .note-card.note-yellow { background-color: #fde04766 !important; border-color: #facc15 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-blue { background-color: #93c5fd66 !important; border-color: #60a5fa !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-green { background-color: #6ee7b766 !important; border-color: #34d399 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-pink { background-color: #f9a8d466 !important; border-color: #f472b6 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-purple { background-color: #d8b4fe66 !important; border-color: #c084fc !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-red { background-color: #fca5a566 !important; border-color: #f87171 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-orange { background-color: #fdba7466 !important; border-color: #fb923c !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-teal { background-color: #5eead466 !important; border-color: #2dd4bf !important; color: #1f2937 !important; }
+/* Note Card Base Glassmorphism */
+body[data-theme] #contentArea .note-card {
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4) !important;
+    clip-path: polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05) !important;
+}
 
-/* Dark Mode Note Cards */
-html.dark body[data-theme] #contentArea .note-card.note-yellow { background-color: #ca8a044d !important; border-color: #eab308 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-blue { background-color: #2563eb4d !important; border-color: #3b82f6 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-green { background-color: #0596694d !important; border-color: #10b981 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-pink { background-color: #db27774d !important; border-color: #ec4899 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-purple { background-color: #9333ea4d !important; border-color: #a855f7 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-red { background-color: #dc26264d !important; border-color: #ef4444 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-orange { background-color: #ea580c4d !important; border-color: #f97316 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-teal { background-color: #0d94884d !important; border-color: #14b8a6 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card {
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+body[data-theme] #contentArea .note-card::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 36px;
+    height: 36px;
+    background: linear-gradient(225deg, transparent 50%, rgba(255, 255, 255, 0.6) 50%, rgba(255, 255, 255, 0.2) 100%);
+    box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.1);
+    border-bottom-left-radius: 8px;
+    border-left: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    z-index: 10;
+}
+
+html.dark body[data-theme] #contentArea .note-card::after {
+    background: linear-gradient(225deg, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.05) 100%);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -4px 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Light Mode Note Card Colors (20% Opacity) */
+body[data-theme] #contentArea .note-card.note-yellow { background-color: #fde04733 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-blue { background-color: #93c5fd33 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-green { background-color: #6ee7b733 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-pink { background-color: #f9a8d433 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-purple { background-color: #d8b4fe33 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-red { background-color: #fca5a533 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-orange { background-color: #fdba7433 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-teal { background-color: #5eead433 !important; color: #1f2937 !important; }
+
+/* Dark Mode Note Card Colors (15% Opacity) */
+html.dark body[data-theme] #contentArea .note-card.note-yellow { background-color: #ca8a0426 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-blue { background-color: #2563eb26 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-green { background-color: #05966926 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-pink { background-color: #db277726 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-purple { background-color: #9333ea26 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-red { background-color: #dc262626 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-orange { background-color: #ea580c26 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-teal { background-color: #0d948826 !important; color: #f9fafb !important; }
