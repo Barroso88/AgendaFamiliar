@@ -373,6 +373,7 @@ const State = {
         this.events = safe.events;
         this.shoppingItems = safe.shoppingItems;
         this.tasks = safe.tasks;
+        this.notes = safe.notes;
         this.notifications = safe.notifications;
     },
 
