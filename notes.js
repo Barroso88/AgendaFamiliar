@@ -49,29 +49,29 @@ function renderNotes(container) {
             
             // Format date
             const dateObj = new Date(note.createdAt);
-            const dateStr = \`\${dateObj.getDate().toString().padStart(2, '0')}/\${(dateObj.getMonth() + 1).toString().padStart(2, '0')} às \${dateObj.getHours().toString().padStart(2, '0')}:\${dateObj.getMinutes().toString().padStart(2, '0')}\`;
+            const dateStr = `${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')} às ${dateObj.getHours().toString().padStart(2, '0')}:${dateObj.getMinutes().toString().padStart(2, '0')}`;
             
             // Format content to handle newlines
-            const formattedContent = (note.content || '').replace(/\\n/g, '<br>');
+            const formattedContent = (note.content || '').replace(/\n/g, '<br>');
 
             html += `
-                <div class="card-hover relative p-5 rounded-2xl border \${colorConfig.border} \${colorConfig.bg} shadow-sm transition-all group flex flex-col h-full min-h-[160px]">
+                <div class="card-hover relative p-5 rounded-2xl border ${colorConfig.border} ${colorConfig.bg} shadow-sm transition-all group flex flex-col h-full min-h-[160px]">
                     <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onclick="deleteNote(\${note.id})" class="p-1.5 bg-white/50 dark:bg-gray-800/50 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 rounded-lg transition-colors">
+                        <button onclick="deleteNote(${note.id})" class="p-1.5 bg-white/50 dark:bg-gray-800/50 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 rounded-lg transition-colors">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                         </button>
                     </div>
                     
                     <div class="flex-1 mb-4">
-                        <p class="text-sm md:text-base whitespace-pre-wrap leading-relaxed \${colorConfig.text} font-medium">\${formattedContent}</p>
+                        <p class="text-sm md:text-base whitespace-pre-wrap leading-relaxed ${colorConfig.text} font-medium">${formattedContent}</p>
                     </div>
                     
-                    <div class="mt-auto flex items-center justify-between pt-3 border-t \${colorConfig.border} border-opacity-50">
+                    <div class="mt-auto flex items-center justify-between pt-3 border-t ${colorConfig.border} border-opacity-50">
                         <div class="flex items-center gap-2">
-                            <span class="w-2 h-2 rounded-full \${authorBg} shadow-sm"></span>
-                            <span class="text-xs font-semibold \${colorConfig.text} opacity-80">\${authorName}</span>
+                            <span class="w-2 h-2 rounded-full ${authorBg} shadow-sm"></span>
+                            <span class="text-xs font-semibold ${colorConfig.text} opacity-80">${authorName}</span>
                         </div>
-                        <span class="text-[10px] font-bold uppercase tracking-wider \${colorConfig.text} opacity-60">\${dateStr}</span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider ${colorConfig.text} opacity-60">${dateStr}</span>
                     </div>
                 </div>
             `;
@@ -89,7 +89,7 @@ function renderNotes(container) {
 function openNoteModal() {
     const modalContent = document.getElementById('modalContent');
     const authorOptions = State.members.map(m => 
-        `<option value="\${m.id}">\${m.name}</option>`
+        `<option value="${m.id}">${m.name}</option>`
     ).join('');
 
     let html = `
@@ -107,7 +107,7 @@ function openNoteModal() {
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Autor da Nota</label>
                     <select id="noteAuthor" required class="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none">
-                        \${authorOptions}
+                        ${authorOptions}
                     </select>
                 </div>
                 
@@ -186,7 +186,7 @@ function saveNote(e) {
     
     // Add notification
     const authorName = getMember(author)?.name || 'Alguém';
-    addNotification('Nova Nota', `\${authorName} adicionou uma nova nota para a família.`, 'notes');
+    addNotification('Nova Nota', `${authorName} adicionou uma nova nota para a família.`, 'notes');
     
     closeModal();
     if (State.currentPage === 'notes') {
