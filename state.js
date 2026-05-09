@@ -730,6 +730,18 @@ function clearNotifications() {
     renderNotifications();
 }
 
+function addNotification(title, message, type = 'info') {
+    State.notifications.unshift({
+        id: Date.now(),
+        title: title,
+        message: message,
+        type: type,
+        createdAt: Date.now()
+    });
+    State.saveData();
+    renderNotifications();
+}
+
 // ==================== TOAST ====================
 function showToast(message, type = 'success') {
     const container = document.getElementById('toastContainer');
