@@ -511,9 +511,9 @@
             background: var(--theme-card-gradient, linear-gradient(180deg, var(--theme-surface, #ffffff), var(--theme-surface-strong, #f8fafc))) !important;
             border-color: var(--theme-border, rgba(191, 219, 254, 0.95)) !important;
         }
-        body[data-theme] #contentArea .rounded-xl:not(.note-card),
-        body[data-theme] #contentArea .rounded-2xl:not(.note-card),
-        body[data-theme] #contentArea .rounded-3xl:not(.note-card) {
+        body[data-theme] #contentArea .rounded-xl:not(.note-card):not(.area-status-card),
+        body[data-theme] #contentArea .rounded-2xl:not(.note-card):not(.area-status-card),
+        body[data-theme] #contentArea .rounded-3xl:not(.note-card):not(.area-status-card) {
             background: var(--theme-card-gradient, linear-gradient(180deg, var(--theme-surface, #ffffff), var(--theme-surface-strong, #f8fafc))) !important;
             border-color: var(--theme-border, rgba(191, 219, 254, 0.95)) !important;
         }
