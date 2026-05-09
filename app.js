@@ -636,7 +636,7 @@ async function registerGucciTosa() {
         title: 'Tosa da Gucci',
         description: tosaNote ? tosaNote : 'Registo de tosa',
         date: tosaDate,
-        time: '',
+        time: tosaTime,
         endTime: '',
         location: '',
         category: 'gucci',
