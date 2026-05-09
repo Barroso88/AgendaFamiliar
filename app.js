@@ -1541,8 +1541,8 @@ function renderProfiles(container) {
                     </div>
                 ` : ''}
                 
-                <button onclick="State.filters.member='${m.id}'; navigateTo('calendar')" class="w-full mt-2 px-3 py-2 rounded-lg ${getMemberBg(m.id)} ${getMemberText(m.id)} text-sm font-medium hover:opacity-80 transition-opacity">
-                    Ver Calendário
+                <button onclick="navigateTo('${m.id}')" class="w-full mt-2 px-3 py-2 rounded-lg ${getMemberBg(m.id)} ${getMemberText(m.id)} text-sm font-medium hover:opacity-80 transition-opacity">
+                    Ver Painel
                 </button>
             </div>
         </div>`;
