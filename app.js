@@ -39,9 +39,9 @@ function renderDashboard(container) {
     
     let html = `
     <div class="fade-in space-y-6">
-        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-6 text-white">
-            <h2 class="text-2xl font-bold mb-1">${getGreeting()}</h2>
-            <p class="text-indigo-100">${formatDate(today)} • ${todayEvents.length} eventos hoje • ${scheduledEvents.length} agendados</p>
+        <div class="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-2xl p-5 text-white">
+            <h2 class="text-xl font-bold mb-0.5">${getGreeting()}</h2>
+            <p class="text-indigo-100 text-sm">${formatDate(today)} • ${todayEvents.length} hoje</p>
         </div>
         
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -85,10 +85,10 @@ function renderDashboard(container) {
             </button>
         </div>
         
-        <div class="grid lg:grid-cols-3 gap-6">
-            <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4">
-                <div class="flex items-center justify-between mb-4">
-                    <h3 class="font-bold text-lg">📅 Eventos de Hoje</h3>
+        <div class="grid lg:grid-cols-3 gap-4">
+            <div class="lg:col-span-2 bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-3">
+                <div class="flex items-center justify-between mb-2">
+                    <h3 class="font-bold text-base">📅 Eventos de Hoje</h3>
                     <button onclick="navigateTo('calendar')" class="text-sm text-indigo-600 dark:text-indigo-400 hover:underline">Ver calendário</button>
                 </div>
                 ${todayEvents.length ? `
@@ -108,8 +108,8 @@ function renderDashboard(container) {
                 ` : '<p class="text-gray-500 text-sm py-4">Sem eventos para hoje 🎉</p>'}
             </div>
             
-            <div class="h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
-                <h3 class="font-bold text-lg mb-4">⚠️ Urgente</h3>
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-3 flex flex-col">
+                <h3 class="font-bold text-base mb-2">⚠️ Urgente</h3>
                 ${urgentShopping.length ? `
                     <div class="mb-3">
                         <p class="text-xs font-semibold text-gray-500 mb-2">COMPRAS</p>
@@ -141,9 +141,9 @@ function renderDashboard(container) {
             </div>
         </div>
         
-        <div class="grid lg:grid-cols-2 gap-6">
-            <div class="h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-4 flex flex-col">
-                <h3 class="font-bold text-lg mb-4">📆 Esta Semana</h3>
+        <div class="grid lg:grid-cols-2 gap-4">
+            <div class="h-full bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 p-3 flex flex-col">
+                <h3 class="font-bold text-base mb-2">📆 Esta Semana</h3>
                 ${weekEvents.length ? `
                     <div class="space-y-2">
                         ${weekEvents.slice(0, 5).map(e => `
