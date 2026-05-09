@@ -1,11 +1,14 @@
 // ==================== FAMILY NOTES ====================
 
 const NOTE_COLORS = {
-    yellow: { bg: 'bg-yellow-100 dark:bg-yellow-900/40', border: 'border-yellow-200 dark:border-yellow-800', text: 'text-yellow-800 dark:text-yellow-200' },
-    blue: { bg: 'bg-blue-100 dark:bg-blue-900/40', border: 'border-blue-200 dark:border-blue-800', text: 'text-blue-800 dark:text-blue-200' },
-    green: { bg: 'bg-green-100 dark:bg-green-900/40', border: 'border-green-200 dark:border-green-800', text: 'text-green-800 dark:text-green-200' },
-    pink: { bg: 'bg-pink-100 dark:bg-pink-900/40', border: 'border-pink-200 dark:border-pink-800', text: 'text-pink-800 dark:text-pink-200' },
-    purple: { bg: 'bg-purple-100 dark:bg-purple-900/40', border: 'border-purple-200 dark:border-purple-800', text: 'text-purple-800 dark:text-purple-200' }
+    yellow: { bg: 'bg-yellow-300 dark:bg-yellow-600', border: 'border-yellow-400 dark:border-yellow-500', text: 'text-gray-900 dark:text-gray-50' },
+    blue: { bg: 'bg-blue-300 dark:bg-blue-600', border: 'border-blue-400 dark:border-blue-500', text: 'text-gray-900 dark:text-gray-50' },
+    green: { bg: 'bg-emerald-300 dark:bg-emerald-600', border: 'border-emerald-400 dark:border-emerald-500', text: 'text-gray-900 dark:text-gray-50' },
+    pink: { bg: 'bg-pink-300 dark:bg-pink-600', border: 'border-pink-400 dark:border-pink-500', text: 'text-gray-900 dark:text-gray-50' },
+    purple: { bg: 'bg-purple-300 dark:bg-purple-600', border: 'border-purple-400 dark:border-purple-500', text: 'text-gray-900 dark:text-gray-50' },
+    red: { bg: 'bg-red-300 dark:bg-red-600', border: 'border-red-400 dark:border-red-500', text: 'text-gray-900 dark:text-gray-50' },
+    orange: { bg: 'bg-orange-300 dark:bg-orange-600', border: 'border-orange-400 dark:border-orange-500', text: 'text-gray-900 dark:text-gray-50' },
+    teal: { bg: 'bg-teal-300 dark:bg-teal-600', border: 'border-teal-400 dark:border-teal-500', text: 'text-gray-900 dark:text-gray-50' }
 };
 
 function renderNotes(container) {
@@ -118,26 +121,38 @@ function openNoteModal() {
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Cor da Nota</label>
-                    <div class="flex gap-3">
+                    <div class="flex flex-wrap gap-3">
                         <label class="cursor-pointer group">
                             <input type="radio" name="noteColor" value="yellow" class="peer hidden" checked>
-                            <div class="w-8 h-8 rounded-full bg-yellow-200 dark:bg-yellow-700 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                            <div class="w-8 h-8 rounded-full bg-yellow-300 dark:bg-yellow-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
                             <input type="radio" name="noteColor" value="blue" class="peer hidden">
-                            <div class="w-8 h-8 rounded-full bg-blue-200 dark:bg-blue-700 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                            <div class="w-8 h-8 rounded-full bg-blue-300 dark:bg-blue-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
                             <input type="radio" name="noteColor" value="green" class="peer hidden">
-                            <div class="w-8 h-8 rounded-full bg-green-200 dark:bg-green-700 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                            <div class="w-8 h-8 rounded-full bg-emerald-300 dark:bg-emerald-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
                             <input type="radio" name="noteColor" value="pink" class="peer hidden">
-                            <div class="w-8 h-8 rounded-full bg-pink-200 dark:bg-pink-700 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                            <div class="w-8 h-8 rounded-full bg-pink-300 dark:bg-pink-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
                             <input type="radio" name="noteColor" value="purple" class="peer hidden">
-                            <div class="w-8 h-8 rounded-full bg-purple-200 dark:bg-purple-700 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                            <div class="w-8 h-8 rounded-full bg-purple-300 dark:bg-purple-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                        </label>
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="noteColor" value="red" class="peer hidden">
+                            <div class="w-8 h-8 rounded-full bg-red-300 dark:bg-red-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                        </label>
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="noteColor" value="orange" class="peer hidden">
+                            <div class="w-8 h-8 rounded-full bg-orange-300 dark:bg-orange-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
+                        </label>
+                        <label class="cursor-pointer group">
+                            <input type="radio" name="noteColor" value="teal" class="peer hidden">
+                            <div class="w-8 h-8 rounded-full bg-teal-300 dark:bg-teal-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                     </div>
                 </div>
