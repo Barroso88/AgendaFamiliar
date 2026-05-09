@@ -852,9 +852,9 @@ function renderPersonalArea(container, config) {
                     </button>
                 </div>
                 <div class="grid gap-3">
-                    <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-rose-600 dark:text-rose-300">Última ${consultPrefix}</p>
+                    <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-md shadow-rose-500/10 border border-rose-100 dark:border-rose-900/50 ring-1 ring-rose-50 dark:ring-rose-900/30">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-800 shadow-sm">Última ${consultPrefix}</span>
                             ${lastConsult ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
@@ -872,9 +872,9 @@ function renderPersonalArea(container, config) {
                             </div>
                         ` : `<p class="text-sm text-gray-500">${emptyConsultText || 'Ainda não existe nenhum registo.'}</p>`}
                     </div>
-                    <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-sky-600 dark:text-sky-300">Próxima ${consultPrefix}</p>
+                    <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-md shadow-sky-500/10 border border-sky-100 dark:border-sky-900/50 ring-1 ring-sky-50 dark:ring-sky-900/30">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 border border-sky-200 dark:bg-sky-900/50 dark:text-sky-300 dark:border-sky-800 shadow-sm">Próxima ${consultPrefix}</span>
                             ${nextConsult ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar ${consultPrefix.toLowerCase()}">✏️</button>
@@ -935,9 +935,9 @@ function renderPersonalArea(container, config) {
                             </div>
                         ` : `<p class="text-sm text-gray-500">${emptyVaccineText || 'Ainda não existe nenhum registo de vacina.'}</p>`}
                     </div>
-                    <div class="p-3 rounded-xl bg-white/70 dark:bg-gray-900/25">
-                        <div class="flex items-center justify-between gap-2 mb-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-fuchsia-600 dark:text-fuchsia-300">Próxima ${vaccinePrefix}</p>
+                    <div class="p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-md shadow-fuchsia-500/10 border border-fuchsia-100 dark:border-fuchsia-900/50 ring-1 ring-fuchsia-50 dark:ring-fuchsia-900/30">
+                        <div class="flex items-center justify-between gap-2 mb-3">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200 dark:bg-fuchsia-900/50 dark:text-fuchsia-300 dark:border-fuchsia-800 shadow-sm">Próxima ${vaccinePrefix}</span>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-1">
                                     <button type="button" onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
