@@ -200,7 +200,7 @@ async function saveNote(e, editId) {
     }
 
     if (editId) {
-        const noteIndex = State.notes.findIndex(n => n.id === editId);
+        const noteIndex = State.notes.findIndex(n => n.id.toString() === editId.toString());
         if (noteIndex !== -1) {
             State.notes[noteIndex] = {
                 ...State.notes[noteIndex],
