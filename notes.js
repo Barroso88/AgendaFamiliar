@@ -58,7 +58,7 @@ function renderNotes(container) {
             const formattedContent = (note.content || '').replace(/\n/g, '<br>');
 
             html += `
-                <div class="note-card card-hover relative p-5 rounded-2xl border ${colorConfig.border} ${colorConfig.bg} shadow-sm transition-all group flex flex-col h-full min-h-[160px]">
+                <div class="note-card note-${note.color || 'yellow'} card-hover relative p-5 rounded-2xl shadow-sm transition-all group flex flex-col h-full min-h-[160px]">
                     <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
                         <button onclick="openNoteModal(${note.id})" class="p-1.5 bg-white/50 dark:bg-gray-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 rounded-lg transition-colors" title="Editar Nota">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
