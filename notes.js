@@ -247,7 +247,7 @@ function viewNote(id) {
     const formattedContent = (note.content || '').replace(/\n/g, '<br>');
 
     let html = `
-        <div class="note-card note-${note.color} p-6 md:p-8 rounded-2xl fade-in relative" style="min-height: 300px; display: flex; flex-direction: column;">
+        <div class="note-card note-${note.color} p-6 md:p-8 rounded-2xl fade-in relative" style="min-height: 300px; max-height: 85vh; display: flex; flex-direction: column;">
             <div class="absolute top-4 right-4 flex gap-2">
                 <button onclick="openNoteModal(${note.id})" class="p-2 bg-white/50 dark:bg-gray-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 rounded-lg transition-colors" title="Editar Nota">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
@@ -274,8 +274,8 @@ function viewNote(id) {
     modalContent.innerHTML = html;
     
     // override classes for modal to remove background/border/shadow from #modalContent 
-    // since the note card itself has the color
-    modalContent.className = "bg-transparent shadow-none";
+    // since the note card itself has the color, but keep width constraints
+    modalContent.className = "bg-transparent shadow-none w-full max-w-lg mx-auto";
     
     document.getElementById('modalOverlay').classList.remove('hidden');
 }
