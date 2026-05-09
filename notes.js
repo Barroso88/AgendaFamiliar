@@ -72,7 +72,7 @@ function renderNotes(container) {
                         <p class="text-sm md:text-base whitespace-pre-wrap leading-relaxed ${colorConfig.text} font-medium line-clamp-6">${formattedContent}</p>
                     </div>
                     
-                    <div class="mt-auto flex items-center justify-between pt-3 border-t ${colorConfig.border} border-opacity-50">
+                    <div class="mt-auto flex items-center justify-between pt-3 pl-8 border-t ${colorConfig.border} border-opacity-50">
                         <div class="flex items-center gap-2">
                             <span class="w-2 h-2 rounded-full ${authorBg} shadow-sm"></span>
                             <span class="text-xs font-semibold ${colorConfig.text} opacity-80">${authorName}</span>
@@ -261,7 +261,7 @@ function viewNote(id) {
                 <p class="text-lg md:text-xl whitespace-pre-wrap leading-relaxed ${colorConfig.text} font-medium">${formattedContent}</p>
             </div>
             
-            <div class="mt-auto flex items-center justify-between pt-4 border-t ${colorConfig.border} border-opacity-50">
+            <div class="mt-auto flex items-center justify-between pt-4 pl-8 border-t ${colorConfig.border} border-opacity-50">
                 <div class="flex items-center gap-2">
                     <span class="w-3 h-3 rounded-full ${authorBg} shadow-sm"></span>
                     <span class="text-sm font-semibold ${colorConfig.text} opacity-80">${authorName}</span>
