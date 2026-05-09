@@ -283,22 +283,22 @@ function renderGucci(container) {
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
                     <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
                         <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? formatShortDate(nextConsult.date) : '—'}</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
                     </div>
                     <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
                         <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? formatShortDate(nextVaccine.date) : '—'}</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
                     </div>
                     <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
                         <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próximo Banho</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextBath ? formatShortDate(nextBath.date) : '—'}</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextBath ? `${formatShortDate(nextBath.date)} ${nextBath.time || ''}` : '—'}</p>
                     </div>
                     <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
                         <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Tosa</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextTosa ? formatShortDate(nextTosa.date) : '—'}</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextTosa ? `${formatShortDate(nextTosa.date)} ${nextTosa.time || ''}` : '—'}</p>
                     </div>
                 </div>
             </div>
@@ -393,7 +393,7 @@ function renderGucci(container) {
                                     <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">💉</div>
                                     <div class="flex-1">
                                         <div class="font-bold text-sm">${lastVaccine.title}</div>
-                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastVaccine.date)}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastVaccine.date)} • ${lastVaccine.time || '--:--'}</div>
                                     </div>
                                 </div>
                             ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem registo</p>'}
@@ -408,7 +408,7 @@ function renderGucci(container) {
                                     <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
                                     <div class="flex-1">
                                         <div class="font-bold text-sm text-rose-900 dark:text-rose-100">${nextVaccine.title}</div>
-                                        <div class="text-[11px] text-rose-700 dark:text-rose-300 font-bold">${formatShortDate(nextVaccine.date)}</div>
+                                        <div class="text-[11px] text-rose-700 dark:text-rose-300 font-bold">${formatShortDate(nextVaccine.date)} • ${nextVaccine.time || '--:--'}</div>
                                     </div>
                                 </div>
                             ` : '<p class="text-xs text-rose-500 dark:text-rose-400 text-center py-2 italic">Plano em dia</p>'}
@@ -452,7 +452,7 @@ function renderGucci(container) {
                                     <div class="w-10 h-10 rounded-2xl bg-sky-50 dark:bg-sky-900/30 flex items-center justify-center text-xl">🛁</div>
                                     <div class="flex-1">
                                         <div class="font-bold text-sm">${lastBath.title}</div>
-                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastBath.date)}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastBath.date)} • ${lastBath.time || '--:--'}</div>
                                     </div>
                                 </div>
                             ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
@@ -467,7 +467,7 @@ function renderGucci(container) {
                                     <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
                                     <div class="flex-1">
                                         <div class="font-bold text-sm text-blue-900 dark:text-blue-100">${nextBath.title}</div>
-                                        <div class="text-[11px] text-blue-700 dark:text-blue-300 font-bold">${formatShortDate(nextBath.date)}</div>
+                                        <div class="text-[11px] text-blue-700 dark:text-blue-300 font-bold">${formatShortDate(nextBath.date)} • ${nextBath.time || '--:--'}</div>
                                     </div>
                                 </div>
                             ` : '<p class="text-xs text-blue-500 dark:text-blue-400 text-center py-2 italic">A precisar de banho?</p>'}
@@ -503,7 +503,7 @@ function renderGucci(container) {
                                     <div class="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-xl">✂️</div>
                                     <div class="flex-1">
                                         <div class="font-bold text-sm">${lastTosa.title}</div>
-                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastTosa.date)}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastTosa.date)} • ${lastTosa.time || '--:--'}</div>
                                     </div>
                                 </div>
                             ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
@@ -518,7 +518,7 @@ function renderGucci(container) {
                                     <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
                                     <div class="flex-1">
                                         <div class="font-bold text-sm text-violet-900 dark:text-violet-100">${nextTosa.title}</div>
-                                        <div class="text-[11px] text-violet-700 dark:text-violet-300 font-bold">${formatShortDate(nextTosa.date)}</div>
+                                        <div class="text-[11px] text-violet-700 dark:text-violet-300 font-bold">${formatShortDate(nextTosa.date)} • ${nextTosa.time || '--:--'}</div>
                                     </div>
                                 </div>
                             ` : '<p class="text-xs text-violet-500 dark:text-violet-400 text-center py-2 italic">A precisar de um corte?</p>'}
