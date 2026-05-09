@@ -938,30 +938,348 @@ function renderPersonalArea(container, config) {
     container.innerHTML = html;
 }
 
+function calculateHumanAge(birthDateStr) {
+    const birthDate = new Date(birthDateStr);
+    const today = new Date();
+    let years = today.getFullYear() - birthDate.getFullYear();
+    let months = today.getMonth() - birthDate.getMonth();
+    if (today.getDate() < birthDate.getDate()) months--;
+    if (months < 0) { years--; months += 12; }
+    return `${years} ${years === 1 ? 'Ano' : 'Anos'} e ${months} ${months === 1 ? 'Mês' : 'Meses'}`;
+}
+
 function renderAndre(container) {
-    renderPersonalArea(container, {
-        memberId: 'andre',
-        title: 'Área do André',
-        consultPrefix: 'Consulta',
-        vaccinePrefix: 'Vacina',
-        accentClass: 'bg-gradient-to-br from-sky-50 via-blue-50 to-indigo-50 dark:from-sky-900/20 dark:via-blue-900/20 dark:to-indigo-900/20 border-sky-100 dark:border-sky-800',
-        accentSoftClass: 'bg-gradient-to-br from-cyan-50 via-sky-50 to-blue-50 dark:from-cyan-900/20 dark:via-sky-900/20 dark:to-blue-900/20 border-cyan-100 dark:border-cyan-800',
-        emptyConsultText: 'Ainda não existe nenhum registo de consulta.',
-        emptyVaccineText: 'Ainda não existe nenhum registo de vacina.'
-    });
+    const andreEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes('andre'));
+    const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
+    const eventText = (event) => (event.title || '').toLowerCase();
+    
+    const andreConsultEvents = andreEvents.filter(e => eventText(e).includes('consulta'));
+    const lastConsult = [...andreConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextConsult = [...andreConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+    
+    const andreVaccineEvents = andreEvents.filter(e => eventText(e).includes('vacina'));
+    const lastVaccine = [...andreVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextVaccine = [...andreVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+
+    const age = calculateHumanAge('1988-01-05');
+
+    let html = `
+    <div class="fade-in space-y-8 pb-12">
+        <!-- Andre Profile Hero -->
+        <div class="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl premium-shadow">
+            <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <span class="text-9xl">👨</span>
+            </div>
+            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+                    <div class="relative">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-blue-500/40 ring-4 ring-white dark:ring-gray-700">👨</div>
+                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Ativa">✨</div>
+                    </div>
+                    <div class="text-center md:text-left flex-1">
+                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">André</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                            <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">Pai</span>
+                            <span class="px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider">${age}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 w-full">
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-1 gap-8">
+            <!-- Health Column -->
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-10 h-10 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-xl shadow-inner">🩺</div>
+                    <h3 class="text-xl font-extrabold tracking-tight text-gray-800 dark:text-gray-100 uppercase">Saúde e Bem-Estar</h3>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="area-gradient-amber rounded-3xl border border-amber-100 dark:border-amber-900/50 p-6 space-y-5 shadow-lg shadow-amber-500/5">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-amber-800 dark:text-amber-200 flex items-center gap-2">🏥 Consultas</h4>
+                            <button onclick="document.getElementById('andreConsultForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-amber-500 text-white shadow-md shadow-amber-500/20 hover:bg-amber-600 transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            </button>
+                        </div>
+
+                        <div id="andreConsultForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="date" id="andreConsultDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                                <input type="time" id="andreConsultTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <input type="text" id="andreConsultNote" placeholder="Notas da consulta..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            <button type="button" onclick="registerPersonalConsult('andre', 'André')" class="w-full py-2.5 rounded-xl bg-amber-600 text-white font-bold text-sm shadow-lg shadow-amber-500/25">Registar Consulta</button>
+                        </div>
+
+                        <div class="grid gap-3">
+                            <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última consulta</span>
+                                    ${lastConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                </div>
+                                ${lastConsult ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">🏥</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm">${lastConsult.title}</div>
+                                            <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastConsult.date)} • ${lastConsult.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
+                            </div>
+                            <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-sky-600 dark:text-sky-300">Próxima consulta</span>
+                                    ${nextConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                </div>
+                                ${nextConsult ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm text-sky-900 dark:text-sky-100">${nextConsult.title}</div>
+                                            <div class="text-[11px] text-sky-700 dark:text-sky-300 font-bold">${formatShortDate(nextConsult.date)} • ${nextConsult.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-sky-500 dark:text-sky-400 text-center py-2 italic">Nada agendado</p>'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="area-gradient-rose rounded-3xl border border-rose-100 dark:border-rose-900/50 p-6 space-y-5 shadow-lg shadow-rose-500/5">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-rose-800 dark:text-rose-200 flex items-center gap-2">💉 Plano de Vacinação</h4>
+                            <button onclick="document.getElementById('andreVaccineForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-rose-500 text-white shadow-md shadow-rose-500/20 hover:bg-rose-600 transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            </button>
+                        </div>
+
+                        <div id="andreVaccineForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="date" id="andreVaccineDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                                <input type="time" id="andreVaccineTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                            </div>
+                            <input type="text" id="andreVaccineNote" placeholder="Nome da vacina..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                            <button type="button" onclick="registerPersonalVaccine('andre', 'André')" class="w-full py-2.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-500/25">Registar Vacina</button>
+                        </div>
+
+                        <div class="grid gap-3">
+                            <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
+                                    ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                </div>
+                                ${lastVaccine ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">💉</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm">${lastVaccine.title}</div>
+                                            <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastVaccine.date)} • ${lastVaccine.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem registo</p>'}
+                            </div>
+                            <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
+                                    ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                </div>
+                                ${nextVaccine ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm text-rose-900 dark:text-rose-100">${nextVaccine.title}</div>
+                                            <div class="text-[11px] text-rose-700 dark:text-rose-300 font-bold">${formatShortDate(nextVaccine.date)} • ${nextVaccine.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-rose-500 dark:text-rose-400 text-center py-2 italic">Plano em dia</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    container.innerHTML = html;
 }
 
 function renderNayara(container) {
-    renderPersonalArea(container, {
-        memberId: 'nayara',
-        title: 'Área da Nayara',
-        consultPrefix: 'Consulta',
-        vaccinePrefix: 'Vacina',
-        accentClass: 'bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/20 dark:via-pink-900/20 dark:to-fuchsia-900/20 border-rose-100 dark:border-rose-800',
-        accentSoftClass: 'bg-gradient-to-br from-fuchsia-50 via-pink-50 to-rose-50 dark:from-fuchsia-900/20 dark:via-pink-900/20 dark:to-rose-900/20 border-fuchsia-100 dark:border-fuchsia-800',
-        emptyConsultText: 'Ainda não existe nenhum registo de consulta.',
-        emptyVaccineText: 'Ainda não existe nenhum registo de vacina.'
-    });
+    const nayaraEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes('nayara'));
+    const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
+    const eventText = (event) => (event.title || '').toLowerCase();
+    
+    const nayaraConsultEvents = nayaraEvents.filter(e => eventText(e).includes('consulta'));
+    const lastConsult = [...nayaraConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextConsult = [...nayaraConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+    
+    const nayaraVaccineEvents = nayaraEvents.filter(e => eventText(e).includes('vacina'));
+    const lastVaccine = [...nayaraVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
+    const nextVaccine = [...nayaraVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+
+    const age = calculateHumanAge('1992-01-05');
+
+    let html = `
+    <div class="fade-in space-y-8 pb-12">
+        <!-- Nayara Profile Hero -->
+        <div class="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl premium-shadow">
+            <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <span class="text-9xl">👩</span>
+            </div>
+            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+                    <div class="relative">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-rose-500/40 ring-4 ring-white dark:ring-gray-700">👩</div>
+                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Ativa">✨</div>
+                    </div>
+                    <div class="text-center md:text-left flex-1">
+                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Nayara</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                            <span class="px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs font-bold uppercase tracking-wider">Mãe</span>
+                            <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-xs font-bold uppercase tracking-wider">${age}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4 w-full">
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid lg:grid-cols-1 gap-8">
+            <!-- Health Column -->
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-10 h-10 rounded-xl bg-pink-100 dark:bg-pink-900/30 flex items-center justify-center text-xl shadow-inner">🩺</div>
+                    <h3 class="text-xl font-extrabold tracking-tight text-gray-800 dark:text-gray-100 uppercase">Saúde e Bem-Estar</h3>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-6">
+                    <div class="area-gradient-amber rounded-3xl border border-amber-100 dark:border-amber-900/50 p-6 space-y-5 shadow-lg shadow-amber-500/5">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-amber-800 dark:text-amber-200 flex items-center gap-2">🏥 Consultas</h4>
+                            <button onclick="document.getElementById('nayaraConsultForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-amber-500 text-white shadow-md shadow-amber-500/20 hover:bg-amber-600 transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            </button>
+                        </div>
+
+                        <div id="nayaraConsultForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="date" id="nayaraConsultDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                                <input type="time" id="nayaraConsultTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            </div>
+                            <input type="text" id="nayaraConsultNote" placeholder="Notas da consulta..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            <button type="button" onclick="registerPersonalConsult('nayara', 'Nayara')" class="w-full py-2.5 rounded-xl bg-amber-600 text-white font-bold text-sm shadow-lg shadow-amber-500/25">Registar Consulta</button>
+                        </div>
+
+                        <div class="grid gap-3">
+                            <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última consulta</span>
+                                    ${lastConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                </div>
+                                ${lastConsult ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">🏥</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm">${lastConsult.title}</div>
+                                            <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastConsult.date)} • ${lastConsult.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
+                            </div>
+                            <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-sky-600 dark:text-sky-300">Próxima consulta</span>
+                                    ${nextConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                </div>
+                                ${nextConsult ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm text-sky-900 dark:text-sky-100">${nextConsult.title}</div>
+                                            <div class="text-[11px] text-sky-700 dark:text-sky-300 font-bold">${formatShortDate(nextConsult.date)} • ${nextConsult.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-sky-500 dark:text-sky-400 text-center py-2 italic">Nada agendado</p>'}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="area-gradient-rose rounded-3xl border border-rose-100 dark:border-rose-900/50 p-6 space-y-5 shadow-lg shadow-rose-500/5">
+                        <div class="flex items-center justify-between">
+                            <h4 class="font-bold text-rose-800 dark:text-rose-200 flex items-center gap-2">💉 Plano de Vacinação</h4>
+                            <button onclick="document.getElementById('nayaraVaccineForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-rose-500 text-white shadow-md shadow-rose-500/20 hover:bg-rose-600 transition-all">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                            </button>
+                        </div>
+
+                        <div id="nayaraVaccineForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                            <div class="grid grid-cols-2 gap-2">
+                                <input type="date" id="nayaraVaccineDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                                <input type="time" id="nayaraVaccineTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                            </div>
+                            <input type="text" id="nayaraVaccineNote" placeholder="Nome da vacina..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                            <button type="button" onclick="registerPersonalVaccine('nayara', 'Nayara')" class="w-full py-2.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-500/25">Registar Vacina</button>
+                        </div>
+
+                        <div class="grid gap-3">
+                            <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
+                                    ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                </div>
+                                ${lastVaccine ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">💉</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm">${lastVaccine.title}</div>
+                                            <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastVaccine.date)} • ${lastVaccine.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem registo</p>'}
+                            </div>
+                            <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
+                                <div class="flex items-center justify-between mb-3">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
+                                    ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                </div>
+                                ${nextVaccine ? `
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                        <div class="flex-1">
+                                            <div class="font-bold text-sm text-rose-900 dark:text-rose-100">${nextVaccine.title}</div>
+                                            <div class="text-[11px] text-rose-700 dark:text-rose-300 font-bold">${formatShortDate(nextVaccine.date)} • ${nextVaccine.time || '--:--'}</div>
+                                        </div>
+                                    </div>
+                                ` : '<p class="text-xs text-rose-500 dark:text-rose-400 text-center py-2 italic">Plano em dia</p>'}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
+    container.innerHTML = html;
 }
 
 function renderSofia(container) {
