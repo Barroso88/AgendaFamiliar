@@ -159,7 +159,7 @@ function openNoteModal() {
     }, 100);
 }
 
-function saveNote(e) {
+async function saveNote(e) {
     e.preventDefault();
     
     const content = document.getElementById('noteContent').value.trim();
@@ -182,7 +182,7 @@ function saveNote(e) {
     };
 
     State.notes.push(newNote);
-    saveState();
+    await State.saveData();
     
     // Add notification
     const authorName = getMember(author)?.name || 'Alguém';
@@ -194,10 +194,10 @@ function saveNote(e) {
     }
 }
 
-function deleteNote(id) {
+async function deleteNote(id) {
     if (confirm('Tens a certeza que queres apagar esta nota?')) {
         State.notes = State.notes.filter(n => n.id !== id);
-        saveState();
+        await State.saveData();
         if (State.currentPage === 'notes') {
             renderPage();
         }
