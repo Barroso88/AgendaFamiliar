@@ -59,14 +59,17 @@ function renderNotes(container) {
 
             html += `
                 <div class="note-card card-hover relative p-5 rounded-2xl border ${colorConfig.border} ${colorConfig.bg} shadow-sm transition-all group flex flex-col h-full min-h-[160px]">
-                    <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <button onclick="deleteNote(${note.id})" class="p-1.5 bg-white/50 dark:bg-gray-800/50 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 rounded-lg transition-colors">
+                    <div class="absolute top-3 right-3 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                        <button onclick="openNoteModal(${note.id})" class="p-1.5 bg-white/50 dark:bg-gray-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 rounded-lg transition-colors" title="Editar Nota">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                        </button>
+                        <button onclick="deleteNote(${note.id})" class="p-1.5 bg-white/50 dark:bg-gray-800/50 hover:bg-red-100 dark:hover:bg-red-900/50 text-red-600 rounded-lg transition-colors" title="Apagar Nota">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
                         </button>
                     </div>
                     
-                    <div class="flex-1 mb-4">
-                        <p class="text-sm md:text-base whitespace-pre-wrap leading-relaxed ${colorConfig.text} font-medium">${formattedContent}</p>
+                    <div class="flex-1 mb-4 cursor-pointer" onclick="viewNote(${note.id})">
+                        <p class="text-sm md:text-base whitespace-pre-wrap leading-relaxed ${colorConfig.text} font-medium line-clamp-6">${formattedContent}</p>
                     </div>
                     
                     <div class="mt-auto flex items-center justify-between pt-3 border-t ${colorConfig.border} border-opacity-50">
@@ -89,24 +92,30 @@ function renderNotes(container) {
     container.innerHTML = html;
 }
 
-function openNoteModal() {
+function openNoteModal(editId = null) {
     const modalContent = document.getElementById('modalContent');
+    
+    let noteToEdit = null;
+    if (editId) {
+        noteToEdit = (State.notes || []).find(n => n.id === editId);
+    }
+    
     const authorOptions = State.members.map(m => 
-        `<option value="${m.id}">${m.name}</option>`
+        `<option value="${m.id}" ${noteToEdit && noteToEdit.author === m.id ? 'selected' : ''}>${m.name}</option>`
     ).join('');
 
     let html = `
         <div class="p-5 md:p-6 fade-in">
             <div class="flex justify-between items-center mb-5">
                 <h3 class="text-lg font-bold text-gray-900 dark:text-white flex items-center gap-2">
-                    <span class="text-xl">📝</span> Nova Nota
+                    <span class="text-xl">📝</span> ${noteToEdit ? 'Editar Nota' : 'Nova Nota'}
                 </h3>
                 <button onclick="closeModal()" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-200">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
                 </button>
             </div>
             
-            <form id="noteForm" onsubmit="saveNote(event)" class="space-y-4">
+            <form id="noteForm" onsubmit="saveNote(event, ${editId ? `'${editId}'` : 'null'})" class="space-y-4">
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Autor da Nota</label>
                     <select id="noteAuthor" required class="w-full p-2.5 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none">
@@ -116,42 +125,42 @@ function openNoteModal() {
                 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">Nota</label>
-                    <textarea id="noteContent" required rows="4" placeholder="Escreve o recado ou aviso..." class="w-full p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none resize-none"></textarea>
+                    <textarea id="noteContent" required rows="4" placeholder="Escreve o recado ou aviso..." class="w-full p-3 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all text-sm outline-none resize-none">${noteToEdit ? noteToEdit.content : ''}</textarea>
                 </div>
 
                 <div>
                     <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">Cor da Nota</label>
                     <div class="flex flex-wrap gap-3">
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="yellow" class="peer hidden" checked>
+                            <input type="radio" name="noteColor" value="yellow" class="peer hidden" ${!noteToEdit || noteToEdit.color === 'yellow' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-yellow-300 dark:bg-yellow-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="blue" class="peer hidden">
+                            <input type="radio" name="noteColor" value="blue" class="peer hidden" ${noteToEdit && noteToEdit.color === 'blue' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-blue-300 dark:bg-blue-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="green" class="peer hidden">
+                            <input type="radio" name="noteColor" value="green" class="peer hidden" ${noteToEdit && noteToEdit.color === 'green' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-emerald-300 dark:bg-emerald-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="pink" class="peer hidden">
+                            <input type="radio" name="noteColor" value="pink" class="peer hidden" ${noteToEdit && noteToEdit.color === 'pink' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-pink-300 dark:bg-pink-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="purple" class="peer hidden">
+                            <input type="radio" name="noteColor" value="purple" class="peer hidden" ${noteToEdit && noteToEdit.color === 'purple' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-purple-300 dark:bg-purple-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="red" class="peer hidden">
+                            <input type="radio" name="noteColor" value="red" class="peer hidden" ${noteToEdit && noteToEdit.color === 'red' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-red-300 dark:bg-red-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="orange" class="peer hidden">
+                            <input type="radio" name="noteColor" value="orange" class="peer hidden" ${noteToEdit && noteToEdit.color === 'orange' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-orange-300 dark:bg-orange-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                         <label class="cursor-pointer group">
-                            <input type="radio" name="noteColor" value="teal" class="peer hidden">
+                            <input type="radio" name="noteColor" value="teal" class="peer hidden" ${noteToEdit && noteToEdit.color === 'teal' ? 'checked' : ''}>
                             <div class="w-8 h-8 rounded-full bg-teal-300 dark:bg-teal-600 border-2 border-transparent peer-checked:border-gray-900 dark:peer-checked:border-white shadow-sm transition-all group-hover:scale-110"></div>
                         </label>
                     </div>
@@ -174,7 +183,7 @@ function openNoteModal() {
     }, 100);
 }
 
-async function saveNote(e) {
+async function saveNote(e, editId) {
     e.preventDefault();
     
     const content = document.getElementById('noteContent').value.trim();
@@ -188,26 +197,102 @@ async function saveNote(e) {
         State.notes = [];
     }
 
-    const newNote = {
-        id: Date.now(),
-        content: content,
-        author: author,
-        color: color,
-        createdAt: Date.now()
-    };
+    if (editId) {
+        const noteIndex = State.notes.findIndex(n => n.id === editId);
+        if (noteIndex !== -1) {
+            State.notes[noteIndex] = {
+                ...State.notes[noteIndex],
+                content: content,
+                author: author,
+                color: color
+            };
+        }
+    } else {
+        const newNote = {
+            id: Date.now(),
+            content: content,
+            author: author,
+            color: color,
+            createdAt: Date.now()
+        };
+        State.notes.push(newNote);
+        
+        // Add notification only for new notes
+        const authorName = getMember(author)?.name || 'Alguém';
+        addNotification('Nova Nota', `${authorName} adicionou uma nova nota para a família.`, 'notes');
+    }
 
-    State.notes.push(newNote);
     await State.saveData();
-    
-    // Add notification
-    const authorName = getMember(author)?.name || 'Alguém';
-    addNotification('Nova Nota', `${authorName} adicionou uma nova nota para a família.`, 'notes');
     
     closeModal();
     if (State.currentPage === 'notes') {
         renderPage();
     }
 }
+
+function viewNote(id) {
+    const note = (State.notes || []).find(n => n.id === id);
+    if (!note) return;
+
+    const modalContent = document.getElementById('modalContent');
+    const colorConfig = NOTE_COLORS[note.color] || NOTE_COLORS.yellow;
+    
+    const author = getMember(note.author);
+    const authorName = author ? author.name : 'Desconhecido';
+    const authorBg = author ? getMemberBg(note.author, '500') : 'bg-gray-400';
+    
+    const dateObj = new Date(note.createdAt);
+    const dateStr = `${dateObj.getDate().toString().padStart(2, '0')}/${(dateObj.getMonth() + 1).toString().padStart(2, '0')} às ${dateObj.getHours().toString().padStart(2, '0')}:${dateObj.getMinutes().toString().padStart(2, '0')}`;
+    
+    const formattedContent = (note.content || '').replace(/\n/g, '<br>');
+
+    let html = `
+        <div class="note-card note-${note.color} p-6 md:p-8 rounded-2xl fade-in relative" style="min-height: 300px; display: flex; flex-direction: column;">
+            <div class="absolute top-4 right-4 flex gap-2">
+                <button onclick="openNoteModal(${note.id})" class="p-2 bg-white/50 dark:bg-gray-800/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-600 rounded-lg transition-colors" title="Editar Nota">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                </button>
+                <button onclick="closeModal()" class="p-2 bg-white/50 dark:bg-gray-800/50 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-200 rounded-lg transition-colors" title="Fechar">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+                </button>
+            </div>
+            
+            <div class="flex-1 mt-8 mb-6 overflow-y-auto pr-2 custom-scrollbar">
+                <p class="text-lg md:text-xl whitespace-pre-wrap leading-relaxed ${colorConfig.text} font-medium">${formattedContent}</p>
+            </div>
+            
+            <div class="mt-auto flex items-center justify-between pt-4 border-t ${colorConfig.border} border-opacity-50">
+                <div class="flex items-center gap-2">
+                    <span class="w-3 h-3 rounded-full ${authorBg} shadow-sm"></span>
+                    <span class="text-sm font-semibold ${colorConfig.text} opacity-80">${authorName}</span>
+                </div>
+                <span class="text-xs font-bold uppercase tracking-wider ${colorConfig.text} opacity-60">${dateStr}</span>
+            </div>
+        </div>
+    `;
+
+    modalContent.innerHTML = html;
+    
+    // override classes for modal to remove background/border/shadow from #modalContent 
+    // since the note card itself has the color
+    modalContent.className = "bg-transparent shadow-none";
+    
+    document.getElementById('modalOverlay').classList.remove('hidden');
+}
+
+// Restore modalContent class when closing modal
+const originalCloseModal = window.closeModal;
+window.closeModal = function() {
+    const modalContent = document.getElementById('modalContent');
+    if (modalContent) {
+        modalContent.className = "bg-white dark:bg-gray-800 rounded-2xl w-full max-w-md mx-4 shadow-2xl transform transition-all";
+    }
+    if (originalCloseModal) {
+        originalCloseModal();
+    } else {
+        document.getElementById('modalOverlay').classList.add('hidden');
+    }
+};
 
 async function deleteNote(id) {
     if (confirm('Tens a certeza que queres apagar esta nota?')) {
