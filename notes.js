@@ -94,6 +94,8 @@ function renderNotes(container) {
 
 function openNoteModal(editId = null) {
     const modalContent = document.getElementById('modalContent');
+    // Restore base classes in case they were modified by viewNote
+    modalContent.className = "bg-white dark:bg-gray-800 rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] overflow-y-auto fade-in";
     
     let noteToEdit = null;
     if (editId) {
