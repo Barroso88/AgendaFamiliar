@@ -250,311 +250,287 @@ function renderGucci(container) {
     const gucciTosaEvents = gucciEvents.filter(e => eventText(e).includes('tosa'));
     const lastTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextTosa = [...gucciTosaEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
+    const calculateGucciAge = () => {
+        const birthDate = new Date('2022-11-15');
+        const today = new Date();
+        let years = today.getFullYear() - birthDate.getFullYear();
+        let months = today.getMonth() - birthDate.getMonth();
+        if (today.getDate() < birthDate.getDate()) months--;
+        if (months < 0) { years--; months += 12; }
+        return `${years} ${years === 1 ? 'Ano' : 'Anos'} e ${months} ${months === 1 ? 'Mês' : 'Meses'}`;
+    };
+
     let html = `
-    <div class="fade-in">
-        <div class="gucci-top-grid grid gap-2 md:gap-4 mb-6">
-            <div class="bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/25 dark:via-orange-900/25 dark:to-yellow-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-amber-100 dark:border-amber-800 shadow-lg shadow-amber-500/10 min-w-0 overflow-hidden">
-                <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
-                    <div class="text-lg md:text-2xl">🏥</div>
-                </div>
-                <div class="min-w-0">
-                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextConsult ? nextConsult.title : 'Sem consulta futura'}</p>
-                </div>
-                <p class="text-sm md:text-xl font-bold text-amber-700 dark:text-amber-200 mt-0.5 md:mt-1">${nextConsult ? `${new Date(nextConsult.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-amber-700/90 dark:text-amber-200/90 break-words whitespace-normal">${nextConsult ? `${nextConsult.time || 'Sem hora'}` : 'Adiciona uma nova consulta'}</p>
+    <div class="fade-in space-y-8 pb-12">
+        <!-- Gucci Profile Hero -->
+        <div class="relative overflow-hidden rounded-3xl bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 shadow-xl premium-shadow">
+            <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
+                <span class="text-9xl">🐾</span>
             </div>
-            <div class="bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/25 dark:via-pink-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-rose-100 dark:border-rose-800 shadow-lg shadow-rose-500/10 min-w-0 overflow-hidden">
-                <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
-                    <div class="text-lg md:text-2xl">💉</div>
+            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+                    <div class="relative">
+                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-amber-500/40 ring-4 ring-white dark:ring-gray-700">🐶</div>
+                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Saudável">✨</div>
+                    </div>
+                    <div class="text-center md:text-left flex-1">
+                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Gucci</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
+                            <span class="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-wider">Shih Tzu</span>
+                            <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">${calculateGucciAge()}</span>
+                            <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-xs font-bold uppercase tracking-wider">Fêmea</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="min-w-0">
-                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextVaccine ? nextVaccine.title : 'Sem vacina futura'}</p>
+
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? formatShortDate(nextConsult.date) : '—'}</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? formatShortDate(nextVaccine.date) : '—'}</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próximo Banho</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextBath ? formatShortDate(nextBath.date) : '—'}</p>
+                    </div>
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Tosa</p>
+                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextTosa ? formatShortDate(nextTosa.date) : '—'}</p>
+                    </div>
                 </div>
-                <p class="text-sm md:text-xl font-bold text-rose-700 dark:text-rose-200 mt-0.5 md:mt-1">${nextVaccine ? `${new Date(nextVaccine.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-rose-700/90 dark:text-rose-200/90 break-words whitespace-normal">${nextVaccine ? `${nextVaccine.time || 'Sem hora'}` : 'Adiciona uma nova vacina'}</p>
-            </div>
-            <div class="bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-sky-900/25 dark:via-cyan-900/25 dark:to-blue-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-sky-100 dark:border-sky-800 shadow-lg shadow-sky-500/10 min-w-0 overflow-hidden">
-                <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
-                    <div class="text-lg md:text-2xl">🛁</div>
-                </div>
-                <div class="min-w-0">
-                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextBath ? nextBath.title : 'Sem banho futuro'}</p>
-                </div>
-                <p class="text-sm md:text-xl font-bold text-sky-700 dark:text-sky-200 mt-0.5 md:mt-1">${nextBath ? `${new Date(nextBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-sky-700/90 dark:text-sky-200/90 break-words whitespace-normal">${nextBath ? `${nextBath.time || 'Sem hora'}` : 'Adiciona um novo banho'}</p>
-            </div>
-            <div class="bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-900/25 dark:via-violet-900/25 dark:to-fuchsia-900/25 rounded-xl p-2.5 md:p-4 card-hover border border-purple-100 dark:border-purple-800 shadow-lg shadow-purple-500/10 min-w-0 overflow-hidden">
-                <div class="flex items-start justify-between gap-2 md:gap-3 mb-1.5 md:mb-2">
-                    <div class="text-lg md:text-2xl">✂️</div>
-                </div>
-                <div class="min-w-0">
-                    <p class="text-[11px] md:text-sm font-semibold text-gray-900 dark:text-gray-100 leading-tight break-words whitespace-normal">${nextTosa ? nextTosa.title : 'Sem tosa futura'}</p>
-                </div>
-                <p class="text-sm md:text-xl font-bold text-purple-700 dark:text-purple-200 mt-0.5 md:mt-1">${nextTosa ? `${new Date(nextTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}` : '—'}</p>
-                <p class="text-[10px] md:text-sm font-medium text-purple-700/90 dark:text-purple-200/90 break-words whitespace-normal">${nextTosa ? `${nextTosa.time || 'Sem hora'}` : 'Adiciona uma nova tosa'}</p>
             </div>
         </div>
-        
-        <div class="grid gap-6 lg:grid-cols-2">
-            <div class="h-full min-h-[420px] bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50 dark:from-amber-900/20 dark:via-orange-900/20 dark:to-yellow-900/20 rounded-xl border border-amber-100 dark:border-amber-800 p-4 flex flex-col">
-                <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🏥 Veterinário</h3>
-                <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl">
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <div>
-                            <p class="text-sm font-semibold">Registar veterinário</p>
-                            <p class="text-xs text-gray-500">Data e hora da próxima marcação</p>
-                        </div>
-                        <span class="text-lg">🏥</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="date" id="gucciConsultDate" value="${todayISO()}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-amber-100 dark:border-amber-800 text-sm outline-none focus:ring-2 focus:ring-amber-500">
-                        <input type="time" id="gucciConsultTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-amber-100 dark:border-amber-800 text-sm outline-none focus:ring-2 focus:ring-amber-500">
-                    </div>
-                    <input type="text" id="gucciConsultNote" placeholder="Notas da marcação (opcional)" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-amber-100 dark:border-amber-800 text-sm outline-none focus:ring-2 focus:ring-amber-500 mb-3">
-                    <button type="button" onclick="registerGucciConsult()" class="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-amber-500 to-orange-500 text-white text-sm font-semibold shadow-lg shadow-amber-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all">
-                        Registar veterinário
-                    </button>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Health Column -->
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-10 h-10 rounded-xl bg-rose-100 dark:bg-rose-900/30 flex items-center justify-center text-xl shadow-inner">🩺</div>
+                    <h3 class="text-xl font-extrabold tracking-tight text-gray-800 dark:text-gray-100 uppercase">Saúde e Bem-Estar</h3>
                 </div>
-                <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800 ring-1 ring-rose-50 dark:ring-rose-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-800 shadow-sm">Último Veterinário</span>
+
+                <!-- Veterinário Section -->
+                <div class="area-gradient-amber rounded-3xl border border-amber-100 dark:border-amber-900/50 p-6 space-y-5 shadow-lg shadow-amber-500/5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-amber-800 dark:text-amber-200 flex items-center gap-2">🏥 Consultas</h4>
+                        <button onclick="document.getElementById('gucciConsultForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-amber-500 text-white shadow-md shadow-amber-500/20 hover:bg-amber-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+
+                    <div id="gucciConsultForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="gucciConsultDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                            <input type="time" id="gucciConsultTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        </div>
+                        <input type="text" id="gucciConsultNote" placeholder="Notas da consulta..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-amber-500">
+                        <button type="button" onclick="registerGucciConsult()" class="w-full py-2.5 rounded-xl bg-amber-600 text-white font-bold text-sm shadow-lg shadow-amber-500/25">Registar Agora</button>
+                    </div>
+
+                    <div class="grid gap-3">
+                        <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última consulta</span>
+                                ${lastConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                            </div>
                             ${lastConsult ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal(${lastConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar veterinário">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${lastConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Apagar veterinário">🗑️</button>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">🏥</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm">${lastConsult.title}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastConsult.date)} • ${lastConsult.time || '--:--'}</div>
+                                    </div>
                                 </div>
-                            ` : ''}
+                            ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
                         </div>
-                        ${lastConsult ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-orange-500 flex items-center justify-center text-lg text-white shadow-lg shadow-rose-500/20">🏥</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${lastConsult.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(lastConsult.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastConsult.time ? ' • ' + lastConsult.time : ''}${lastConsult.description ? ' • ' + lastConsult.description : ''}</div>
-                                </div>
+                        <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-sky-600 dark:text-sky-300">Próxima consulta</span>
+                                ${nextConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
                             </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de veterinário.</p>'}
-                    </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800 ring-1 ring-sky-50 dark:ring-sky-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 border border-sky-200 dark:bg-sky-900/50 dark:text-sky-300 dark:border-sky-800 shadow-sm">Próxima ${consultPrefix}</span>
                             ${nextConsult ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Editar veterinário">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${nextConsult.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-sky-600 dark:text-sky-300" title="Apagar veterinário">🗑️</button>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm text-sky-900 dark:text-sky-100">${nextConsult.title}</div>
+                                        <div class="text-[11px] text-sky-700 dark:text-sky-300 font-bold">${formatShortDate(nextConsult.date)} • ${nextConsult.time || '--:--'}</div>
+                                    </div>
                                 </div>
-                            ` : ''}
+                            ` : '<p class="text-xs text-sky-500 dark:text-sky-400 text-center py-2 italic">Nada agendado</p>'}
                         </div>
-                        ${nextConsult ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-sky-500 to-cyan-500 flex items-center justify-center text-lg text-white shadow-lg shadow-sky-500/20">📅</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${nextConsult.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(nextConsult.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextConsult.time ? ' • ' + nextConsult.time : ''}${nextConsult.description ? ' • ' + nextConsult.description : ''}</div>
-                                </div>
-                            </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhuma marcação futura.</p>'}
                     </div>
                 </div>
-            </div>
 
-            <div class="h-full min-h-[420px] bg-gradient-to-br from-rose-50 via-pink-50 to-fuchsia-50 dark:from-rose-900/20 dark:via-pink-900/20 dark:to-fuchsia-900/20 rounded-xl border border-rose-100 dark:border-rose-800 p-4 flex flex-col">
-                <h3 class="font-bold text-lg mb-4 flex items-center gap-2">💉 Vacinas</h3>
-                <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl">
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <div>
-                            <p class="text-sm font-semibold">Registar vacina</p>
-                            <p class="text-xs text-gray-500">Data e hora da próxima vacina</p>
+                <!-- Vacinas Section -->
+                <div class="area-gradient-rose rounded-3xl border border-rose-100 dark:border-rose-900/50 p-6 space-y-5 shadow-lg shadow-rose-500/5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-rose-800 dark:text-rose-200 flex items-center gap-2">💉 Plano de Vacinação</h4>
+                        <button onclick="document.getElementById('gucciVaccineForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-rose-500 text-white shadow-md shadow-rose-500/20 hover:bg-rose-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+
+                    <div id="gucciVaccineForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="gucciVaccineDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                            <input type="time" id="gucciVaccineTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
                         </div>
-                        <span class="text-lg">💉</span>
+                        <input type="text" id="gucciVaccineNote" placeholder="Nome da vacina..." class="w-full px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-rose-500">
+                        <button type="button" onclick="registerGucciVaccine()" class="w-full py-2.5 rounded-xl bg-rose-600 text-white font-bold text-sm shadow-lg shadow-rose-500/25">Registar Vacina</button>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="date" id="gucciVaccineDate" value="${todayISO()}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-rose-100 dark:border-rose-800 text-sm outline-none focus:ring-2 focus:ring-rose-500">
-                        <input type="time" id="gucciVaccineTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-rose-100 dark:border-rose-800 text-sm outline-none focus:ring-2 focus:ring-rose-500">
-                    </div>
-                    <input type="text" id="gucciVaccineNote" placeholder="Notas da vacina (opcional)" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-rose-100 dark:border-rose-800 text-sm outline-none focus:ring-2 focus:ring-rose-500 mb-3">
-                    <button type="button" onclick="registerGucciVaccine()" class="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-rose-500 to-fuchsia-500 text-white text-sm font-semibold shadow-lg shadow-rose-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all">
-                        Registar vacina
-                    </button>
-                </div>
-                <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800 ring-1 ring-rose-50 dark:ring-rose-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-800 shadow-sm">Última Vacina</span>
+
+                    <div class="grid gap-3">
+                        <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
+                                ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                            </div>
                             ${lastVaccine ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Editar vacina">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${lastVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-rose-600 dark:text-rose-300" title="Apagar vacina">🗑️</button>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-rose-50 dark:bg-rose-900/30 flex items-center justify-center text-xl">💉</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm">${lastVaccine.title}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastVaccine.date)}</div>
+                                    </div>
                                 </div>
-                            ` : ''}
+                            ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem registo</p>'}
                         </div>
-                        ${lastVaccine ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-rose-500 to-fuchsia-500 flex items-center justify-center text-lg text-white shadow-lg shadow-rose-500/20">💉</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${lastVaccine.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(lastVaccine.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastVaccine.time ? ' • ' + lastVaccine.time : ''}${lastVaccine.description ? ' • ' + lastVaccine.description : ''}</div>
-                                </div>
+                        <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
+                                ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
                             </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de vacina.</p>'}
-                    </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-fuchsia-100 dark:bg-fuchsia-900/40 shadow-md shadow-fuchsia-500/10 border border-fuchsia-200 dark:border-fuchsia-800 ring-1 ring-fuchsia-50 dark:ring-fuchsia-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200 dark:bg-fuchsia-900/50 dark:text-fuchsia-300 dark:border-fuchsia-800 shadow-sm">Próxima Vacina</span>
                             ${nextVaccine ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Editar vacina">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${nextVaccine.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-fuchsia-600 dark:text-fuchsia-300" title="Apagar vacina">🗑️</button>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm text-rose-900 dark:text-rose-100">${nextVaccine.title}</div>
+                                        <div class="text-[11px] text-rose-700 dark:text-rose-300 font-bold">${formatShortDate(nextVaccine.date)}</div>
+                                    </div>
                                 </div>
-                            ` : ''}
+                            ` : '<p class="text-xs text-rose-500 dark:text-rose-400 text-center py-2 italic">Plano em dia</p>'}
                         </div>
-                        ${nextVaccine ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-fuchsia-500 to-rose-500 flex items-center justify-center text-lg text-white shadow-lg shadow-fuchsia-500/20">📅</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${nextVaccine.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(nextVaccine.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextVaccine.time ? ' • ' + nextVaccine.time : ''}${nextVaccine.description ? ' • ' + nextVaccine.description : ''}</div>
-                                </div>
-                            </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhuma vacina futura.</p>'}
-                    </div>
-                </div>
-            </div>
-            
-            <div class="lg:col-span-2 grid lg:grid-cols-2 gap-6">
-                <div class="h-full min-h-[420px] bg-gradient-to-br from-sky-50 via-cyan-50 to-blue-50 dark:from-sky-900/20 dark:via-cyan-900/20 dark:to-blue-900/20 rounded-xl border border-sky-100 dark:border-sky-800 p-4 flex flex-col">
-                <h3 class="font-bold text-lg mb-4 flex items-center gap-2">🛁 Banho</h3>
-                <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl">
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <div>
-                            <p class="text-sm font-semibold">Registar banho</p>
-                            <p class="text-xs text-gray-500">Data e hora do próximo banho</p>
-                        </div>
-                        <span class="text-lg">🫧</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="date" id="gucciBathDate" value="${todayISO()}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-800 text-sm outline-none focus:ring-2 focus:ring-blue-500">
-                        <input type="time" id="gucciBathTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-800 text-sm outline-none focus:ring-2 focus:ring-blue-500">
-                    </div>
-                    <input type="text" id="gucciBathNote" placeholder="Notas do banho (opcional)" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-blue-100 dark:border-blue-800 text-sm outline-none focus:ring-2 focus:ring-blue-500 mb-3">
-                    <button type="button" onclick="registerGucciBath()" class="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-blue-500 to-cyan-500 text-white text-sm font-semibold shadow-lg shadow-blue-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all">
-                        Registar banho
-                    </button>
-                </div>
-                <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-blue-100 dark:bg-blue-900/40 shadow-md shadow-blue-500/10 border border-blue-200 dark:border-blue-800 ring-1 ring-blue-50 dark:ring-blue-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:border-blue-800 shadow-sm">Último Banho</span>
-                            ${lastBath ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal('${lastBath.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Editar banho">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${lastBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-blue-600 dark:text-blue-300" title="Apagar banho">🗑️</button>
-                                </div>
-                            ` : ''}
-                        </div>
-                        ${lastBath ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-500 flex items-center justify-center text-lg text-white shadow-lg shadow-blue-500/20">🛁</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${lastBath.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(lastBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastBath.time ? ' • ' + lastBath.time : ''}${lastBath.description ? ' • ' + lastBath.description : ''}</div>
-                                </div>
-                            </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de banho.</p>'}
-                    </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-cyan-100 dark:bg-cyan-900/40 shadow-md shadow-cyan-500/10 border border-cyan-200 dark:border-cyan-800 ring-1 ring-cyan-50 dark:ring-cyan-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-cyan-100 text-cyan-700 border border-cyan-200 dark:bg-cyan-900/50 dark:text-cyan-300 dark:border-cyan-800 shadow-sm">Próximo Banho</span>
-                            ${nextBath ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal('${nextBath.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Editar banho">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${nextBath.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-cyan-600 dark:text-cyan-300" title="Apagar banho">🗑️</button>
-                                </div>
-                            ` : ''}
-                        </div>
-                        ${nextBath ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-cyan-500 to-sky-500 flex items-center justify-center text-lg text-white shadow-lg shadow-cyan-500/20">🛁</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${nextBath.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(nextBath.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextBath.time ? ' • ' + nextBath.time : ''}${nextBath.description ? ' • ' + nextBath.description : ''}</div>
-                                </div>
-                            </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhuma marcação futura.</p>'}
                     </div>
                 </div>
             </div>
 
-            <div class="h-full min-h-[420px] bg-gradient-to-br from-purple-50 via-violet-50 to-fuchsia-50 dark:from-purple-900/20 dark:via-violet-900/20 dark:to-fuchsia-900/20 rounded-xl border border-purple-100 dark:border-purple-800 p-4 flex flex-col">
-                <h3 class="font-bold text-lg mb-4 flex items-center gap-2">✂️ Tosa</h3>
-                <div class="mb-4 p-4 bg-white/70 dark:bg-gray-900/25 rounded-2xl">
-                    <div class="flex items-center justify-between gap-3 mb-3">
-                        <div>
-                            <p class="text-sm font-semibold">Registar tosa</p>
-                            <p class="text-xs text-gray-500">Data e hora da próxima tosa</p>
-                        </div>
-                        <span class="text-lg">✂️</span>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 mb-2">
-                        <input type="date" id="gucciTosaDate" value="${todayISO()}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-800 text-sm outline-none focus:ring-2 focus:ring-indigo-500">
-                        <input type="time" id="gucciTosaTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-800 text-sm outline-none focus:ring-2 focus:ring-indigo-500">
-                    </div>
-                    <input type="text" id="gucciTosaNote" placeholder="Notas da tosa (opcional)" class="w-full px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-indigo-100 dark:border-indigo-800 text-sm outline-none focus:ring-2 focus:ring-indigo-500 mb-3">
-                    <button type="button" onclick="registerGucciTosa()" class="w-full px-4 py-2.5 rounded-lg bg-gradient-to-r from-indigo-500 to-violet-500 text-white text-sm font-semibold shadow-lg shadow-indigo-500/25 hover:shadow-xl hover:-translate-y-0.5 transition-all">
-                        Registar tosa
-                    </button>
+            <!-- Grooming Column -->
+            <div class="space-y-6">
+                <div class="flex items-center gap-3 px-2">
+                    <div class="w-10 h-10 rounded-xl bg-sky-100 dark:bg-sky-900/30 flex items-center justify-center text-xl shadow-inner">🧼</div>
+                    <h3 class="text-xl font-extrabold tracking-tight text-gray-800 dark:text-gray-100 uppercase">Higiene e Estética</h3>
                 </div>
-                <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-purple-100 dark:bg-purple-900/40 shadow-md shadow-purple-500/10 border border-purple-200 dark:border-purple-800 ring-1 ring-purple-50 dark:ring-purple-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-purple-100 text-purple-700 border border-purple-200 dark:bg-purple-900/50 dark:text-purple-300 dark:border-purple-800 shadow-sm">Última Tosa</span>
+
+                <!-- Banho Section -->
+                <div class="area-gradient-sky rounded-3xl border border-sky-100 dark:border-sky-900/50 p-6 space-y-5 shadow-lg shadow-sky-500/5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-sky-800 dark:text-sky-200 flex items-center gap-2">🛁 Banho</h4>
+                        <button onclick="document.getElementById('gucciBathForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-sky-500 text-white shadow-md shadow-amber-500/20 hover:bg-sky-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+
+                    <div id="gucciBathForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="gucciBathDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-sky-500">
+                            <input type="time" id="gucciBathTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-sky-500">
+                        </div>
+                        <button type="button" onclick="registerGucciBath()" class="w-full py-2.5 rounded-xl bg-sky-600 text-white font-bold text-sm shadow-lg shadow-sky-500/25">Registar Banho</button>
+                    </div>
+
+                    <div class="grid gap-3">
+                        <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Último banho</span>
+                                ${lastBath ? `<div class="flex gap-1"><button onclick="openEventModal('${lastBath.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                            </div>
+                            ${lastBath ? `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-sky-50 dark:bg-sky-900/30 flex items-center justify-center text-xl">🛁</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm">${lastBath.title}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastBath.date)}</div>
+                                    </div>
+                                </div>
+                            ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
+                        </div>
+                        <div class="area-status-card p-4 rounded-2xl bg-blue-100 dark:bg-blue-900/40 shadow-md shadow-blue-500/10 border border-blue-200 dark:border-blue-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-300">Próximo banho</span>
+                                ${nextBath ? `<div class="flex gap-1"><button onclick="openEventModal('${nextBath.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                            </div>
+                            ${nextBath ? `
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm text-blue-900 dark:text-blue-100">${nextBath.title}</div>
+                                        <div class="text-[11px] text-blue-700 dark:text-blue-300 font-bold">${formatShortDate(nextBath.date)}</div>
+                                    </div>
+                                </div>
+                            ` : '<p class="text-xs text-blue-500 dark:text-blue-400 text-center py-2 italic">A precisar de banho?</p>'}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tosa Section -->
+                <div class="area-gradient-purple rounded-3xl border border-purple-100 dark:border-purple-900/50 p-6 space-y-5 shadow-lg shadow-purple-500/5">
+                    <div class="flex items-center justify-between">
+                        <h4 class="font-bold text-purple-800 dark:text-purple-200 flex items-center gap-2">✂️ Tosa</h4>
+                        <button onclick="document.getElementById('gucciTosaForm').classList.toggle('hidden')" class="p-2 rounded-xl bg-purple-500 text-white shadow-md shadow-purple-500/20 hover:bg-purple-600 transition-all">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                        </button>
+                    </div>
+
+                    <div id="gucciTosaForm" class="hidden glass-panel p-4 rounded-2xl space-y-3 animate-slide-up">
+                        <div class="grid grid-cols-2 gap-2">
+                            <input type="date" id="gucciTosaDate" value="${todayISO()}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-purple-500">
+                            <input type="time" id="gucciTosaTime" value="${new Date().toTimeString().slice(0,5)}" class="px-3 py-2 rounded-xl bg-white dark:bg-gray-800 border-0 shadow-sm text-sm outline-none focus:ring-2 focus:ring-purple-500">
+                        </div>
+                        <button type="button" onclick="registerGucciTosa()" class="w-full py-2.5 rounded-xl bg-purple-600 text-white font-bold text-sm shadow-lg shadow-purple-500/25">Registar Tosa</button>
+                    </div>
+
+                    <div class="grid gap-3">
+                        <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última Tosa</span>
+                                ${lastTosa ? `<div class="flex gap-1"><button onclick="openEventModal('${lastTosa.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                            </div>
                             ${lastTosa ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal('${lastTosa.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Editar tosa">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${lastTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-purple-600 dark:text-purple-300" title="Apagar tosa">🗑️</button>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-900/30 flex items-center justify-center text-xl">✂️</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm">${lastTosa.title}</div>
+                                        <div class="text-[11px] text-gray-500 font-medium">${formatShortDate(lastTosa.date)}</div>
+                                    </div>
                                 </div>
-                            ` : ''}
+                            ` : '<p class="text-xs text-gray-400 text-center py-2 italic">Sem histórico</p>'}
                         </div>
-                        ${lastTosa ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-lg text-white shadow-lg shadow-indigo-500/20">✂️</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${lastTosa.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(lastTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${lastTosa.time ? ' • ' + lastTosa.time : ''}${lastTosa.description ? ' • ' + lastTosa.description : ''}</div>
-                                </div>
+                        <div class="area-status-card p-4 rounded-2xl bg-violet-100 dark:bg-violet-900/40 shadow-md shadow-violet-500/10 border border-violet-200 dark:border-violet-800">
+                            <div class="flex items-center justify-between mb-3">
+                                <span class="text-[10px] font-black uppercase tracking-widest text-violet-600 dark:text-violet-300">Próxima Tosa</span>
+                                ${nextTosa ? `<div class="flex gap-1"><button onclick="openEventModal('${nextTosa.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
                             </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de tosa.</p>'}
-                    </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-violet-100 dark:bg-violet-900/40 shadow-md shadow-violet-500/10 border border-violet-200 dark:border-violet-800 ring-1 ring-violet-50 dark:ring-violet-900/30">
-                        <div class="flex items-center justify-between gap-2 mb-3">
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-violet-100 text-violet-700 border border-violet-200 dark:bg-violet-900/50 dark:text-violet-300 dark:border-violet-800 shadow-sm">Próxima Tosa</span>
                             ${nextTosa ? `
-                                <div class="flex items-center gap-1">
-                                    <button type="button" onclick="openEventModal('${nextTosa.id}')" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Editar tosa">✏️</button>
-                                    <button type="button" onclick="deleteEvent(${nextTosa.id})" class="p-1.5 rounded-lg hover:bg-white/70 dark:hover:bg-gray-700/60 text-violet-600 dark:text-violet-300" title="Apagar tosa">🗑️</button>
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-2xl bg-white dark:bg-gray-800 flex items-center justify-center text-xl shadow-sm">📅</div>
+                                    <div class="flex-1">
+                                        <div class="font-bold text-sm text-violet-900 dark:text-violet-100">${nextTosa.title}</div>
+                                        <div class="text-[11px] text-violet-700 dark:text-violet-300 font-bold">${formatShortDate(nextTosa.date)}</div>
+                                    </div>
                                 </div>
-                            ` : ''}
+                            ` : '<p class="text-xs text-violet-500 dark:text-violet-400 text-center py-2 italic">A precisar de um corte?</p>'}
                         </div>
-                        ${nextTosa ? `
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-violet-500 to-purple-500 flex items-center justify-center text-lg text-white shadow-lg shadow-violet-500/20">✂️</div>
-                                <div class="flex-1">
-                                    <div class="font-medium text-sm">${nextTosa.title}</div>
-                                    <div class="text-xs text-gray-500">${new Date(nextTosa.date + 'T00:00:00').toLocaleDateString('pt-PT', { weekday: 'short', day: '2-digit', month: 'short' })}${nextTosa.time ? ' • ' + nextTosa.time : ''}${nextTosa.description ? ' • ' + nextTosa.description : ''}</div>
-                                </div>
-                            </div>
-                        ` : '<p class="text-sm text-gray-500">Ainda não existe nenhuma marcação futura.</p>'}
                     </div>
                 </div>
             </div>
-            </div>
-            
         </div>
-        
     </div>`;
     container.innerHTML = html;
 }
+
 
 // ==================== FUNÇÕES DE REGISTO CORRIGIDAS (ASYNC/AWAIT) ====================
 

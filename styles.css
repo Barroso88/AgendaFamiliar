@@ -590,3 +590,32 @@ html.dark body[data-theme] #contentArea .note-card.note-purple { --note-bg: #933
 html.dark body[data-theme] #contentArea .note-card.note-red { --note-bg: #dc2626; --note-fold: #b91c1c; --note-shadow: rgba(0,0,0,0.4); color: #fee2e2 !important; }
 html.dark body[data-theme] #contentArea .note-card.note-orange { --note-bg: #ea580c; --note-fold: #c2410c; --note-shadow: rgba(0,0,0,0.4); color: #ffedd5 !important; }
 html.dark body[data-theme] #contentArea .note-card.note-teal { --note-bg: #0d9488; --note-fold: #0f766e; --note-shadow: rgba(0,0,0,0.4); color: #ccfbf1 !important; }
+
+/* Premium Design System */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.dark .glass-panel {
+    background: rgba(30, 41, 59, 0.7);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.premium-shadow {
+    box-shadow: 0 10px 40px -10px rgba(0, 0, 0, 0.1), 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+.area-gradient-amber { background: linear-gradient(135deg, #fffcf0 0%, #fff7ed 100%); }
+.dark .area-gradient-amber { background: linear-gradient(135deg, #1e1b1e 0%, #2d2a24 100%); }
+
+.area-gradient-rose { background: linear-gradient(135deg, #fff1f2 0%, #fff5f5 100%); }
+.dark .area-gradient-rose { background: linear-gradient(135deg, #2a1b1b 0%, #241a1a 100%); }
+
+.area-gradient-sky { background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); }
+.dark .area-gradient-sky { background: linear-gradient(135deg, #1b252a 0%, #1a2a30 100%); }
+
+.area-gradient-purple { background: linear-gradient(135deg, #faf5ff 0%, #f3e8ff 100%); }
+.dark .area-gradient-purple { background: linear-gradient(135deg, #241b2a 0%, #201a2d 100%); }
