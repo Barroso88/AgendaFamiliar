@@ -217,9 +217,7 @@ async function saveNote(e, editId) {
         };
         State.notes.push(newNote);
         
-        // Add notification only for new notes
-        const authorName = getMember(author)?.name || 'Alguém';
-        addNotification('Nova Nota', `${authorName} adicionou uma nova nota para a família.`, 'notes');
+        // addNotification('Nova Nota', `${authorName} adicionou uma nova nota para a família.`, 'notes');
     }
 
     await State.saveData();
