@@ -1598,16 +1598,42 @@ function renderProfiles(container) {
     
     html += `</div>
         <div class="mt-12 p-8 rounded-3xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800">
-            <div class="flex flex-col md:flex-row items-center gap-6">
-                <div class="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-3xl shadow-lg">📲</div>
-                <div class="flex-1 text-center md:text-left">
-                    <h4 class="text-xl font-bold text-indigo-900 dark:text-indigo-100 mb-2">Sincronizar com o seu Telemóvel</h4>
-                    <p class="text-indigo-700 dark:text-indigo-300 text-sm mb-4">Adicione todos os eventos da Agenda Familiar ao seu calendário nativo (iPhone, Google, Outlook) para receber notificações e manter-se atualizado automaticamente.</p>
-                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
-                        <a href="webcal://${window.location.host}/ical" class="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-sm shadow-md hover:bg-indigo-700 transition-all flex items-center gap-2">
-                            <span>📅</span> Subscrever Calendário
+            <div class="flex flex-col md:flex-row items-start gap-6">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-3xl shadow-lg shrink-0">📲</div>
+                <div class="flex-1">
+                    <h4 class="text-xl font-bold text-indigo-900 dark:text-indigo-100 mb-2">Sincronizar Calendário Familiar</h4>
+                    <p class="text-indigo-700 dark:text-indigo-300 text-sm mb-6">Escolha o seu calendário abaixo para sincronizar automaticamente todos os eventos. Novos agendamentos aparecerão sozinhos no seu telemóvel!</p>
+                    
+                    <div class="grid sm:grid-cols-2 gap-4 mb-6">
+                        <a href="webcal://${window.location.host}/ical" class="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 shadow-sm hover:shadow-md transition-all group">
+                            <span class="text-2xl">🍎</span>
+                            <div class="text-left">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">iPhone / Mac</p>
+                                <p class="text-sm font-black text-indigo-600 dark:text-indigo-400">Apple Calendar</p>
+                            </div>
                         </a>
-                        <button onclick="navigator.clipboard.writeText('${window.location.origin}/ical'); showToast('Link copiado!')" class="px-6 py-2.5 rounded-xl bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-bold text-sm border border-indigo-100 dark:border-indigo-700 shadow-sm">Copiar Link</button>
+                        <a href="https://www.google.com/calendar/render?cid=${encodeURIComponent(window.location.origin + '/ical')}" target="_blank" class="flex items-center justify-center gap-3 px-6 py-4 rounded-2xl bg-white dark:bg-gray-800 border border-indigo-200 dark:border-indigo-700 shadow-sm hover:shadow-md transition-all">
+                            <span class="text-2xl">🤖</span>
+                            <div class="text-left">
+                                <p class="text-xs text-gray-500 font-bold uppercase tracking-wider">Android / Web</p>
+                                <p class="text-sm font-black text-indigo-600 dark:text-indigo-400">Google Calendar</p>
+                            </div>
+                        </a>
+                    </div>
+
+                    <div class="bg-indigo-100/50 dark:bg-indigo-900/40 rounded-2xl p-4 space-y-4">
+                        <p class="text-xs font-bold text-indigo-800 dark:text-indigo-200 uppercase tracking-widest text-center sm:text-left">Opções Manuais</p>
+                        <div class="flex flex-col sm:flex-row gap-3">
+                            <button onclick="navigator.clipboard.writeText('${window.location.origin}/ical'); showToast('Link copiado!')" class="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-bold shadow-sm flex items-center justify-center gap-2">
+                                🔗 Copiar Link de Feed
+                            </button>
+                            <a href="${window.location.origin}/ical" download="agenda_familiar.ics" class="flex-1 px-4 py-3 rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-sm font-bold shadow-sm flex items-center justify-center gap-2">
+                                📥 Descarregar .ics
+                            </a>
+                        </div>
+                        <p class="text-[11px] text-indigo-600/70 dark:text-indigo-400/70 italic text-center sm:text-left">
+                            * Se o clique automático não funcionar, copie o link e adicione-o como "Novo Calendário de Assinatura" nas definições do seu telemóvel.
+                        </p>
                     </div>
                 </div>
             </div>
