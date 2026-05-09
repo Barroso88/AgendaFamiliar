@@ -402,8 +402,7 @@ const State = {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${this.authToken}`
                     },
-                    body: serialized,
-                    keepalive: true
+                    body: serialized
                 });
                 if (response.status === 401) {
                     alert("Acesso negado ou sessão expirada.");
