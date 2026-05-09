@@ -205,7 +205,7 @@ function renderTasks(container) {
 }
 
 function openTaskModal(taskId = null, prefillDate = null, prefillMember = null) {
-    const task = taskId ? State.tasks.find(t => t.id === taskId) : null;
+    const task = taskId ? State.tasks.find(t => t.id.toString() === taskId.toString()) : null;
     const isEdit = !!task;
     const initialDate = isEdit ? task.dueDate : (prefillDate || todayISO());
     const initialAllDay = isEdit ? !!task.allDay : false;

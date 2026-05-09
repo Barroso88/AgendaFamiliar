@@ -231,7 +231,7 @@ async function saveNote(e, editId) {
 }
 
 function viewNote(id) {
-    const note = (State.notes || []).find(n => n.id === id);
+    const note = (State.notes || []).find(n => n.id.toString() === id.toString());
     if (!note) return;
 
     const modalContent = document.getElementById('modalContent');

@@ -242,7 +242,7 @@ function normalizeShoppingItemName(name) {
 }
 
 function openShoppingModal(itemId = null) {
-    const item = itemId ? State.shoppingItems.find(i => i.id === itemId) : null;
+    const item = itemId ? State.shoppingItems.find(i => i.id.toString() === itemId.toString()) : null;
     const isEdit = !!item;
     
     const content = `
@@ -320,7 +320,7 @@ async function saveQuickShoppingItems() {
 
 async function saveShoppingItem(e, itemId) {
     e.preventDefault();
-    const existingItem = itemId ? State.shoppingItems.find(i => i.id === itemId) : null;
+    const existingItem = itemId ? State.shoppingItems.find(i => i.id.toString() === itemId.toString()) : null;
     const itemData = {
         id: itemId || Date.now(),
         name: normalizeShoppingItemName(document.getElementById('shopName').value),
@@ -333,7 +333,7 @@ async function saveShoppingItem(e, itemId) {
     };
     
     if (itemId) {
-        const idx = State.shoppingItems.findIndex(i => i.id === itemId);
+        const idx = State.shoppingItems.findIndex(i => i.id.toString() === itemId.toString());
         State.shoppingItems[idx] = itemData;
         showToast('Item atualizado!');
     } else {
@@ -347,7 +347,7 @@ async function saveShoppingItem(e, itemId) {
 }
 
 async function toggleShoppingItem(id) {
-    const item = State.shoppingItems.find(i => i.id === id);
+    const item = State.shoppingItems.find(i => i.id.toString() === id.toString());
     item.bought = !item.bought;
     await State.saveData(); // <-- AWAIT ADICIONADO
     renderPage();
@@ -355,7 +355,7 @@ async function toggleShoppingItem(id) {
 }
 
 async function deleteShoppingItem(id) {
-    State.shoppingItems = State.shoppingItems.filter(i => i.id !== id);
+    State.shoppingItems = State.shoppingItems.filter(i => i.id.toString() !== id.toString());
     await State.saveData(); // <-- AWAIT ADICIONADO
     showToast('Item removido', 'warning');
     renderPage();

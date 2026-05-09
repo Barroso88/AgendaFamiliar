@@ -361,7 +361,7 @@ function handleDayClick(dateStr) {
 
 // ==================== EVENT MODAL ====================
 function openEventModal(eventId = null, defaultDate = null) {
-    const event = eventId ? State.events.find(e => e.id === eventId) : null;
+    const event = eventId ? State.events.find(e => e.id.toString() === eventId.toString()) : null;
     const isEdit = !!event;
     
     const content = `
@@ -454,7 +454,7 @@ async function saveEvent(e, eventId) {
     };
     
     if (eventId) {
-        const idx = State.events.findIndex(ev => ev.id === eventId);
+        const idx = State.events.findIndex(ev => ev.id.toString() === eventId.toString());
         State.events[idx] = eventData;
         showToast('Evento atualizado!');
     } else {
@@ -469,7 +469,7 @@ async function saveEvent(e, eventId) {
 
 async function deleteEvent(id) {
     if (confirm('Tem a certeza que deseja eliminar este evento?')) {
-        State.events = State.events.filter(e => e.id !== id);
+        State.events = State.events.filter(e => e.id.toString() !== id.toString());
         await State.saveData(); // <-- CORRIGIDO AQUI
         showToast('Evento eliminado', 'warning');
         renderPage();
