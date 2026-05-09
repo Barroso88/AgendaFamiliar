@@ -386,7 +386,10 @@ function renderGucci(container) {
                         <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                             <div class="flex items-center justify-between mb-3">
                                 <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
-                                ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                ${lastVaccine ? `<div class="flex gap-1">
+                                    <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastVaccine.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                    <button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                </div>` : ''}
                             </div>
                             ${lastVaccine ? `
                                 <div class="flex items-center gap-3">
@@ -401,7 +404,10 @@ function renderGucci(container) {
                         <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
                             <div class="flex items-center justify-between mb-3">
                                 <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
-                                ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                ${nextVaccine ? `<div class="flex gap-1">
+                                    <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextVaccine.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                    <button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                </div>` : ''}
                             </div>
                             ${nextVaccine ? `
                                 <div class="flex items-center gap-3">
@@ -445,7 +451,10 @@ function renderGucci(container) {
                         <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                             <div class="flex items-center justify-between mb-3">
                                 <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Último banho</span>
-                                ${lastBath ? `<div class="flex gap-1"><button onclick="openEventModal('${lastBath.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                ${lastBath ? `<div class="flex gap-1">
+                                    <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastBath.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                    <button onclick="openEventModal('${lastBath.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                </div>` : ''}
                             </div>
                             ${lastBath ? `
                                 <div class="flex items-center gap-3">
@@ -460,7 +469,10 @@ function renderGucci(container) {
                         <div class="area-status-card p-4 rounded-2xl bg-blue-100 dark:bg-blue-900/40 shadow-md shadow-blue-500/10 border border-blue-200 dark:border-blue-800">
                             <div class="flex items-center justify-between mb-3">
                                 <span class="text-[10px] font-black uppercase tracking-widest text-blue-600 dark:text-blue-300">Próximo banho</span>
-                                ${nextBath ? `<div class="flex gap-1"><button onclick="openEventModal('${nextBath.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                ${nextBath ? `<div class="flex gap-1">
+                                    <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextBath.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                    <button onclick="openEventModal('${nextBath.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                </div>` : ''}
                             </div>
                             ${nextBath ? `
                                 <div class="flex items-center gap-3">
@@ -1028,7 +1040,10 @@ function renderAndre(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última consulta</span>
-                                    ${lastConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                    ${lastConsult ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastConsult.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${lastConsult ? `
                                     <div class="flex items-center gap-3">
@@ -1043,7 +1058,10 @@ function renderAndre(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-sky-600 dark:text-sky-300">Próxima consulta</span>
-                                    ${nextConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                    ${nextConsult ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextConsult.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${nextConsult ? `
                                     <div class="flex items-center gap-3">
@@ -1079,7 +1097,10 @@ function renderAndre(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
-                                    ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                    ${lastVaccine ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastVaccine.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${lastVaccine ? `
                                     <div class="flex items-center gap-3">
@@ -1094,7 +1115,10 @@ function renderAndre(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
-                                    ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                    ${nextVaccine ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextVaccine.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${nextVaccine ? `
                                     <div class="flex items-center gap-3">
@@ -1195,7 +1219,10 @@ function renderNayara(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última consulta</span>
-                                    ${lastConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                    ${lastConsult ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastConsult.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${lastConsult ? `
                                     <div class="flex items-center gap-3">
@@ -1210,7 +1237,10 @@ function renderNayara(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-sky-600 dark:text-sky-300">Próxima consulta</span>
-                                    ${nextConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                    ${nextConsult ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextConsult.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${nextConsult ? `
                                     <div class="flex items-center gap-3">
@@ -1246,7 +1276,10 @@ function renderNayara(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
-                                    ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                    ${lastVaccine ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastVaccine.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${lastVaccine ? `
                                     <div class="flex items-center gap-3">
@@ -1261,7 +1294,10 @@ function renderNayara(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
-                                    ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                    ${nextVaccine ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextVaccine.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${nextVaccine ? `
                                     <div class="flex items-center gap-3">
@@ -1384,7 +1420,10 @@ function renderSofia(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última consulta</span>
-                                    ${lastConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                    ${lastConsult ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastConsult.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${lastConsult.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${lastConsult ? `
                                     <div class="flex items-center gap-3">
@@ -1399,7 +1438,10 @@ function renderSofia(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-sky-600 dark:text-sky-300">Próxima consulta</span>
-                                    ${nextConsult ? `<div class="flex gap-1"><button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                    ${nextConsult ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextConsult.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${nextConsult.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${nextConsult ? `
                                     <div class="flex items-center gap-3">
@@ -1436,7 +1478,10 @@ function renderSofia(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-white dark:bg-gray-800 shadow-sm border border-gray-100 dark:border-gray-700">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-gray-400">Última vacina</span>
-                                    ${lastVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button></div>` : ''}
+                                    ${lastVaccine ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${lastVaccine.id}'))" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${lastVaccine.id}')" class="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${lastVaccine ? `
                                     <div class="flex items-center gap-3">
@@ -1451,7 +1496,10 @@ function renderSofia(container) {
                             <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800">
                                 <div class="flex items-center justify-between mb-3">
                                     <span class="text-[10px] font-black uppercase tracking-widest text-rose-600 dark:text-rose-300">Próxima vacina</span>
-                                    ${nextVaccine ? `<div class="flex gap-1"><button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button></div>` : ''}
+                                    ${nextVaccine ? `<div class="flex gap-1">
+                                        <button onclick="exportToIcs(State.events.find(e => e.id.toString() === '${nextVaccine.id}'))" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20" title="Exportar para Calendário">📅</button>
+                                        <button onclick="openEventModal('${nextVaccine.id}')" class="p-1.5 rounded-lg bg-white/50 dark:bg-black/20">✏️</button>
+                                    </div>` : ''}
                                 </div>
                                 ${nextVaccine ? `
                                     <div class="flex items-center gap-3">
@@ -1548,7 +1596,23 @@ function renderProfiles(container) {
         </div>`;
     });
     
-    html += '</div></div>';
+    html += `</div>
+        <div class="mt-12 p-8 rounded-3xl bg-indigo-50 dark:bg-indigo-900/20 border border-indigo-100 dark:border-indigo-800">
+            <div class="flex flex-col md:flex-row items-center gap-6">
+                <div class="w-16 h-16 rounded-2xl bg-indigo-600 text-white flex items-center justify-center text-3xl shadow-lg">📲</div>
+                <div class="flex-1 text-center md:text-left">
+                    <h4 class="text-xl font-bold text-indigo-900 dark:text-indigo-100 mb-2">Sincronizar com o seu Telemóvel</h4>
+                    <p class="text-indigo-700 dark:text-indigo-300 text-sm mb-4">Adicione todos os eventos da Agenda Familiar ao seu calendário nativo (iPhone, Google, Outlook) para receber notificações e manter-se atualizado automaticamente.</p>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-3">
+                        <a href="webcal://${window.location.host}/ical" class="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-sm shadow-md hover:bg-indigo-700 transition-all flex items-center gap-2">
+                            <span>📅</span> Subscrever Calendário
+                        </a>
+                        <button onclick="navigator.clipboard.writeText('${window.location.origin}/ical'); showToast('Link copiado!')" class="px-6 py-2.5 rounded-xl bg-white dark:bg-gray-800 text-indigo-600 dark:text-indigo-400 font-bold text-sm border border-indigo-100 dark:border-indigo-700 shadow-sm">Copiar Link</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>`;
     container.innerHTML = html;
 }
 

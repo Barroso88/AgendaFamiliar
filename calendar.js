@@ -425,9 +425,14 @@ function openEventModal(eventId = null, defaultDate = null) {
                 <input type="checkbox" id="evtReminder" ${isEdit && event.reminder ? 'checked' : ''} class="checkbox-custom">
                 <label for="evtReminder" class="text-sm">Ativar lembrete</label>
             </div>
-            <div class="flex gap-3 pt-2">
-                <button type="button" onclick="closeModal()" class="flex-1 px-4 py-2.5 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-medium hover:bg-gray-200 dark:hover:bg-gray-600">Cancelar</button>
-                <button type="submit" class="flex-1 px-4 py-2.5 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700">${isEdit ? 'Guardar' : 'Criar Evento'}</button>
+            <div class="flex flex-col sm:flex-row items-center gap-3 pt-4 border-t border-gray-100 dark:border-gray-700">
+                <button type="submit" class="w-full sm:flex-1 py-3 rounded-xl bg-indigo-600 text-white font-bold shadow-lg shadow-indigo-500/25 hover:bg-indigo-700 transition-all">${isEdit ? 'Salvar Alterações' : 'Criar Evento'}</button>
+                ${isEdit ? `
+                    <button type="button" onclick="exportToIcs(State.events.find(e => e.id.toString() === '${eventId}'))" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 font-bold hover:bg-gray-200 dark:hover:bg-gray-600 transition-all flex items-center justify-center gap-2">
+                        <span>📅</span> Exportar
+                    </button>
+                    <button type="button" onclick="deleteEvent('${eventId}')" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 font-bold hover:bg-red-100 dark:hover:bg-red-800/30 transition-all">Excluir</button>
+                ` : ''}
             </div>
         </form>
     </div>`;
@@ -552,4 +557,76 @@ function renderEventsList(container) {
     </div>`;
     
     container.innerHTML = html;
+}
+
+function exportToIcs(event) {
+    if (!event) return;
+    const title = event.title || 'Evento';
+    const description = (event.description || '').replace(/\n/g, '\\n');
+    const dateStr = event.date.replace(/-/g, '');
+    const timeStr = event.time ? event.time.replace(/:/g, '') + '00' : '000000';
+    
+    const now = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+    const start = `${dateStr}T${timeStr}`;
+    
+    let end = start;
+    if (event.time) {
+        const endDate = new Date(event.date + 'T' + event.time);
+        endDate.setHours(endDate.getHours() + 1);
+        const endDay = endDate.toISOString().split('T')[0].replace(/-/g, '');
+        const endTime = endDate.toTimeString().split(' ')[0].replace(/:/g, '');
+        end = `${endDay}T${endTime}`;
+    } else {
+        const nextDay = new Date(event.date);
+        nextDay.setDate(nextDay.getDate() + 1);
+        const nextDayStr = nextDay.toISOString().split('T')[0].replace(/-/g, '');
+        
+        const icsFullDay = [
+            'BEGIN:VCALENDAR',
+            'VERSION:2.0',
+            'PRODID:-//Agenda Familiar//PT',
+            'BEGIN:VEVENT',
+            `UID:${event.id || Date.now()}@agendafamiliar`,
+            `DTSTAMP:${now}`,
+            `DTSTART;VALUE=DATE:${dateStr}`,
+            `DTEND;VALUE=DATE:${nextDayStr}`,
+            `SUMMARY:${title}`,
+            `DESCRIPTION:${description}`,
+            'END:VEVENT',
+            'END:VCALENDAR'
+        ].join('\r\n');
+        
+        downloadIcs(icsFullDay, title);
+        return;
+    }
+    
+    const ics = [
+        'BEGIN:VCALENDAR',
+        'VERSION:2.0',
+        'PRODID:-//Agenda Familiar//PT',
+        'BEGIN:VEVENT',
+        `UID:${event.id || Date.now()}@agendafamiliar`,
+        `DTSTAMP:${now}`,
+        `DTSTART:${start}`,
+        `DTEND:${end}`,
+        `SUMMARY:${title}`,
+        `DESCRIPTION:${description}`,
+        'END:VEVENT',
+        'END:VCALENDAR'
+    ].join('\r\n');
+
+    downloadIcs(ics, title);
+}
+
+function downloadIcs(content, title) {
+    const blob = new Blob([content], { type: 'text/calendar;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `${title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.ics`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+    showToast('Ficheiro de calendário gerado!');
 }

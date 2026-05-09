@@ -234,6 +234,71 @@ async function handleApiState(req, res) {
         return;
     }
 
+    if (pathname === '/ical') {
+        try {
+            const state = (await getDbState()) || emptyState();
+            const events = state.events || [];
+            
+            let ics = [
+                'BEGIN:VCALENDAR',
+                'VERSION:2.0',
+                'PRODID:-//Agenda Familiar//PT',
+                'CALSCALE:GREGORIAN',
+                'METHOD:PUBLISH',
+                'X-WR-CALNAME:Agenda Familiar',
+                'X-WR-TIMEZONE:Europe/Lisbon'
+            ];
+
+            const now = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+            events.forEach(e => {
+                const dateStr = e.date.replace(/-/g, '');
+                const timeStr = e.time ? e.time.replace(/:/g, '') + '00' : '000000';
+                const start = `${dateStr}T${timeStr}`;
+                
+                let end = start;
+                if (e.time) {
+                    const endDate = new Date(e.date + 'T' + e.time);
+                    endDate.setHours(endDate.getHours() + 1);
+                    const endDay = endDate.toISOString().split('T')[0].replace(/-/g, '');
+                    const endTime = endDate.toTimeString().split(' ')[0].replace(/:/g, '');
+                    end = `${endDay}T${endTime}`;
+                } else {
+                    const nextDay = new Date(e.date);
+                    nextDay.setDate(nextDay.getDate() + 1);
+                    end = nextDay.toISOString().split('T')[0].replace(/-/g, '');
+                }
+
+                ics.push('BEGIN:VEVENT');
+                ics.push(`UID:${e.id}@agendafamiliar`);
+                ics.push(`DTSTAMP:${now}`);
+                if (e.time) {
+                    ics.push(`DTSTART:${start}`);
+                    ics.push(`DTEND:${end}`);
+                } else {
+                    ics.push(`DTSTART;VALUE=DATE:${dateStr}`);
+                    ics.push(`DTEND;VALUE=DATE:${end}`);
+                }
+                ics.push(`SUMMARY:${e.title}`);
+                ics.push(`DESCRIPTION:${(e.description || '').replace(/\n/g, '\\n')}`);
+                ics.push('END:VEVENT');
+            });
+
+            ics.push('END:VCALENDAR');
+
+            res.writeHead(200, { 
+                'Content-Type': 'text/calendar; charset=utf-8',
+                'Content-Disposition': 'attachment; filename="agenda_familiar.ics"'
+            });
+            res.end(ics.join('\r\n'));
+            return;
+        } catch (error) {
+            console.error('Erro ao gerar iCal:', error);
+            sendJson(res, 500, { error: 'Erro ao gerar feed de calendário' });
+            return;
+        }
+    }
+
     res.writeHead(405, { 'Content-Type': 'text/plain; charset=utf-8', 'Allow': 'GET, POST' });
     res.end('Method not allowed');
 }
