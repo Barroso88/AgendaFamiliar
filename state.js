@@ -412,13 +412,15 @@ const State = {
                     return;
                 }
                 if (!response.ok) {
-                    throw new Error(`Remote save failed with status ${response.status}`);
+                    const errorText = await response.text();
+                    throw new Error(`Status ${response.status}: ${errorText}`);
                 }
             }
         } catch (e) {
             console.error('Error saving data', e);
             safeLocalStorageSet(STORAGE_KEYS.state, serialized);
             if (isRemoteApiAvailable()) {
+                alert('Erro ao guardar no Unraid: ' + e.message);
                 showToast('Não foi possível guardar no Unraid', 'warning');
             }
         }

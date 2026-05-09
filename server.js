@@ -61,6 +61,7 @@ function emptyState() {
         shoppingItems: [],
         tasks: [],
         notifications: [],
+        notes: [],
         updatedAt: 0
     };
 }
@@ -73,6 +74,7 @@ function normalizeState(source = {}) {
         shoppingItems: Array.isArray(source.shoppingItems) ? source.shoppingItems : [],
         tasks: Array.isArray(source.tasks) ? source.tasks : [],
         notifications: Array.isArray(source.notifications) ? source.notifications : [],
+        notes: Array.isArray(source.notes) ? source.notes : [],
         updatedAt: Number.isFinite(source.updatedAt) ? source.updatedAt : Date.now()
     };
 }
