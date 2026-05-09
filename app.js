@@ -316,7 +316,7 @@ function renderGucci(container) {
                     </button>
                 </div>
                 <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-900/10 shadow-md shadow-rose-500/10 border border-rose-100 dark:border-rose-900/50 ring-1 ring-rose-50 dark:ring-rose-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800 ring-1 ring-rose-50 dark:ring-rose-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-800 shadow-sm">Último Veterinário</span>
                             ${lastConsult ? `
@@ -336,7 +336,7 @@ function renderGucci(container) {
                             </div>
                         ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de veterinário.</p>'}
                     </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-sky-50/50 dark:bg-sky-900/10 shadow-md shadow-sky-500/10 border border-sky-100 dark:border-sky-900/50 ring-1 ring-sky-50 dark:ring-sky-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800 ring-1 ring-sky-50 dark:ring-sky-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 border border-sky-200 dark:bg-sky-900/50 dark:text-sky-300 dark:border-sky-800 shadow-sm">Próxima ${consultPrefix}</span>
                             ${nextConsult ? `
@@ -379,7 +379,7 @@ function renderGucci(container) {
                     </button>
                 </div>
                 <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-900/10 shadow-md shadow-rose-500/10 border border-rose-100 dark:border-rose-900/50 ring-1 ring-rose-50 dark:ring-rose-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800 ring-1 ring-rose-50 dark:ring-rose-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-800 shadow-sm">Última Vacina</span>
                             ${lastVaccine ? `
@@ -399,7 +399,7 @@ function renderGucci(container) {
                             </div>
                         ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de vacina.</p>'}
                     </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-fuchsia-50/50 dark:bg-fuchsia-900/10 shadow-md shadow-fuchsia-500/10 border border-fuchsia-100 dark:border-fuchsia-900/50 ring-1 ring-fuchsia-50 dark:ring-fuchsia-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-fuchsia-100 dark:bg-fuchsia-900/40 shadow-md shadow-fuchsia-500/10 border border-fuchsia-200 dark:border-fuchsia-800 ring-1 ring-fuchsia-50 dark:ring-fuchsia-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200 dark:bg-fuchsia-900/50 dark:text-fuchsia-300 dark:border-fuchsia-800 shadow-sm">Próxima Vacina</span>
                             ${nextVaccine ? `
@@ -443,7 +443,7 @@ function renderGucci(container) {
                     </button>
                 </div>
                 <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-blue-50/50 dark:bg-blue-900/10 shadow-md shadow-blue-500/10 border border-blue-100 dark:border-blue-900/50 ring-1 ring-blue-50 dark:ring-blue-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-blue-100 dark:bg-blue-900/40 shadow-md shadow-blue-500/10 border border-blue-200 dark:border-blue-800 ring-1 ring-blue-50 dark:ring-blue-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-blue-100 text-blue-700 border border-blue-200 dark:bg-blue-900/50 dark:text-blue-300 dark:border-blue-800 shadow-sm">Último Banho</span>
                             ${lastBath ? `
@@ -463,7 +463,7 @@ function renderGucci(container) {
                             </div>
                         ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de banho.</p>'}
                     </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-cyan-50/50 dark:bg-cyan-900/10 shadow-md shadow-cyan-500/10 border border-cyan-100 dark:border-cyan-900/50 ring-1 ring-cyan-50 dark:ring-cyan-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-cyan-100 dark:bg-cyan-900/40 shadow-md shadow-cyan-500/10 border border-cyan-200 dark:border-cyan-800 ring-1 ring-cyan-50 dark:ring-cyan-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-cyan-100 text-cyan-700 border border-cyan-200 dark:bg-cyan-900/50 dark:text-cyan-300 dark:border-cyan-800 shadow-sm">Próximo Banho</span>
                             ${nextBath ? `
@@ -506,7 +506,7 @@ function renderGucci(container) {
                     </button>
                 </div>
                 <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-purple-50/50 dark:bg-purple-900/10 shadow-md shadow-purple-500/10 border border-purple-100 dark:border-purple-900/50 ring-1 ring-purple-50 dark:ring-purple-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-purple-100 dark:bg-purple-900/40 shadow-md shadow-purple-500/10 border border-purple-200 dark:border-purple-800 ring-1 ring-purple-50 dark:ring-purple-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-purple-100 text-purple-700 border border-purple-200 dark:bg-purple-900/50 dark:text-purple-300 dark:border-purple-800 shadow-sm">Última Tosa</span>
                             ${lastTosa ? `
@@ -526,7 +526,7 @@ function renderGucci(container) {
                             </div>
                         ` : '<p class="text-sm text-gray-500">Ainda não existe nenhum registo de tosa.</p>'}
                     </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-violet-50/50 dark:bg-violet-900/10 shadow-md shadow-violet-500/10 border border-violet-100 dark:border-violet-900/50 ring-1 ring-violet-50 dark:ring-violet-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-violet-100 dark:bg-violet-900/40 shadow-md shadow-violet-500/10 border border-violet-200 dark:border-violet-800 ring-1 ring-violet-50 dark:ring-violet-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-violet-100 text-violet-700 border border-violet-200 dark:bg-violet-900/50 dark:text-violet-300 dark:border-violet-800 shadow-sm">Próxima Tosa</span>
                             ${nextTosa ? `
@@ -852,7 +852,7 @@ function renderPersonalArea(container, config) {
                     </button>
                 </div>
                 <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-900/10 shadow-md shadow-rose-500/10 border border-rose-100 dark:border-rose-900/50 ring-1 ring-rose-50 dark:ring-rose-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800 ring-1 ring-rose-50 dark:ring-rose-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-800 shadow-sm">Última ${consultPrefix}</span>
                             ${lastConsult ? `
@@ -872,7 +872,7 @@ function renderPersonalArea(container, config) {
                             </div>
                         ` : `<p class="text-sm text-gray-500">${emptyConsultText || 'Ainda não existe nenhum registo.'}</p>`}
                     </div>
-                    <div class="area-status-card p-4 rounded-2xl bg-sky-50/50 dark:bg-sky-900/10 shadow-md shadow-sky-500/10 border border-sky-100 dark:border-sky-900/50 ring-1 ring-sky-50 dark:ring-sky-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-sky-100 dark:bg-sky-900/40 shadow-md shadow-sky-500/10 border border-sky-200 dark:border-sky-800 ring-1 ring-sky-50 dark:ring-sky-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-sky-100 text-sky-700 border border-sky-200 dark:bg-sky-900/50 dark:text-sky-300 dark:border-sky-800 shadow-sm">Próxima ${consultPrefix}</span>
                             ${nextConsult ? `
@@ -915,7 +915,7 @@ function renderPersonalArea(container, config) {
                     </button>
                 </div>
                 <div class="grid gap-3">
-                    <div class="area-status-card p-4 rounded-2xl bg-rose-50/50 dark:bg-rose-900/10 shadow-md shadow-rose-500/10 border border-rose-100 dark:border-rose-900/50 ring-1 ring-rose-50 dark:ring-rose-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-rose-100 dark:bg-rose-900/40 shadow-md shadow-rose-500/10 border border-rose-200 dark:border-rose-800 ring-1 ring-rose-50 dark:ring-rose-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-rose-100 text-rose-700 border border-rose-200 dark:bg-rose-900/50 dark:text-rose-300 dark:border-rose-800 shadow-sm">Última Vacina</span>
                             ${lastVaccine ? `
@@ -935,7 +935,7 @@ function renderPersonalArea(container, config) {
                             </div>
                         ` : `<p class="text-sm text-gray-500">${emptyVaccineText || 'Ainda não existe nenhum registo de vacina.'}</p>`}
                     </div>
-                    <div class="p-4 rounded-2xl bg-fuchsia-50/50 dark:bg-fuchsia-900/10 shadow-md shadow-fuchsia-500/10 border border-fuchsia-100 dark:border-fuchsia-900/50 ring-1 ring-fuchsia-50 dark:ring-fuchsia-900/30">
+                    <div class="area-status-card p-4 rounded-2xl bg-fuchsia-100 dark:bg-fuchsia-900/40 shadow-md shadow-fuchsia-500/10 border border-fuchsia-200 dark:border-fuchsia-800 ring-1 ring-fuchsia-50 dark:ring-fuchsia-900/30">
                         <div class="flex items-center justify-between gap-2 mb-3">
                             <span class="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-fuchsia-100 text-fuchsia-700 border border-fuchsia-200 dark:bg-fuchsia-900/50 dark:text-fuchsia-300 dark:border-fuchsia-800 shadow-sm">Próxima ${vaccinePrefix}</span>
                             ${nextVaccine ? `
