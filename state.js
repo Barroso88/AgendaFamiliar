@@ -382,6 +382,7 @@ const State = {
             events: this.events,
             shoppingItems: this.shoppingItems,
             tasks: this.tasks,
+            notes: this.notes,
             notifications: this.notifications,
             updatedAt: Date.now()
         });
