@@ -539,21 +539,21 @@
         }
 
 /* Note Card Colors */
-body[data-theme] #contentArea .note-card.note-yellow { background-color: #fde047d9 !important; border-color: #facc15 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-blue { background-color: #93c5fdd9 !important; border-color: #60a5fa !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-green { background-color: #6ee7b7d9 !important; border-color: #34d399 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-pink { background-color: #f9a8d4d9 !important; border-color: #f472b6 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-purple { background-color: #d8b4fed9 !important; border-color: #c084fc !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-red { background-color: #fca5a5d9 !important; border-color: #f87171 !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-orange { background-color: #fdba74d9 !important; border-color: #fb923c !important; color: #1f2937 !important; }
-body[data-theme] #contentArea .note-card.note-teal { background-color: #5eead4d9 !important; border-color: #2dd4bf !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-yellow { background-color: #fde04766 !important; border-color: #facc15 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-blue { background-color: #93c5fd66 !important; border-color: #60a5fa !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-green { background-color: #6ee7b766 !important; border-color: #34d399 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-pink { background-color: #f9a8d466 !important; border-color: #f472b6 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-purple { background-color: #d8b4fe66 !important; border-color: #c084fc !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-red { background-color: #fca5a566 !important; border-color: #f87171 !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-orange { background-color: #fdba7466 !important; border-color: #fb923c !important; color: #1f2937 !important; }
+body[data-theme] #contentArea .note-card.note-teal { background-color: #5eead466 !important; border-color: #2dd4bf !important; color: #1f2937 !important; }
 
 /* Dark Mode Note Cards */
-html.dark body[data-theme] #contentArea .note-card.note-yellow { background-color: #ca8a04b3 !important; border-color: #eab308 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-blue { background-color: #2563ebb3 !important; border-color: #3b82f6 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-green { background-color: #059669b3 !important; border-color: #10b981 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-pink { background-color: #db2777b3 !important; border-color: #ec4899 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-purple { background-color: #9333eab3 !important; border-color: #a855f7 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-red { background-color: #dc2626b3 !important; border-color: #ef4444 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-orange { background-color: #ea580cb3 !important; border-color: #f97316 !important; color: #f9fafb !important; }
-html.dark body[data-theme] #contentArea .note-card.note-teal { background-color: #0d9488b3 !important; border-color: #14b8a6 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-yellow { background-color: #ca8a044d !important; border-color: #eab308 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-blue { background-color: #2563eb4d !important; border-color: #3b82f6 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-green { background-color: #0596694d !important; border-color: #10b981 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-pink { background-color: #db27774d !important; border-color: #ec4899 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-purple { background-color: #9333ea4d !important; border-color: #a855f7 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-red { background-color: #dc26264d !important; border-color: #ef4444 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-orange { background-color: #ea580c4d !important; border-color: #f97316 !important; color: #f9fafb !important; }
+html.dark body[data-theme] #contentArea .note-card.note-teal { background-color: #0d94884d !important; border-color: #14b8a6 !important; color: #f9fafb !important; }
