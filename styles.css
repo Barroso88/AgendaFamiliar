@@ -147,7 +147,7 @@
         .calendar-day.weekend-sat,
         .calendar-mini-weekend-sat,
         .calendar-weekday-mini.weekend-sat {
-            color: #d97706; /* Amber-600 */
+            color: #0284c7; /* Sky-600 */
         }
         .calendar-weekday.weekend-sun,
         .calendar-week-header.weekend-sun,
@@ -157,45 +157,41 @@
         .calendar-weekday-mini.weekend-sun {
             color: #e11d48; /* Rose-600 */
         }
-        .calendar-weekday.weekend-sat,
         .calendar-week-header.weekend-sat,
         .calendar-week-column.weekend-sat,
         .calendar-day.weekend-sat,
         .calendar-mini-weekend-sat {
             background:
-                radial-gradient(circle at top right, rgba(217,119,6,0.35), transparent 45%),
-                linear-gradient(180deg, rgba(253,230,138,0.95), rgba(254,243,199,0.95));
-            border-color: rgba(252,211,77,1);
+                radial-gradient(circle at top right, rgba(14,165,233,0.1), transparent 45%),
+                linear-gradient(180deg, rgba(240,249,255,0.7), rgba(224,242,254,0.7));
+            border-color: rgba(186,230,253,0.8);
         }
-        .calendar-weekday.weekend-sun,
         .calendar-week-header.weekend-sun,
         .calendar-week-column.weekend-sun,
         .calendar-day.weekend-sun,
         .calendar-mini-weekend-sun {
             background:
-                radial-gradient(circle at top right, rgba(225,29,72,0.35), transparent 45%),
-                linear-gradient(180deg, rgba(254,205,211,0.95), rgba(255,228,230,0.95));
-            border-color: rgba(253,164,175,1);
+                radial-gradient(circle at top right, rgba(244,63,94,0.1), transparent 45%),
+                linear-gradient(180deg, rgba(255,241,242,0.7), rgba(255,228,230,0.7));
+            border-color: rgba(254,205,211,0.8);
         }
-        .dark .calendar-weekday.weekend-sat,
         .dark .calendar-week-header.weekend-sat,
         .dark .calendar-week-column.weekend-sat,
         .dark .calendar-day.weekend-sat,
         .dark .calendar-mini-weekend-sat {
             background:
-                radial-gradient(circle at top right, rgba(245,158,11,0.45), transparent 45%),
-                linear-gradient(180deg, rgba(120,53,15,0.5), rgba(30,41,59,0.95));
-            border-color: rgba(245,158,11,0.6);
+                radial-gradient(circle at top right, rgba(14,165,233,0.15), transparent 45%),
+                linear-gradient(180deg, rgba(12,74,110,0.3), rgba(15,23,42,0.6));
+            border-color: rgba(14,165,233,0.3);
         }
-        .dark .calendar-weekday.weekend-sun,
         .dark .calendar-week-header.weekend-sun,
         .dark .calendar-week-column.weekend-sun,
         .dark .calendar-day.weekend-sun,
         .dark .calendar-mini-weekend-sun {
             background:
-                radial-gradient(circle at top right, rgba(244,63,94,0.45), transparent 45%),
-                linear-gradient(180deg, rgba(136,19,55,0.5), rgba(30,41,59,0.95));
-            border-color: rgba(244,63,94,0.6);
+                radial-gradient(circle at top right, rgba(244,63,94,0.15), transparent 45%),
+                linear-gradient(180deg, rgba(136,19,55,0.3), rgba(15,23,42,0.6));
+            border-color: rgba(244,63,94,0.3);
         }
         .calendar-week-header {
             background:
