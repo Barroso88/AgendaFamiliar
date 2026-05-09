@@ -968,6 +968,12 @@ function renderSofia(container) {
     const sofiaEvents = State.events.filter(e => Array.isArray(e.members) && e.members.includes('sofia'));
     const getEventMoment = (event) => new Date(`${event.date}T${event.time || '00:00'}`);
     const eventText = (event) => (event.title || '').toLowerCase();
+
+    // Contador para o nascimento: 07/07/2026
+    const dueDate = new Date('2026-07-07T00:00:00');
+    const today = new Date();
+    const diffTime = dueDate - today;
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     
     const sofiaConsultEvents = sofiaEvents.filter(e => eventText(e).includes('consulta') || eventText(e).includes('pediatra'));
     const lastConsult = [...sofiaConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
@@ -1011,7 +1017,12 @@ function renderSofia(container) {
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 w-full">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center bg-gradient-to-br from-pink-50 to-white dark:from-pink-900/10 dark:to-gray-800">
+                        <p class="text-[9px] uppercase font-bold text-pink-600 dark:text-pink-400 tracking-widest mb-1">Nascimento Previsto</p>
+                        <p class="font-black text-lg text-pink-700 dark:text-pink-300">${diffDays > 0 ? `Faltam ${diffDays} dias` : 'Chegou o dia! ✨'}</p>
+                        <p class="text-[10px] text-gray-400 font-medium">07 de Julho de 2026</p>
+                    </div>
                     <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
                         <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
                         <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
