@@ -238,10 +238,10 @@ function renderGucci(container) {
     const consultPrefix = 'Consulta';
     const upcomingVet = gucciEvents.filter(e => e.date >= todayISO() && (eventText(e).includes('consulta') || eventText(e).includes('vet'))).sort((a, b) => a.date.localeCompare(b.date));
     const upcomingVaccine = gucciEvents.filter(e => eventText(e).includes('vacina') || eventText(e).includes('desparasit')).sort((a, b) => a.date.localeCompare(b.date));
-    const gucciConsultEvents = gucciEvents.filter(e => e.category === 'consultas' || e.category === 'gucci' && (eventText(e).includes('consulta') || eventText(e).includes('vet')));
+    const gucciConsultEvents = gucciEvents.filter(e => e.category === 'consultas' || (e.category === 'gucci' && (eventText(e).includes('consulta') || eventText(e).includes('vet'))));
     const lastConsult = [...gucciConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextConsult = [...gucciConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
-    const gucciVaccineEvents = gucciEvents.filter(e => e.category === 'consultas' || e.category === 'gucci' && (eventText(e).includes('vacina') || eventText(e).includes('desparasit')));
+    const gucciVaccineEvents = gucciEvents.filter(e => e.category === 'vacinas' || (e.category === 'gucci' && (eventText(e).includes('vacina') || eventText(e).includes('desparasit'))));
     const lastVaccine = [...gucciVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...gucciVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     const gucciBathEvents = gucciEvents.filter(e => eventText(e).includes('banho'));
@@ -720,7 +720,7 @@ async function registerPersonalVaccine(memberId, displayName) {
         time: vaccineTime,
         endTime: '',
         location: '',
-        category: 'consultas',
+        category: 'vacinas',
         members: [memberId],
         reminder: false
     });
@@ -969,7 +969,7 @@ function renderAndre(container) {
     const lastConsult = [...andreConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextConsult = [...andreConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     
-    const andreVaccineEvents = andreEvents.filter(e => e.category === 'consultas' || eventText(e).includes('vacina'));
+    const andreVaccineEvents = andreEvents.filter(e => e.category === 'vacinas' || eventText(e).includes('vacina'));
     const lastVaccine = [...andreVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...andreVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
 
@@ -1148,7 +1148,7 @@ function renderNayara(container) {
     const lastConsult = [...nayaraConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextConsult = [...nayaraConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     
-    const nayaraVaccineEvents = nayaraEvents.filter(e => e.category === 'consultas' || eventText(e).includes('vacina'));
+    const nayaraVaccineEvents = nayaraEvents.filter(e => e.category === 'vacinas' || eventText(e).includes('vacina'));
     const lastVaccine = [...nayaraVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...nayaraVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
 
@@ -1333,7 +1333,7 @@ function renderSofia(container) {
     const lastConsult = [...sofiaConsultEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextConsult = [...sofiaConsultEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
     
-    const sofiaVaccineEvents = sofiaEvents.filter(e => e.category === 'consultas' || eventText(e).includes('vacina'));
+    const sofiaVaccineEvents = sofiaEvents.filter(e => e.category === 'vacinas' || eventText(e).includes('vacina'));
     const lastVaccine = [...sofiaVaccineEvents].filter(e => getEventMoment(e) <= new Date()).sort((a, b) => getEventMoment(b) - getEventMoment(a))[0];
     const nextVaccine = [...sofiaVaccineEvents].filter(e => getEventMoment(e) > new Date()).sort((a, b) => getEventMoment(a) - getEventMoment(b))[0];
 

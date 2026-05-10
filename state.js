@@ -213,7 +213,8 @@ const State = {
         { id: 'lazer', name: 'Lazer', color: 'green' },
         { id: 'domestico', name: 'Tarefas Domésticas', color: 'gray' },
         { id: 'gucci', name: 'Compromissos da Gucci', color: 'amber' },
-        { id: 'feriado', name: 'Feriado Nacional', color: 'rose' }
+        { id: 'feriado', name: 'Feriado Nacional', color: 'rose' },
+        { id: 'vacinas', name: 'Vacinas e Saúde', color: 'pink' }
     ],
     
     events: [],
