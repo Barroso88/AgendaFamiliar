@@ -267,38 +267,38 @@ function renderGucci(container) {
             <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <span class="text-9xl">🐾</span>
             </div>
-            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
-                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+            <div class="p-5 md:p-6 flex flex-col items-center gap-4 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-4 w-full">
                     <div class="relative">
-                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-amber-500/40 ring-4 ring-white dark:ring-gray-700">🐶</div>
-                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Saudável">✨</div>
+                        <div class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center text-3xl md:text-5xl shadow-2xl shadow-amber-500/40 ring-4 ring-white dark:ring-gray-700">🐶</div>
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-[10px] shadow-lg" title="Saudável">✨</div>
                     </div>
                     <div class="text-center md:text-left flex-1">
-                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Gucci</h2>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
-                            <span class="px-3 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-xs font-bold uppercase tracking-wider">Shih Tzu</span>
-                            <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">${calculateGucciAge()}</span>
-                            <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-xs font-bold uppercase tracking-wider">Fêmea</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white mb-1">Gucci</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-1.5">
+                            <span class="px-2.5 py-0.5 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 text-[10px] font-black uppercase tracking-wider">Shih Tzu</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-[10px] font-black uppercase tracking-wider">${calculateGucciAge()}</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-[10px] font-black uppercase tracking-wider">Fêmea</span>
                         </div>
                     </div>
                 </div>
 
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
+                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 w-full">
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
                     </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
                     </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próximo Banho</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextBath ? `${formatShortDate(nextBath.date)} ${nextBath.time || ''}` : '—'}</p>
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próximo Banho</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextBath ? `${formatShortDate(nextBath.date)} ${nextBath.time || ''}` : '—'}</p>
                     </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Tosa</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextTosa ? `${formatShortDate(nextTosa.date)} ${nextTosa.time || ''}` : '—'}</p>
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Tosa</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextTosa ? `${formatShortDate(nextTosa.date)} ${nextTosa.time || ''}` : '—'}</p>
                     </div>
                 </div>
             </div>
@@ -982,29 +982,29 @@ function renderAndre(container) {
             <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <span class="text-9xl">👨</span>
             </div>
-            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
-                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+            <div class="p-5 md:p-6 flex flex-col items-center gap-4 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-4 w-full">
                     <div class="relative">
-                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-blue-500/40 ring-4 ring-white dark:ring-gray-700">👨</div>
-                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Ativa">✨</div>
+                        <div class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-3xl md:text-5xl shadow-2xl shadow-blue-500/40 ring-4 ring-white dark:ring-gray-700">👨</div>
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-[10px] shadow-lg" title="Ativa">✨</div>
                     </div>
                     <div class="text-center md:text-left flex-1">
-                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">André</h2>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
-                            <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">Pai</span>
-                            <span class="px-3 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-xs font-bold uppercase tracking-wider">${age}</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white mb-1">André</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-1.5">
+                            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-[10px] font-black uppercase tracking-wider">Pai</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-[10px] font-black uppercase tracking-wider">${age}</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 w-full">
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
+                <div class="grid grid-cols-2 gap-3 w-full">
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
                     </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
                     </div>
                 </div>
             </div>
@@ -1161,29 +1161,29 @@ function renderNayara(container) {
             <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <span class="text-9xl">👩</span>
             </div>
-            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
-                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+            <div class="p-5 md:p-6 flex flex-col items-center gap-4 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-4 w-full">
                     <div class="relative">
-                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-rose-500/40 ring-4 ring-white dark:ring-gray-700">👩</div>
-                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Ativa">✨</div>
+                        <div class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-3xl md:text-5xl shadow-2xl shadow-rose-500/40 ring-4 ring-white dark:ring-gray-700">👩</div>
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-[10px] shadow-lg" title="Ativa">✨</div>
                     </div>
                     <div class="text-center md:text-left flex-1">
-                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Nayara</h2>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
-                            <span class="px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs font-bold uppercase tracking-wider">Mãe</span>
-                            <span class="px-3 py-1 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-xs font-bold uppercase tracking-wider">${age}</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white mb-1">Nayara</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-1.5">
+                            <span class="px-2.5 py-0.5 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-[10px] font-black uppercase tracking-wider">Mãe</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-rose-100 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300 text-[10px] font-black uppercase tracking-wider">${age}</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-2 gap-4 w-full">
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
+                <div class="grid grid-cols-2 gap-3 w-full">
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
                     </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
                     </div>
                 </div>
             </div>
@@ -1356,34 +1356,34 @@ function renderSofia(container) {
             <div class="absolute top-0 right-0 p-8 opacity-10 pointer-events-none">
                 <span class="text-9xl">🎀</span>
             </div>
-            <div class="p-6 md:p-8 flex flex-col items-center gap-6 relative z-10">
-                <div class="flex flex-col md:flex-row items-center gap-6 w-full">
+            <div class="p-5 md:p-6 flex flex-col items-center gap-4 relative z-10">
+                <div class="flex flex-col md:flex-row items-center gap-4 w-full">
                     <div class="relative">
-                        <div class="w-24 h-24 md:w-32 md:h-32 rounded-3xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-4xl md:text-6xl shadow-2xl shadow-pink-500/40 ring-4 ring-white dark:ring-gray-700">👧</div>
-                        <div class="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-xs shadow-lg" title="Ativa">✨</div>
+                        <div class="w-20 h-20 md:w-24 md:h-24 rounded-3xl bg-gradient-to-br from-pink-400 to-rose-500 flex items-center justify-center text-3xl md:text-5xl shadow-2xl shadow-pink-500/40 ring-4 ring-white dark:ring-gray-700">👧</div>
+                        <div class="absolute -bottom-1 -right-1 w-8 h-8 rounded-full bg-green-500 border-4 border-white dark:border-gray-800 flex items-center justify-center text-white text-[10px] shadow-lg" title="Ativa">✨</div>
                     </div>
                     <div class="text-center md:text-left flex-1">
-                        <h2 class="text-3xl md:text-4xl font-black text-gray-900 dark:text-white mb-2">Sofia</h2>
-                        <div class="flex flex-wrap justify-center md:justify-start gap-2">
-                            <span class="px-3 py-1 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-xs font-bold uppercase tracking-wider">Filha</span>
-                            <span class="px-3 py-1 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-xs font-bold uppercase tracking-wider">Princesa</span>
+                        <h2 class="text-2xl md:text-3xl font-black text-gray-900 dark:text-white mb-1">Sofia</h2>
+                        <div class="flex flex-wrap justify-center md:justify-start gap-1.5">
+                            <span class="px-2.5 py-0.5 rounded-full bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-300 text-[10px] font-black uppercase tracking-wider">Filha</span>
+                            <span class="px-2.5 py-0.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-[10px] font-black uppercase tracking-wider">Princesa</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center bg-gradient-to-br from-pink-50 to-white dark:from-pink-900/10 dark:to-gray-800">
-                        <p class="text-[9px] uppercase font-bold text-pink-600 dark:text-pink-400 tracking-widest mb-1">Nascimento Previsto</p>
-                        <p class="font-black text-lg text-pink-700 dark:text-pink-300">${diffDays > 0 ? `Faltam ${diffDays} dias` : 'Chegou o dia! ✨'}</p>
-                        <p class="text-[10px] text-gray-400 font-medium">07 de Julho de 2026</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 w-full">
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center bg-gradient-to-br from-pink-50 to-white dark:from-pink-900/10 dark:to-gray-800">
+                        <p class="text-[8px] uppercase font-black text-pink-600 dark:text-pink-400 tracking-widest mb-1">Nascimento Previsto</p>
+                        <p class="font-black text-base text-pink-700 dark:text-pink-300">${diffDays > 0 ? `Faltam ${diffDays} dias` : 'Chegou o dia! ✨'}</p>
+                        <p class="text-[9px] text-gray-400 font-medium">07 de Julho de 2026</p>
                     </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Consulta</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextConsult ? `${formatShortDate(nextConsult.date)} ${nextConsult.time || ''}` : '—'}</p>
                     </div>
-                    <div class="glass-panel p-3 rounded-2xl border border-gray-100 dark:border-gray-700 text-center">
-                        <p class="text-[9px] uppercase font-bold text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
-                        <p class="font-bold text-sm text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
+                    <div class="glass-panel p-2.5 rounded-xl border border-gray-100 dark:border-gray-700 text-center">
+                        <p class="text-[8px] uppercase font-black text-gray-400 tracking-widest mb-1">Próxima Vacina</p>
+                        <p class="font-black text-xs text-gray-900 dark:text-white">${nextVaccine ? `${formatShortDate(nextVaccine.date)} ${nextVaccine.time || ''}` : '—'}</p>
                     </div>
                 </div>
             </div>
