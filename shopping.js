@@ -8,84 +8,94 @@ function renderShopping(container) {
     const progress = totalItems ? Math.round((boughtItems / totalItems) * 100) : 0;
     
     let html = `
-    <div class="fade-in">
-        <div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+    <div class="fade-in pb-12">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
             <div class="flex items-center gap-3">
-                <div class="text-3xl">🛒</div>
+                <div class="text-3xl bg-white dark:bg-gray-800 w-12 h-12 flex items-center justify-center rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700">🛒</div>
                 <div>
                     <h3 class="text-xl font-bold">Lista de Compras</h3>
-                    <p class="text-sm text-gray-500">${boughtItems}/${totalItems} itens comprados</p>
+                    <p class="text-sm text-gray-500 font-medium">${boughtItems}/${totalItems} itens comprados</p>
                 </div>
             </div>
-            <button onclick="focusShoppingInput()" class="px-4 py-2 bg-indigo-600 text-white text-sm rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-1">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+            <button onclick="focusShoppingInput()" class="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 Adicionar Itens
             </button>
         </div>
         
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
-            <div class="flex items-center justify-between gap-3 mb-2">
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
                 <div>
                     <h4 class="font-bold">Adicionar à lista</h4>
-                    <p class="text-xs text-gray-500">Escreve vários produtos de uma vez. Cada linha, vírgula ou ponto e vírgula vira um item com checkbox. O texto é normalizado em PT-PT.</p>
+                    <p class="text-xs text-gray-500">Escreve vários produtos (separados por vírgula ou nova linha).</p>
                 </div>
-                <span class="text-xs px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300">Sem categorias</span>
+                <span class="text-[10px] px-2 py-1 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 font-bold uppercase tracking-wider">Entrada Rápida</span>
             </div>
-            <textarea id="shoppingQuickAdd" rows="4" placeholder="Leite, pão, fraldas\nDetergente\nIogurtes" spellcheck="true" lang="pt-PT" autocapitalize="sentences" autocorrect="on" class="shopping-quick-add w-full px-3 py-2 rounded-xl bg-gray-100 dark:bg-gray-700 border-0 outline-none focus:ring-2 focus:ring-indigo-500 resize-none"></textarea>
-            <div class="flex items-center justify-between gap-3 mt-3">
-                <p class="text-xs text-gray-500">Podes colar uma lista inteira de uma vez.</p>
-                <button onclick="saveQuickShoppingItems()" class="px-4 py-2 rounded-lg bg-indigo-600 text-white text-sm font-medium hover:bg-indigo-700 transition-colors">Adicionar à Lista</button>
+            <textarea id="shoppingQuickAdd" rows="4" placeholder="Leite, pão, fraldas\nDetergente\nIogurtes" class="w-full px-4 py-3 rounded-2xl bg-gray-50 dark:bg-gray-700/50 border-0 outline-none focus:ring-2 focus:ring-indigo-500 resize-none text-sm"></textarea>
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-4">
+                <p class="text-[11px] text-gray-500 italic order-2 sm:order-1">O texto é normalizado automaticamente para PT-PT.</p>
+                <button onclick="saveQuickShoppingItems()" class="w-full sm:w-auto order-1 sm:order-2 px-6 py-2.5 rounded-xl bg-indigo-600 text-white text-sm font-bold hover:bg-indigo-700 transition-all shadow-md">Adicionar à Lista</button>
             </div>
         </div>
 
-        <div class="bg-white dark:bg-gray-800 rounded-xl p-4 mb-6 border border-gray-100 dark:border-gray-700">
-            <div class="flex items-center justify-between mb-2">
-                <span class="text-sm font-medium">Progresso</span>
-                <span class="text-sm font-bold">${progress}%</span>
+        <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
+            <div class="flex items-center justify-between mb-3">
+                <span class="text-sm font-bold">Progresso Total</span>
+                <span class="text-sm font-black text-indigo-600 dark:text-indigo-400">${progress}%</span>
             </div>
-            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-3">
-                <div class="bg-gradient-to-r from-green-400 to-green-600 h-3 rounded-full transition-all duration-500" style="width: ${progress}%"></div>
+            <div class="w-full bg-gray-100 dark:bg-gray-700/50 rounded-full h-4 p-1">
+                <div class="bg-gradient-to-r from-green-400 to-emerald-600 h-2 rounded-full transition-all duration-700 shadow-sm" style="width: ${progress}%"></div>
             </div>
-            <div class="flex items-center gap-3 mt-3 text-xs text-gray-500">
-                <span>Pendentes: <strong>${pendingItems}</strong></span>
-                <span>Comprados: <strong>${boughtItems}</strong></span>
+            <div class="flex items-center justify-around mt-4 pt-4 border-t border-gray-50 dark:border-gray-700">
+                <div class="text-center">
+                    <p class="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Pendentes</p>
+                    <p class="text-lg font-black text-amber-500">${pendingItems}</p>
+                </div>
+                <div class="w-px h-8 bg-gray-100 dark:bg-gray-700"></div>
+                <div class="text-center">
+                    <p class="text-[10px] text-gray-400 uppercase font-black tracking-widest mb-1">Comprados</p>
+                    <p class="text-lg font-black text-emerald-500">${boughtItems}</p>
+                </div>
             </div>
         </div>
         
-        <div class="flex items-center gap-3 mb-4">
-            <button onclick="State.filters.shopping='all'; renderShopping(document.getElementById('contentArea'))" class="px-3 py-1.5 text-sm rounded-lg ${State.filters.shopping === 'all' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-700'}">Todos</button>
-            <button onclick="State.filters.shopping='pending'; renderShopping(document.getElementById('contentArea'))" class="px-3 py-1.5 text-sm rounded-lg ${State.filters.shopping === 'pending' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-700'}">Pendentes</button>
-            <button onclick="State.filters.shopping='bought'; renderShopping(document.getElementById('contentArea'))" class="px-3 py-1.5 text-sm rounded-lg ${State.filters.shopping === 'bought' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : 'bg-gray-100 dark:bg-gray-700'}">Comprados</button>
-            <button onclick="clearBoughtItems()" class="ml-auto px-3 py-1.5 text-sm rounded-lg bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400 hover:bg-red-200 dark:hover:bg-red-900/50">Limpar comprados</button>
-        </div>`;
+        <div class="grid grid-cols-2 sm:flex sm:items-center gap-2 mb-6">
+            <button onclick="State.filters.shopping='all'; renderShopping(document.getElementById('contentArea'))" class="px-4 py-2 text-xs font-bold rounded-xl transition-all ${State.filters.shopping === 'all' ? 'bg-indigo-600 text-white shadow-md' : 'bg-white dark:bg-gray-800 text-gray-500 border border-gray-100 dark:border-gray-700'}">Todos</button>
+            <button onclick="State.filters.shopping='pending'; renderShopping(document.getElementById('contentArea'))" class="px-4 py-2 text-xs font-bold rounded-xl transition-all ${State.filters.shopping === 'pending' ? 'bg-indigo-600 text-white shadow-md' : 'bg-white dark:bg-gray-800 text-gray-500 border border-gray-100 dark:border-gray-700'}">Pendentes</button>
+            <button onclick="State.filters.shopping='bought'; renderShopping(document.getElementById('contentArea'))" class="px-4 py-2 text-xs font-bold rounded-xl transition-all ${State.filters.shopping === 'bought' ? 'bg-indigo-600 text-white shadow-md' : 'bg-white dark:bg-gray-800 text-gray-500 border border-gray-100 dark:border-gray-700'}">Comprados</button>
+            <button onclick="clearBoughtItems()" class="col-span-2 sm:ml-auto px-4 py-2 text-xs font-bold rounded-xl bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/30 transition-all text-center">Limpar comprados</button>
+        </div>
 
-    html += `
-        <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-100 dark:border-gray-700 overflow-hidden">
-            <div class="p-3 bg-gray-50 dark:bg-gray-700/50 flex items-center justify-between gap-2">
-                <span class="font-bold text-sm">Itens da lista</span>
-                <span class="text-xs text-gray-500">${filteredItems.length} ${filteredItems.length === 1 ? 'item' : 'itens'}</span>
+        <div class="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 overflow-hidden shadow-sm">
+            <div class="p-4 bg-gray-50/50 dark:bg-gray-700/30 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+                <span class="font-black text-xs uppercase tracking-widest text-gray-500">Itens na Lista</span>
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-gray-200 dark:bg-gray-600 font-bold">${filteredItems.length}</span>
             </div>
-            <div class="divide-y divide-gray-100 dark:divide-gray-700">
+            <div class="divide-y divide-gray-50 dark:divide-gray-700">
                 ${filteredItems.map(item => {
                     const member = getMember(item.addedBy);
                     return `
-                    <div class="p-3 flex items-center gap-3 ${item.bought ? 'opacity-50' : ''} hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-colors">
-                        <input type="checkbox" class="checkbox-custom" ${item.bought ? 'checked' : ''} onchange="toggleShoppingItem(${item.id})">
+                    <div class="p-4 flex items-center gap-4 ${item.bought ? 'opacity-50 grayscale-[0.5]' : ''} hover:bg-gray-50 dark:hover:bg-gray-700/30 transition-all">
+                        <div class="flex items-center justify-center">
+                            <input type="checkbox" class="checkbox-custom w-6 h-6" ${item.bought ? 'checked' : ''} onchange="toggleShoppingItem(${item.id})">
+                        </div>
                         <div class="flex-1 min-w-0">
-                            <div class="font-medium ${item.bought ? 'line-through' : ''}">${item.name}</div>
-                            <div class="flex items-center gap-2 text-xs text-gray-500">
-                                <span>Qtd: ${item.quantity}</span>
-                                ${item.notes ? `<span>• ${item.notes}</span>` : ''}
+                            <div class="font-bold text-sm ${item.bought ? 'line-through text-gray-400' : 'text-gray-800 dark:text-gray-100'}">${item.name}</div>
+                            <div class="flex items-center gap-2 text-[11px] text-gray-500 mt-0.5">
+                                <span class="bg-gray-100 dark:bg-gray-700 px-1.5 py-0.5 rounded font-bold">Qtd: ${item.quantity}</span>
+                                ${item.notes ? `<span class="truncate">• ${item.notes}</span>` : ''}
                             </div>
                         </div>
-                        <div class="flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full ${getMemberColor(member.id)} flex items-center justify-center text-xs">${member.avatar}</div>
-                            <button onclick="openShoppingModal(${item.id})" class="p-1 rounded hover:bg-gray-200 dark:hover:bg-gray-600">
-                                <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
-                            </button>
-                            <button onclick="deleteShoppingItem(${item.id})" class="p-1 rounded hover:bg-red-100 dark:hover:bg-red-900/30">
-                                <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
-                            </button>
+                        <div class="flex items-center gap-1.5">
+                            <div class="w-8 h-8 rounded-xl ${getMemberBg(member.id)} flex items-center justify-center text-sm shadow-sm ring-2 ring-white dark:ring-gray-800" title="${member.name}">${member.avatar}</div>
+                            <div class="flex flex-col sm:flex-row gap-1">
+                                <button onclick="openShoppingModal(${item.id})" class="p-2 rounded-lg bg-gray-50 dark:bg-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors">
+                                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+                                </button>
+                                <button onclick="deleteShoppingItem(${item.id})" class="p-2 rounded-lg bg-red-50 dark:bg-red-900/10 hover:bg-red-100 dark:hover:bg-red-900/20 transition-colors">
+                                    <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                                </button>
+                            </div>
                         </div>
                     </div>`;
                 }).join('')}
@@ -93,7 +103,12 @@ function renderShopping(container) {
         </div>`;
     
     if (!filteredItems.length) {
-        html += '<div class="text-center py-12 text-gray-500"><p class="text-4xl mb-2">🎉</p><p>Lista vazia!</p></div>';
+        html += `
+        <div class="text-center py-16 px-4">
+            <div class="w-20 h-20 bg-gray-100 dark:bg-gray-800 rounded-full flex items-center justify-center text-5xl mx-auto mb-4 animate-bounce">🛒</div>
+            <h4 class="text-lg font-bold text-gray-800 dark:text-gray-100">A lista está vazia!</h4>
+            <p class="text-sm text-gray-500 max-w-xs mx-auto mt-2">Que tal adicionar alguns itens para a próxima ida ao supermercado? 🎉</p>
+        </div>`;
     }
 
     html += '</div>';
@@ -107,48 +122,54 @@ function renderShoppingFocus(container) {
     const title = pendingCount > 0 ? `${pendingCount} itens por comprar` : 'Tudo comprado';
 
     let html = `
-    <div class="fade-in min-h-full">
+    <div class="fade-in min-h-full pb-20">
         <div class="max-w-3xl mx-auto">
-            <div class="flex items-center justify-between gap-4 mb-5">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
                 <div>
-                    <p class="text-[10px] uppercase tracking-[0.28em] text-gray-400 dark:text-gray-500">Modo Mercado</p>
-                    <h3 class="text-2xl font-bold">${title}</h3>
-                    <p class="text-sm text-gray-500">${totalCount} ${totalCount === 1 ? 'produto' : 'produtos'} na lista</p>
+                    <p class="text-[10px] uppercase font-black tracking-[0.3em] text-indigo-500 mb-1">🛒 MODO MERCADO</p>
+                    <h3 class="text-2xl font-black text-gray-800 dark:text-gray-100">${title}</h3>
+                    <p class="text-sm text-gray-500 font-medium">${totalCount} produtos na lista</p>
                 </div>
-                <div class="flex items-center gap-2">
-                    <button onclick="shareShoppingOnWhatsApp()" class="px-4 py-2 rounded-lg bg-green-600 text-white text-sm font-medium hover:bg-green-700 transition-colors shadow-sm">
-                        Partilhar no WhatsApp
+                <div class="flex items-center gap-2 w-full sm:w-auto">
+                    <button onclick="shareShoppingOnWhatsApp()" class="flex-1 sm:flex-none px-4 py-3 rounded-xl bg-green-600 text-white text-xs font-bold hover:bg-green-700 transition-all shadow-lg shadow-green-500/20 flex items-center justify-center gap-2">
+                        <span>💬</span> WhatsApp
                     </button>
-                    <button onclick="navigateTo('shopping')" class="px-4 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 text-sm font-medium hover:bg-gray-200 dark:hover:bg-gray-600 transition-colors">Sair do modo mercado</button>
+                    <button onclick="navigateTo('shopping')" class="flex-1 sm:flex-none px-4 py-3 rounded-xl bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 text-xs font-bold border border-gray-200 dark:border-gray-700 hover:bg-gray-50 transition-all">
+                        Sair
+                    </button>
                 </div>
             </div>
 
-            <div class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700 shadow-sm overflow-hidden">
-                <div class="p-4 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
+            <div class="bg-white dark:bg-gray-800 rounded-3xl border border-gray-100 dark:border-gray-700 shadow-xl overflow-hidden">
+                <div class="p-5 bg-indigo-50/50 dark:bg-indigo-900/10 border-b border-gray-100 dark:border-gray-700 flex items-center justify-between">
                     <div>
-                        <h4 class="font-bold">Checklist de compras</h4>
-                        <p class="text-xs text-gray-500">Pica os produtos à medida que vais comprando.</p>
+                        <h4 class="font-bold text-indigo-900 dark:text-indigo-100">Checklist de compras</h4>
+                        <p class="text-xs text-indigo-600/70 dark:text-indigo-400/70">Pica os produtos à medida que vais comprando.</p>
                     </div>
-                    <span class="text-xs px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">${pendingCount} pendentes</span>
+                    <span class="text-xs px-3 py-1 rounded-full bg-indigo-600 text-white font-black shadow-md shadow-indigo-500/20">${pendingCount}</span>
                 </div>
 
-                <div class="divide-y divide-gray-100 dark:divide-gray-700">
+                <div class="divide-y divide-gray-50 dark:divide-gray-700">
                     ${items.length ? items.map(item => `
-                        <div class="p-4 flex items-center gap-3 ${item.bought ? 'opacity-50 bg-gray-50/60 dark:bg-gray-700/30' : ''} transition-colors">
-                            <input type="checkbox" class="checkbox-custom" ${item.bought ? 'checked' : ''} onchange="toggleShoppingItem(${item.id})">
+                        <div class="p-5 flex items-center gap-4 ${item.bought ? 'opacity-50 bg-gray-50/30 dark:bg-gray-900/5' : ''} transition-all">
+                            <input type="checkbox" class="checkbox-custom w-8 h-8" ${item.bought ? 'checked' : ''} onchange="toggleShoppingItem(${item.id})">
                             <div class="flex-1 min-w-0">
-                                <div class="font-semibold ${item.bought ? 'line-through' : ''}">${item.name}</div>
-                                <div class="text-xs text-gray-500 mt-0.5">
-                                    ${item.quantity > 1 ? `Qtd: ${item.quantity}` : '1 unidade'}
-                                    ${item.notes ? ` • ${item.notes}` : ''}
+                                <div class="font-bold text-lg ${item.bought ? 'line-through text-gray-400' : 'text-gray-800 dark:text-gray-100'}">${item.name}</div>
+                                <div class="flex items-center gap-2 text-xs text-gray-500 mt-1">
+                                    <span class="font-black bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded text-indigo-600 dark:text-indigo-400">${item.quantity > 1 ? `x${item.quantity}` : '1 uni'}</span>
+                                    ${item.notes ? `<span class="truncate italic">• ${item.notes}</span>` : ''}
                                 </div>
                             </div>
-                            ${item.bought ? '<span class="text-xs px-2 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300">Comprado</span>' : '<span class="text-xs px-2 py-1 rounded-full bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300">Por comprar</span>'}
+                            <div class="shrink-0">
+                                ${item.bought 
+                                    ? '<span class="text-[10px] font-black uppercase tracking-widest text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 px-2 py-1 rounded-lg">OK</span>' 
+                                    : '<span class="text-[10px] font-black uppercase tracking-widest text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20 px-2 py-1 rounded-lg">FALTA</span>'}
+                            </div>
                         </div>
                     `).join('') : `
-                        <div class="p-10 text-center text-gray-500">
-                            <div class="text-4xl mb-2">🛒</div>
-                            <p>Não há produtos na lista.</p>
+                        <div class="p-16 text-center">
+                            <div class="text-6xl mb-4 grayscale">🛒</div>
+                            <h4 class="text-xl font-bold text-gray-400">Não há produtos na lista.</h4>
                         </div>
                     `}
                 </div>
