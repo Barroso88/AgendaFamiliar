@@ -17,10 +17,15 @@ function renderShopping(container) {
                     <p class="text-sm text-gray-500 font-medium">${boughtItems}/${totalItems} itens comprados</p>
                 </div>
             </div>
-            <button onclick="focusShoppingInput()" class="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
-                Adicionar Itens
-            </button>
+            <div class="flex flex-col sm:flex-row items-center gap-2 w-full sm:w-auto">
+                <button onclick="navigateTo('shopping_market')" class="w-full sm:w-auto px-6 py-3 bg-amber-500 text-white text-sm font-bold rounded-xl hover:bg-amber-600 transition-all shadow-lg shadow-amber-500/20 flex items-center justify-center gap-2">
+                    <span>🛒</span> Modo Mercado
+                </button>
+                <button onclick="focusShoppingInput()" class="w-full sm:w-auto px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-all shadow-lg shadow-indigo-500/20 flex items-center justify-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+                    Adicionar Itens
+                </button>
+            </div>
         </div>
         
         <div class="bg-white dark:bg-gray-800 rounded-3xl p-5 mb-6 border border-gray-100 dark:border-gray-700 shadow-sm">
